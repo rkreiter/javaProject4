@@ -12,11 +12,10 @@ public class StartServer
   {
     ClientServerSocket theServer;
     String recvdStr;
-    theServer = new ClientServerSocket("141.213.74.35", 4444);
+    theServer = new ClientServerSocket("108.204.30.218", 4000);
     theServer.startServer();
     recvdStr = theServer.recvString();
     out.println("Recevied message from client: " + recvdStr);
     theServer.sendString("Back at ya client");
   }
-
 }
