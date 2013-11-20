@@ -23,7 +23,7 @@ public class ImageEx extends JFrame
     {
         setLayout(new FlowLayout());
 
-        image1 = new ImageIcon("server/FT.png");
+        image1 = new ImageIcon("images/17.png");
         label1 = new JLabel(image1);
         add(label1);
 
