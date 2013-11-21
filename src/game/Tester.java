@@ -13,7 +13,8 @@ public class Tester {
     	int piece, x, y;
     	
     	Scanner in = new Scanner(System.in);
-    	while(true){
+    	int counter = 100;
+    	while(counter-- > 0){
     		if(turn == 0){
     			current = asher;
     			turn = 1;
@@ -35,5 +36,6 @@ public class Tester {
     		current.score -= 5;
     		b.printBoard();
     	}
+    	in.close();
 	}
 }

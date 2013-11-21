@@ -29,7 +29,15 @@ public class StartClient{
 	    
 	    
 	    
-	    //Send Init request
+	    //Send Init request and wait for response
 	    theClient.sendString("Kyle");
+	    recvdStr = theClient.recvString();
+	    
+	    
+	    //Initialize stuff
+	    b = new Board();
+	    player = new Player("Kyle", recvdStr.charAt(0));
+	    b.printBoard();
+	    out.print(player);
 	}
 }
