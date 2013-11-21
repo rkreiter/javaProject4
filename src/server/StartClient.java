@@ -17,7 +17,7 @@ public class StartClient{
 	    
 	    
 	    //Create Client
-	    theClient = new ClientServerSocket("192.168.1.250", 2323);
+	    theClient = new ClientServerSocket("192.168.1.250", 4000);
 	    theClient.startClient();
 	    
 	    

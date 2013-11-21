@@ -14,7 +14,7 @@ public class StartServer{
 		//Game Information
 		Board b;
 		Player players[];
-		String playerNum, initPlayer, playerMove;
+		String initPlayer, playerMove;
 		int numPlayers = -1;
 		char colors[] = new char[] {'b', 'y', 'g', 'r'};
 
@@ -33,21 +33,8 @@ public class StartServer{
 	        out.println("Unknown Host");
 	        return;
 	    }
-	    theServer = new ClientServerSocket(IP.getHostAddress(), 2333);
-	    theServer.startServer();
-	    
-	    
-	    
-	    //Figure out how many players to play
-	    do{
-	    	playerNum = theServer.recvString(0);
-	    	try{
-	    		numPlayers = Integer.parseInt(playerNum);
-	    	}
-	    	catch(NumberFormatException e){
-	    	
-	    	}
-	    } while(numPlayers == -1);
+	    theServer = new ClientServerSocket(IP.getHostAddress(), 4000);
+	    numPlayers = theServer.startServer();
 	    
 	    
 	    //Initialize Everything

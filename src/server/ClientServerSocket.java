@@ -34,11 +34,11 @@ public class ClientServerSocket {
         }
     }
     
-    public void startServer() {
+    public int startServer() {
         ServerSocket serverSock;
         numPlayers = 4;
         try {
-            serverSock = new ServerSocket(portNum);
+        	serverSock = new ServerSocket(portNum);
             for(int i = 0; i < numPlayers; ++i){
             	out.println("Waiting for client " + i + " to connect...");
 	            socket[i] = serverSock.accept();
@@ -50,12 +50,15 @@ public class ClientServerSocket {
 	            	String recvd = recvString(i);
 	            	numPlayers = Integer.parseInt(recvd);
 	            }
+	            System.out.println(numPlayers);
         	}
         }
         catch (IOException ioe) {
             out.println("ERROR: Caught exception starting server");
             System.exit(7);
         }
+        
+        return numPlayers;
     }
     
     public boolean sendString(String strToSend, int client) {
