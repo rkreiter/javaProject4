@@ -17,7 +17,7 @@ public class StartClient{
 	    
 	    
 	    //Create Client
-	    theClient = new ClientServerSocket("192.168.1.250", 2323);
+	    theClient = new ClientServerSocket("192.168.1.250", 4000);
 	    theClient.startClient();
 	    
 	    
@@ -30,8 +30,9 @@ public class StartClient{
 	    
 	    
 	    //Send Init request and wait for response
-	    theClient.sendString("Kyle", 0);
+	    theClient.sendString("Asher", 0);
 	    recvdStr = theClient.recvString(0);
+	    System.out.println(recvdStr);
 	    
 	    
 	    //Initialize stuff
