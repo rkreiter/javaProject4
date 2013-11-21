@@ -9,6 +9,7 @@ public class Board
     final int BOARD_SIZE = 20; 
     protected char[][] map;
 
+    
     //This is the constructor
     public Board(){
         map = new char[BOARD_SIZE][BOARD_SIZE];
@@ -17,14 +18,17 @@ public class Board
         }
     }
     
+       
     //Checks if position (x,y) is within board
     protected boolean validSpot(final int x, final int y){
     	if(x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE)
     		return true;
     	return false;
     }
+
     
     //Checks if any piece bordered with position (x,y) is of color 'c'
+    //Does not check if (x,y) is a valid spot
     protected boolean sharedEdge(final int x, final int y, final char c){
     	if(validSpot(x, y+1) && (c == map[x][y+1]))
     			return true;
@@ -37,7 +41,9 @@ public class Board
     	return false;
     }
     
+    
     //Checks if any piece cornered with position (x,y) is of color 'c'
+    //Does not check if (x,y) is a valid spot
     protected boolean sharedCorner(final int x, final int y, final char c){
     	if(validSpot(x+1, y+1) && (c == map[x+1][y+1]))
     			return true;
@@ -50,8 +56,10 @@ public class Board
     	return false;
     }
     
+    
     //Checks if can place piece 'p' with (x,y) top left corner
-    //This function is called on both client side and server side
+    //checks validity of all parts of each piece AND allows piece to be placed
+    //on init even if it does NOT share a corner
     public boolean validPlace(final int x, final int y, final Piece p, boolean init){
     	boolean connected = false;
     	if(p.placed)
@@ -73,8 +81,11 @@ public class Board
     	return connected;
     }
     
-    //Places piece 'p' with (x,y) top left corner
-    //**This function should only be called when server sends status update
+    
+    
+     //Places piece 'p' with (x,y) top left corner
+     //does not check if this is a validPlace
+     //This function should only be called when server sends status update
     public void placePiece(final int x, final int y, final Piece p){
     	for(int i = 0; i < p.PIECE_SIZE; ++i){
     		for(int j = 0; j < p.PIECE_SIZE; ++j){
@@ -82,9 +93,9 @@ public class Board
     				map[x+i][y+j] = p.getColor();
     		}
     	}
-    	p.setPlaced();
     }
 
+    
     //Checks that a piece is in the corner represented by color
     public boolean validInit(final int x, final int y, final Piece p){
     	if(!validPlace(x, y, p, true))
@@ -95,21 +106,27 @@ public class Board
     				return false;
     			break;
     		case 'g':
-    			if(y != 0 || x < BOARD_SIZE-5 || !p.isPart(BOARD_SIZE-x-1, 0))
+    			if(y != 0 || x < BOARD_SIZE-p.PIECE_SIZE || 
+    					!p.isPart(BOARD_SIZE-x-1, 0))
     				return false;
     			break;
     		case 'r':
-    			if(x != 0 || y < BOARD_SIZE-5 || !p.isPart(0, BOARD_SIZE-y-1))
+    			if(x != 0 || y < BOARD_SIZE-p.PIECE_SIZE || 
+    					!p.isPart(0, BOARD_SIZE-y-1))
     				return false;
     			break;
     		case 'y':
-    			if( x < BOARD_SIZE-5 || y < BOARD_SIZE-5 ||
+    			if( x < BOARD_SIZE-p.PIECE_SIZE || y < BOARD_SIZE-p.PIECE_SIZE ||
     					!p.isPart(BOARD_SIZE-x-1, BOARD_SIZE-y-1))
     				return false;
     			break;
     	}
     	return true;
     }
+    
+    
+    
+    
     
     //For debugging purposes prints map to screen
     public void printBoard(){

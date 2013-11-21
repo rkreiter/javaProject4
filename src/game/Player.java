@@ -2,6 +2,7 @@ package game;
 
 public class Player {
 	//Local Variables
+	protected String name;
 	protected char color;
 	protected int score;
 	protected boolean playable;
@@ -10,7 +11,8 @@ public class Player {
 	final int NUM_PIECES = 21;
 	
 	//The Constructor
-	public Player(char c){
+	public Player(String n, char c){
+		name = n;
 		color = c;
 		score = 89;
 		queuedPiece = -1;
@@ -20,6 +22,4 @@ public class Player {
 			pieces[i] = new Piece(i, c);
 		}
 	}
-	
-	//Send Request to Server
 }

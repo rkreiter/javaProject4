@@ -197,4 +197,24 @@ public class Piece {
 			}
 		}
 	}
+
+	//This function rotates currentShape counterclockwise
+	public void rotateCounterClockwise(){
+		
+	}
+	
+	//This function rotates currentShape clockwise
+	public void rotateClockwise(){
+			
+	}
+
+	//This function flips currentShape vertically
+	public void flipVertical(){
+		
+	}
+	
+	//This function flips currentShape horizontally
+	public void flipHorizontal(){
+		
+	}
 }

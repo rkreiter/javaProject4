@@ -2,36 +2,61 @@ package server;
 
 import static java.lang.System.out;
 import java.net.*;
+import game.*;
 
-public class StartServer
-{
+public class StartServer{
+	
+  
+	public static void main(String[] args){
+		//Server Stuff
+		ClientServerSocket theServer;
+		InetAddress IP;
+		//Game Information
+		Board b;
+		Player players[];
+		String playerNum, initPlayer, playerMove;
+		int numPlayers;
+		char colors[] = new char[] {'b', 'y', 'g', 'r'};
 
-  /**
-   * @param args
-   */
-  public static void main(String[] args)
-  {
-    ClientServerSocket theServer;
-    String recvdStr;
-    InetAddress IP;
-
-    try{
-        IP = InetAddress.getLocalHost();
-        out.println(IP.getHostAddress());
-    }
-    catch(SecurityException s){
-        out.println("Security Exception Thrown");
-        return;
-    }
-    catch(UnknownHostException u){
-        out.println("Unknown Host");
-        return;
-    }
-
-    theServer = new ClientServerSocket(IP.getHostAddress(), 2323);
-    theServer.startServer();
-    recvdStr = theServer.recvString();
-    out.println("Recevied message from client: " + recvdStr);
-    theServer.sendString("Back at ya client");
-  }
+		
+		
+		//Create Server
+	    try{
+	        IP = InetAddress.getLocalHost();
+	        out.println("The server IP address is " + IP.getHostAddress());
+	    }
+	    catch(SecurityException s){
+	        out.println("Security Exception Thrown");
+	        return;
+	    }
+	    catch(UnknownHostException u){
+	        out.println("Unknown Host");
+	        return;
+	    }
+	    theServer = new ClientServerSocket(IP.getHostAddress(), 2323);
+	    theServer.startServer();
+	    
+	    
+	    
+	    //Figure out how many players to play and init everything
+	    playerNum = theServer.recvString();
+	    numPlayers = Integer.parseInt(playerNum);
+	    b = new Board();
+	    players = new Player[numPlayers];
+	    
+	    
+	    
+	    //Wait for players to join
+	    for(int i = 0; i < numPlayers; ++i){
+	    	initPlayer = theServer.recvString();
+	    	players[i] = new Player(initPlayer, colors[i]);
+	    }
+	    
+	    
+	    
+	    //Actual game logic will loop until winner
+	    playerMove = "";
+	    b.printBoard();
+	    out.print(playerMove);
+	}
 }

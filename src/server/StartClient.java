@@ -1,22 +1,35 @@
 package server;
 
 import static java.lang.System.out;
+import game.*;
 
-public class StartClient
-{
-
-  /**
-   * @param args
-   */
-  public static void main(String[] args)
-  {
-    ClientServerSocket theClient;
-    String recvdStr;
-    theClient = new ClientServerSocket("192.168.1.213", 2333);
-    theClient.startClient();
-    theClient.sendString("Hello to the server!");
-    recvdStr = theClient.recvString();
-    out.println("Received this message from server: " +
-    recvdStr);
-  }
+public class StartClient{
+	
+	public static void main(String[] args){
+	    //Client Stuff
+		ClientServerSocket theClient;
+		//Game Variables
+		Board b;
+		Player player;
+	    String recvdStr;
+	    //Piece piece;
+	    
+	    
+	    
+	    //Create Client
+	    theClient = new ClientServerSocket("192.168.1.213", 2333);
+	    theClient.startClient();
+	    
+	    
+	    
+	    
+	    //Send number of players to server
+	    theClient.sendString("2");
+	    
+	    
+	    
+	    
+	    //Send Init request
+	    theClient.sendString("Kyle");
+	}
 }

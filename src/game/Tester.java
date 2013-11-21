@@ -5,8 +5,8 @@ import java.util.Scanner;
 public class Tester {
 	public static void main(String[] args){
     	Board b = new Board();
-    	Player asher = new Player('b');
-    	Player kyle = new Player('r');
+    	Player asher = new Player("asher", 'b');
+    	Player kyle = new Player("kyle", 'r');
     	
     	Player current;
     	int turn = 1;
