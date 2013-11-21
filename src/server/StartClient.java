@@ -30,8 +30,9 @@ public class StartClient{
 	    
 	    
 	    //Send Init request and wait for response
-	    theClient.sendString("Kyle", 0);
+	    theClient.sendString("Asher", 0);
 	    recvdStr = theClient.recvString(0);
+	    System.out.println(recvdStr);
 	    
 	    
 	    //Initialize stuff
