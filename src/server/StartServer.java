@@ -33,14 +33,14 @@ public class StartServer{
 	        out.println("Unknown Host");
 	        return;
 	    }
-	    theServer = new ClientServerSocket(IP.getHostAddress(), 2323);
+	    theServer = new ClientServerSocket(IP.getHostAddress(), 2333);
 	    theServer.startServer();
 	    
 	    
 	    
 	    //Figure out how many players to play
 	    do{
-	    	playerNum = theServer.recvString();
+	    	playerNum = theServer.recvString(0);
 	    	try{
 	    		numPlayers = Integer.parseInt(playerNum);
 	    	}
@@ -57,8 +57,9 @@ public class StartServer{
 	    
 	    //Wait for players to join
 	    for(int i = 0; i < numPlayers; ++i){
-	    	initPlayer = theServer.recvString();
+	    	initPlayer = theServer.recvString(i);
 	    	players[i] = new Player(initPlayer, colors[i]);
+	    	theServer.sendString(initPlayer, i);
 	    }
 	    
 	    

@@ -24,14 +24,14 @@ public class StartClient{
 	    
 	    
 	    //Send number of players to server
-	    theClient.sendString("1");
+	    theClient.sendString("1", 0);
 	    
 	    
 	    
 	    
 	    //Send Init request and wait for response
-	    theClient.sendString("Kyle");
-	    recvdStr = theClient.recvString();
+	    theClient.sendString("Kyle", 0);
+	    recvdStr = theClient.recvString(0);
 	    
 	    
 	    //Initialize stuff
