@@ -6,8 +6,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.event.*;
 import javax.swing.*;
 
-import static java.lang.System.out;
-
 public class ImageEx extends JFrame
 {
 
@@ -19,18 +17,17 @@ public class ImageEx extends JFrame
     private JButton flipHor;
     private ButtonListener rotateAction;
 
-    ImageEx()
-    {
+    ImageEx(int imageNum){
         setLayout(new FlowLayout());
 
-        image1 = new ImageIcon("images/17.png");
+        image1 = new ImageIcon("src/images/Blue/" + imageNum + ".png");
         label1 = new JLabel(image1);
         add(label1);
 
         rotateClock = new JButton("Rotate Clockwise");
         rotateCounter = new JButton("Rotate Counter");
-        flipVert = new JButton("Flip Vertical");
-        flipHor = new JButton("Flip Horizontal");
+        flipVert = new JButton("Flip Vertical Axis");
+        flipHor = new JButton("Flip Horizontal Axis");
         rotateAction = new ButtonListener();
 
         rotateClock.addActionListener(rotateAction);
@@ -47,10 +44,9 @@ public class ImageEx extends JFrame
     }
 
     //Listener for click on input value forms
-    public class ButtonListener implements ActionListener
-    {
-        public void actionPerformed(ActionEvent e)
-        { 
+    public class ButtonListener implements ActionListener{
+    	
+        public void actionPerformed(ActionEvent e){
             Component component = (Component) e.getSource();
             JFrame curFrame = (JFrame) SwingUtilities.getRoot(component); 
             Component [] components = curFrame.getContentPane().getComponents();
@@ -61,8 +57,8 @@ public class ImageEx extends JFrame
 
             if(buttonTitle == "Rotate Clockwise") img = rotate(((ImageIcon)frameLabel.getIcon()).getImage(), 90);
             else if(buttonTitle == "Rotate Counter") img = rotate(((ImageIcon)frameLabel.getIcon()).getImage(), -90);
-            else if(buttonTitle == "Flip Vertical") img = flip(((ImageIcon)frameLabel.getIcon()).getImage(), true);
-            else img = flip(((ImageIcon)frameLabel.getIcon()).getImage(), false);
+            else if(buttonTitle == "Flip Vertical") img = flip(((ImageIcon)frameLabel.getIcon()).getImage(), false);
+            else img = flip(((ImageIcon)frameLabel.getIcon()).getImage(), true);
 
             ImageIcon newImg = new ImageIcon(img);
             frameLabel.setIcon(newImg);
@@ -90,7 +86,7 @@ public class ImageEx extends JFrame
         /**
          * Flips a new copy of the image.
          * 
-         * @param img The image to be fliped
+         * @param img The image to be flipped
          * @param vert The direction to flip
          * @return The flipped image
          */
@@ -120,6 +116,7 @@ public class ImageEx extends JFrame
          * @return The converted BufferedImage
          */
         public BufferedImage toBufferedImage(Image img){
+        	
             if (img instanceof BufferedImage) {
                 return (BufferedImage) img;
             }
@@ -133,9 +130,9 @@ public class ImageEx extends JFrame
     }
     
 
-    public static void main(String args[])
-    {
-        ImageEx gui = new ImageEx();
+    public static void main(String args[]){
+    	
+        ImageEx gui = new ImageEx(17);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setVisible(true);
         gui.pack();

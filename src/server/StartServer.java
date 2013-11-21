@@ -5,7 +5,6 @@ import java.net.*;
 import game.*;
 
 public class StartServer{
-	
   
 	public static void main(String[] args){
 		//Server Stuff

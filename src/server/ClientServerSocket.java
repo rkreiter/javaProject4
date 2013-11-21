@@ -12,6 +12,7 @@ public class ClientServerSocket {
     private String ipAddr;
     private int portNum, numPlayers;
     private Socket socket[];
+	private ServerSocket serverSock;
     private DataOutputStream outData[];
     private DataInputStream inData[];
     public ClientServerSocket(String inIPAddr, int inPortNum) {
@@ -35,7 +36,6 @@ public class ClientServerSocket {
     }
     
     public int startServer() {
-        ServerSocket serverSock;
         numPlayers = 4;
         try {
         	serverSock = new ServerSocket(portNum);
