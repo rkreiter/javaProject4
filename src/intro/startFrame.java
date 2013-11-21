@@ -27,13 +27,18 @@ public class startFrame extends JFrame
   JLabel title;
   JPanel buttons = new JPanel(new GridLayout(5,1));
   
+  final int INTRO_WIDTH = 1000, INTRO_HEIGHT = 600;
  
   public startFrame(String intit)
   {
     //set title
     super(intit);
     setLayout(new BorderLayout());
-    setContentPane(new JLabel(new ImageIcon("images/introbackground.png")));
+    ImageIcon icon = new ImageIcon("src/images/introbackground.png"); 
+    Image img = icon.getImage() ;  
+    Image newimg = img.getScaledInstance( INTRO_WIDTH, INTRO_HEIGHT,  java.awt.Image.SCALE_SMOOTH ) ;  
+    icon = new ImageIcon(newimg);
+    setContentPane(new JLabel(icon));
     setLayout(new BorderLayout());
 
     title = new JLabel("BLOKUS", SwingConstants.CENTER);
@@ -56,7 +61,7 @@ public class startFrame extends JFrame
     
     add(title, BorderLayout.NORTH);
     add(fill, BorderLayout.CENTER);
-    add(buttons, BorderLayout.SOUTH);
+    add(buttons, BorderLayout.EAST);
 
     pack();
   }
