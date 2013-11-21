@@ -24,20 +24,20 @@ public class StartClient{
 	    
 	    
 	    //Send number of players to server
-	    theClient.sendString("1", 0);
+	    theClient.sendString("2", 0);
 	    
 	    
 	    
 	    
 	    //Send Init request and wait for response
-	    theClient.sendString("Asher", 0);
+	    theClient.sendString("Troy", 0);
 	    recvdStr = theClient.recvString(0);
 	    System.out.println(recvdStr);
 	    
 	    
 	    //Initialize stuff
 	    b = new Board();
-	    player = new Player("Kyle", recvdStr.charAt(0));
+	    player = new Player("Troy", recvdStr.charAt(0));
 	    b.printBoard();
 	    out.print(player);
 	}
