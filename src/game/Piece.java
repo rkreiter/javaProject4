@@ -198,23 +198,136 @@ public class Piece {
 		}
 	}
 
+	//This function removes any empty rows in image
+	public boolean shiftUp(){
+		boolean empty = true;
+		for(int j = 0; j < PIECE_SIZE; ++j){
+			if(currentShape[0][j])
+				empty = false;
+		}
+		if(empty){
+			for(int i = 1; i < PIECE_SIZE; ++i){
+				for(int j = 0; j < PIECE_SIZE; ++j){
+					currentShape[i-1][j] = currentShape[i][j];
+				}
+			}
+			for(int j = 0; j < PIECE_SIZE; ++j){
+				currentShape[PIECE_SIZE-1][j] = false;
+			}
+		}
+		return empty;
+	}
+	
+	//This function removes any empty columns in image
+	public boolean shiftLeft(){
+		boolean empty = true;
+		for(int i = 0; i < PIECE_SIZE; ++i){
+			if(currentShape[i][0])
+				empty = false;
+		}
+		if(empty){
+			for(int i = 0; i < PIECE_SIZE; ++i){
+				for(int j = 1; j < PIECE_SIZE; ++j){
+					currentShape[i][j-1] = currentShape[i][j];
+				}
+			}
+			for(int i = 0; i < PIECE_SIZE; ++i){
+				currentShape[i][PIECE_SIZE-1] = false;
+			}
+		}
+		return empty;
+	}
+	
 	//This function rotates currentShape counterclockwise
 	public void rotateCounterClockwise(){
-		
+		boolean temp[][] = new boolean[PIECE_SIZE][PIECE_SIZE];
+		for(int i = 0; i < PIECE_SIZE; ++i){
+			for(int j = 0; j < PIECE_SIZE; ++j){
+				temp[i][j] = currentShape[j][PIECE_SIZE-i-1];
+			}
+		}
+		currentShape = temp;
+		while(shiftUp());
 	}
 	
 	//This function rotates currentShape clockwise
 	public void rotateClockwise(){
-			
+		boolean temp[][] = new boolean[PIECE_SIZE][PIECE_SIZE];
+		for(int i = 0; i < PIECE_SIZE; ++i){
+			for(int j = 0; j < PIECE_SIZE; ++j){
+				temp[j][PIECE_SIZE-i-1] = currentShape[i][j];
+			}
+		}
+		currentShape = temp;
+		while(shiftLeft());
 	}
 
 	//This function flips currentShape vertically
-	public void flipVertical(){
-		
+	public void flipVerticalAxis(){
+		boolean temp;
+		for(int i = 0; i < PIECE_SIZE; ++i){
+			for(int j = 0; j < PIECE_SIZE/2; ++j){
+				temp = currentShape[i][j];
+				currentShape[i][j] = currentShape[i][PIECE_SIZE-j-1];
+				currentShape[i][PIECE_SIZE-j-1] = temp;
+			}
+		}
+		while(shiftLeft());
 	}
 	
 	//This function flips currentShape horizontally
-	public void flipHorizontal(){
+	public void flipHorizontalAxis(){
+		boolean temp;
+		for(int i = 0; i < PIECE_SIZE/2; ++i){
+			for(int j = 0; j < PIECE_SIZE; ++j){
+				temp = currentShape[i][j];
+				currentShape[i][j] = currentShape[PIECE_SIZE-i-1][j];
+				currentShape[PIECE_SIZE-i-1][j] = temp;
+			}
+		}
+		while(shiftUp());
+	}
+	
+	public void printShape(){
+		for(int i = 0; i < PIECE_SIZE; ++i){
+			for(int j = 0; j < PIECE_SIZE; ++j){
+				if(currentShape[i][j]){
+					System.out.print("1 ");
+				}
+				else{
+					System.out.print("0 ");
+				}
+			}
+			System.out.print("\n");
+		}
+	}
+	
+	public static void main(String[] args){
+		Piece p = new Piece(20, 'b');
+		p.printShape();
 		
+		System.out.println("");
+		p.flipHorizontalAxis();
+		p.printShape();
+		
+		System.out.println("");
+		p.flipHorizontalAxis();
+		p.printShape();
+		
+		System.out.println("");
+		p.flipVerticalAxis();
+		p.printShape();
+
+		System.out.println("");
+		p.flipVerticalAxis();
+		p.printShape();
+		
+		System.out.println("");
+		p.rotateClockwise();
+		p.printShape();
+		
+		System.out.println("");
+		p.rotateCounterClockwise();
+		p.printShape();
 	}
 }
