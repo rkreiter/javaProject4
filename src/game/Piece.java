@@ -287,9 +287,39 @@ public class Piece {
 		}
 		while(shiftUp());
 	}
+
 	
 	
-	
+	//Network stuff on a piece
+	//returns string of color, type, (x,y), currentState
+	public String toString(final int x, final int y){
+		String s = "";
+		s += color + " ";
+		s += Integer.toString(type) + " ";
+		s += Integer.toString(x) + " " + Integer.toString(y) + " ";
+		for(int i = 0; i < PIECE_SIZE; ++i){
+			for(int j = 0; j < PIECE_SIZE; ++j){
+				if(currentShape[i][j])
+					s += "1";
+				else
+					s += "0";
+			}
+		}
+		return s;
+	}
+
+	//Sets currentShape to state represented by string
+	public void setState(String s){
+		for(int i = 0; i < PIECE_SIZE; ++i){
+			for(int j = 0; j < PIECE_SIZE; ++j){
+				if(s.charAt(i*PIECE_SIZE + j) == '1')
+					currentShape[i][j] = true;
+				else
+					currentShape[i][j] = false;
+			}
+		}
+	}
+
 	
 	
 	//Debugging stuff
