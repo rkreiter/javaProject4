@@ -16,7 +16,7 @@ public class StartClient{
    		//This will make a pop up for player in gui
    	    //Send number of players to server
 		case '1':
-    	    c.sendString("2", 0);
+    	    c.sendString("1", 0);
     	    String recvdStr = c.getResponse();
     	    interpretResponse(recvdStr, c, b, p);
     		break;

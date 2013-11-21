@@ -124,6 +124,8 @@ public class Board
     	return true;
     }
     
+    
+    //Checks if player still has a move available
     public boolean playerCanPlay(final Player player){
     	Piece piece;
     	for(int i = 0; i < player.NUM_PIECES; ++i){
