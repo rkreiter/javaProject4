@@ -17,14 +17,14 @@ public class StartClient{
 	    
 	    
 	    //Create Client
-	    theClient = new ClientServerSocket("192.168.1.213", 2333);
+	    theClient = new ClientServerSocket("192.168.1.250", 2323);
 	    theClient.startClient();
 	    
 	    
 	    
 	    
 	    //Send number of players to server
-	    theClient.sendString("2");
+	    theClient.sendString("1");
 	    
 	    
 	    

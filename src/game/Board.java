@@ -124,6 +124,22 @@ public class Board
     	return true;
     }
     
+    public boolean playerCanPlay(final Player player){
+    	Piece piece;
+    	for(int i = 0; i < player.NUM_PIECES; ++i){
+    		piece = player.pieces[i];
+    		if(!piece.placed){
+    			for(int x = 0; x < BOARD_SIZE; ++x){
+    				for(int y = 0; y < BOARD_SIZE; ++y){
+    					if(validPlace(x, y, piece, false))
+    						return true;
+    				}
+    			}
+    		}
+    	}
+    	return false;
+    }
+    
     
     
     
@@ -160,7 +176,14 @@ public class Board
     //For debugging purposes allows us to run without gui
     public static void main(String[] args){
     	Board b = new Board();
-    
+    	Piece p = new Piece(0, 'b');
+    	b.placePiece(19, 19, p);
+    	b.printBoard();
+    	Player player = new Player("Asher", 'b');
+    	player.pieces[0].setPlaced();
+    	
+    	System.out.println("Can player play: " + b.playerCanPlay(player));
+/*    	
     	Piece pB = new Piece(11, 'b');
     	Piece pG = new Piece(18, 'g');
     	Piece pR = new Piece(20, 'r');
@@ -188,5 +211,6 @@ public class Board
     		b.placePiece(16, 16, p);
 
     	b.printBoard();
+    */
     }
 }

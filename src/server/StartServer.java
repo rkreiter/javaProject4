@@ -15,7 +15,7 @@ public class StartServer{
 		Board b;
 		Player players[];
 		String playerNum, initPlayer, playerMove;
-		int numPlayers;
+		int numPlayers = -1;
 		char colors[] = new char[] {'b', 'y', 'g', 'r'};
 
 		
@@ -38,12 +38,21 @@ public class StartServer{
 	    
 	    
 	    
-	    //Figure out how many players to play and init everything
-	    playerNum = theServer.recvString();
-	    numPlayers = Integer.parseInt(playerNum);
+	    //Figure out how many players to play
+	    do{
+	    	playerNum = theServer.recvString();
+	    	try{
+	    		numPlayers = Integer.parseInt(playerNum);
+	    	}
+	    	catch(NumberFormatException e){
+	    	
+	    	}
+	    } while(numPlayers == -1);
+	    
+	    
+	    //Initialize Everything
 	    b = new Board();
 	    players = new Player[numPlayers];
-	    
 	    
 	    
 	    //Wait for players to join
@@ -51,7 +60,6 @@ public class StartServer{
 	    	initPlayer = theServer.recvString();
 	    	players[i] = new Player(initPlayer, colors[i]);
 	    }
-	    
 	    
 	    
 	    //Actual game logic will loop until winner

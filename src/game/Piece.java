@@ -184,7 +184,7 @@ public class Piece {
 		return color;
 	}
 	
-	//Set placed **should not be public
+	//Set placed
 	public void setPlaced(){
 		placed = true;
 	}
@@ -262,7 +262,7 @@ public class Piece {
 		while(shiftLeft());
 	}
 
-	//This function flips currentShape vertically
+	//This function flips currentShape across vertical axis
 	public void flipVerticalAxis(){
 		boolean temp;
 		for(int i = 0; i < PIECE_SIZE; ++i){
@@ -275,7 +275,7 @@ public class Piece {
 		while(shiftLeft());
 	}
 	
-	//This function flips currentShape horizontally
+	//This function flips currentShape across horizontal axis
 	public void flipHorizontalAxis(){
 		boolean temp;
 		for(int i = 0; i < PIECE_SIZE/2; ++i){
@@ -288,6 +288,11 @@ public class Piece {
 		while(shiftUp());
 	}
 	
+	
+	
+	
+	
+	//Debugging stuff
 	public void printShape(){
 		for(int i = 0; i < PIECE_SIZE; ++i){
 			for(int j = 0; j < PIECE_SIZE; ++j){
