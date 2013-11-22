@@ -34,10 +34,14 @@ public class StartServer{
 		String playerName, playerMove;
 		int numPlayers = -1;
 		char colors[] = new char[] {'b', 'y', 'g', 'r'};
+		//Instant variables
+		int type, x, y;
+		Player player = null;
+		Piece piece = null;
 
 		//Create Server
 		IP = initServer();
-	    theServer = new ClientServerSocket(IP.getHostAddress(), 4343);
+	    theServer = new ClientServerSocket(IP.getHostAddress(), 4000);
 	    out.println("calling start server");
 	    numPlayers = theServer.startServer();
 	    out.println("Got num players: " + numPlayers);
@@ -48,9 +52,9 @@ public class StartServer{
 
 	    //Wait for players to join
 	    for(int i = 0; i < numPlayers; ++i){
-	    	playerName = theServer.getPlayer(i);
+	    	playerName = theServer.getPlayerName(i);
 	    	players[i] = new Player(playerName, colors[i]);
-	    	theServer.sendAcknowledgement(i);
+	    	theServer.sendPlayerInfoToClient(players[i], i);
 	    }
 
 	    //Actual game logic will loop until winner
@@ -63,9 +67,34 @@ public class StartServer{
 	    	do{
 	    		theServer.askForMove(turn);
 	    		playerMove = theServer.getMove(turn);
-	    		validMove = true;
-	    		//**Check if this move is a valid move
-	    	} while(!validMove);
+	    		String move[] = theServer.parseMove(playerMove);
+	    		try{
+	    			player = players[turn];
+	    			if(move[0].charAt(0) == player.getColor()){
+	    				type = Integer.parseInt(move[1]);
+	    				if(type >= 0 && type < 21){
+	    					piece = player.getPiece(type);
+	    					if(!piece.isPlaced()){
+	    						x = Integer.parseInt(move[2]);
+	    						y = Integer.parseInt(move[3]);
+	    						if(move[4].length() == 25){
+	    							piece.setState(move[4]);
+	    							if(player.getScore() == 89)
+	    								validMove = board.validInit(x, y, piece);
+	    							else
+	    								validMove = board.validPlace(x, y, piece, false);
+	    							if(validMove){
+	    								board.placePiece(x, y, piece);
+	    								piece.setPlaced();
+	    								player.updateScore(piece.getValue());
+	    							}
+	    						}
+	    					}
+	    				}
+	    			}	    				
+	    		}
+	    		catch(Exception e){}
+	    	}while(!validMove);
 	    	theServer.sendAcknowledgement(turn);
 	    	
 	    	//Send Updates
@@ -77,11 +106,19 @@ public class StartServer{
 	    		count++;
 	    		turn = (turn + 1) % numPlayers;
 	    		if(count > numPlayers){
-	    			//End game scenario say who wins
-	    			theServer.sendEndGame(players[0].getName());
+	    			for(int i = 0; i < numPlayers; ++i){
+	    				if(players[i].getScore() < player.getScore())
+	    					player = players[i];
+	    			}
+	    			theServer.sendEndGame(player.getName());
+	    			//System.exit(0);
 	    		}
-	    	} while(players[turn].getScore() != 89 && !board.playerCanPlay(players[turn]));
-
+	    		if(player.isPlayable()){
+	    			if(!board.playerCanPlay(player))
+	    				player.setPlayable(false);
+	    		}
+	    	} while(!player.isPlayable());
+	    	
 	    	//Debugging stuff
 	    	board.printBoard();
 	    }

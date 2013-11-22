@@ -128,6 +128,8 @@ public class Board
     //Checks if player still has a move available
     public boolean playerCanPlay(final Player player){
     	Piece piece;
+    	if(player.score == 89)
+    		return true;
     	for(int i = 0; i < player.NUM_PIECES; ++i){
     		piece = player.pieces[i];
     		if(!piece.placed){
@@ -141,7 +143,6 @@ public class Board
     	}
     	return false;
     }
-    
     
     
     
@@ -173,46 +174,5 @@ public class Board
     		}
     		out.print("\n");
     	}
-    }
-    
-    //For debugging purposes allows us to run without gui
-    public static void main(String[] args){
-    	Board b = new Board();
-    	Piece p = new Piece(0, 'b');
-    	b.placePiece(19, 19, p);
-    	b.printBoard();
-    	Player player = new Player("Asher", 'b');
-    	player.pieces[0].setPlaced();
-    	
-    	System.out.println("Can player play: " + b.playerCanPlay(player));
-/*    	
-    	Piece pB = new Piece(11, 'b');
-    	Piece pG = new Piece(18, 'g');
-    	Piece pR = new Piece(20, 'r');
-    	Piece pY = new Piece(16, 'y');
-    	
-    	if(b.validInit(0, 0, pB))
-    		b.placePiece(0, 0, pB);
-    	
-    	if(b.validInit(18, 0, pG))
-    		b.placePiece(18, 0, pG);
-    	
-    	if(b.validInit(0, 17, pR))
-    		b.placePiece(0, 17, pR);
-    	
-    	if(b.validInit(17, 18, pY))
-    		b.placePiece(17, 18, pY);
-    	
-    	
-    	Piece p = new Piece(0, 'r');
-    	b.placePiece(16, 17, p);
-    	
-    	
-    	p = new Piece(1, 'y');
-    	if(b.validPlace(16, 16, p, false))
-    		b.placePiece(16, 16, p);
-
-    	b.printBoard();
-    */
     }
 }

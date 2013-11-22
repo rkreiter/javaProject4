@@ -184,9 +184,19 @@ public class Piece {
 		return color;
 	}
 	
+	//Get Piece value
+	public int getValue(){
+		return val;
+	}
+	
 	//Set placed
 	public void setPlaced(){
 		placed = true;
+	}
+	
+	//Get placed
+	public boolean isPlaced(){
+		return placed;
 	}
 	
 	//This function copies defaultShape into currentShape
@@ -335,34 +345,5 @@ public class Piece {
 			}
 			System.out.print("\n");
 		}
-	}
-	
-	public static void main(String[] args){
-		Piece p = new Piece(20, 'b');
-		p.printShape();
-		
-		System.out.println("");
-		p.flipHorizontalAxis();
-		p.printShape();
-		
-		System.out.println("");
-		p.flipHorizontalAxis();
-		p.printShape();
-		
-		System.out.println("");
-		p.flipVerticalAxis();
-		p.printShape();
-
-		System.out.println("");
-		p.flipVerticalAxis();
-		p.printShape();
-		
-		System.out.println("");
-		p.rotateClockwise();
-		p.printShape();
-		
-		System.out.println("");
-		p.rotateCounterClockwise();
-		p.printShape();
 	}
 }

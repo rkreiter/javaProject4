@@ -1,11 +1,15 @@
 package server;
 
+import game.*;
+
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.io.DataOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.Vector;
+
 import static java.lang.System.out;
 
 public class ClientServerSocket {
@@ -149,16 +153,22 @@ public class ClientServerSocket {
     	return true;
     }
     
+    //Tells a client its color
+    public boolean sendPlayerInfoToClient(Player p, int client){
+    	String s = "4 " + p.getColor();
+    	return sendString(s, client);
+    }
+    
     //Tells all Clients to end game and says winner
     public boolean sendEndGame(String name){
     	for(int i = 0; i < numPlayers; ++i){
-    		sendString("4 " + name, i);
+    		sendString("5 " + name, i);
     	}
     	return true;
     }
     
     //Gets player login information from client
-    public String getPlayer(int client){
+    public String getPlayerName(int client){
     	return recvString(client);
     }
     
@@ -168,6 +178,21 @@ public class ClientServerSocket {
     }
 
     
+    //Shared function that parses a move
+    public String[] parseMove(String move){
+    	String result[] = new String[5];
+    	Scanner s = new Scanner(move);
+    	try{
+    		for(int i = 0; i < 5; ++i)
+    			result[i] = s.next();
+    	}
+    	catch(Exception e){
+    		s.close();
+    		return null;
+    	}
+    	s.close();
+    	return result;
+    }
     
     
     //Client Functions

@@ -28,8 +28,38 @@ public class Player {
 		return name;
 	}
 	
+	//Get color
+	public char getColor(){
+		return color;
+	}
+	
 	//Get Score
 	public int getScore(){
 		return score;
+	}
+	
+	//Set playable variable
+	public void setPlayable(boolean val){
+		playable = val;
+	}
+	
+	//Get playable variable
+	public boolean isPlayable(){
+		return playable;
+	}
+	
+	//Get piece number 'i'
+	public Piece getPiece(int i){
+		return pieces[i];
+	}
+	
+	//Decrease score
+	public void updateScore(int val){
+		score -= val;
+	}
+	
+	//Get queued piece
+	public Piece getQueuedPiece(){
+		return pieces[queuedPiece];
 	}
 }
