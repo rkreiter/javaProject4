@@ -1,12 +1,17 @@
 package server;
 
 import static java.lang.System.out;
+import game.Board;
+import game.Piece;
+import game.Player;
+import intro.startFrame;
 
+import java.awt.Color;
 import java.util.Scanner;
 
-import game.*;
+import javax.swing.JFrame;
 
-public class StartClient{
+public class Blokus{
 	static Scanner in;
 	
 	public static char interpretResponse(String str, ClientServerSocket c,
@@ -20,6 +25,7 @@ public class StartClient{
     	//SEND NUMBER
 		case '1':
 			out.println("Sending Num Players");
+			
     	    c.sendString("2", 0);  //This will be replaced by a gui
     	    String recvdStr = c.getResponse();
     	    interpretResponse(recvdStr, c, b, p);
@@ -91,8 +97,14 @@ public class StartClient{
 		Player player = null;
 	    String recvdStr;
 	    
+	    startFrame init = new startFrame("Welcome To Blokus");
+	    init.setBackground(Color.BLACK);
+	    init.setSize(600,600);
+	    init.setVisible(true);
+	    init.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    
 	    //Create Client
-	    theClient = new ClientServerSocket("192.168.1.250", 4500);
+	    theClient = new ClientServerSocket("192.168.1.243", 4000);
 	    theClient.startClient();
 	    
 	    //Get response from server
