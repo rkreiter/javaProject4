@@ -1,4 +1,4 @@
-package intro;
+package src.intro;
 
 import static java.lang.System.out;
 import javax.swing.*;
@@ -11,6 +11,19 @@ import javax.imageio.*;
 import java.io.*;
 import java.util.*;
 import java.net.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
+ 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 
 public class startFrame extends JFrame
@@ -26,22 +39,83 @@ public class startFrame extends JFrame
   JLabel title;
   JPanel buttons = new JPanel(new GridLayout(5,1));
   JPanel buttons2 = new JPanel(new FlowLayout());
+
+  final int INTRO_WIDTH = 600, INTRO_HEIGHT = 600;
   
  
-  public startFrame(String intit)
+  public startFrame(String init)
   {
     //set title
-    super(intit);
+    super(init);
     setLayout(new BorderLayout());
-    setContentPane(new JLabel(new ImageIcon("images/introbackground.png")));
+    ImageIcon icon = new ImageIcon("src/images/introbackground.png"); 
+    Image img = icon.getImage();
+    Image newimg = img.getScaledInstance(INTRO_WIDTH, INTRO_HEIGHT,  
+                                         java.awt.Image.SCALE_SMOOTH);
+    icon = new ImageIcon(newimg);
+    setContentPane(new JLabel(icon));
     setLayout(new BorderLayout());
     getContentPane().setBackground(Color.BLACK);
 
-    title = new JLabel(new ImageIcon("images/title.png"));
+    title = new JLabel(new ImageIcon("src/images/title.png"));
+    
+
+    //--------------------PLAY BUTTON---------------------//
+
     play = new JButton("Play Da Game");
-    instr = new JButton("How To Play");
+    play.addActionListener(new ActionListener()
+                {
+                  public void actionPerformed(ActionEvent e)
+                  {
+                    System.out.println("PLAY");
+                  }
+                });
+
+    //-----------------How to play button------------------//
+
+    instr = new JButton("Dem Rulz");
+    instr.addActionListener(new ActionListener()
+                {
+                  public void actionPerformed(ActionEvent e)
+                  {
+                    /*//new Jdialog for solving puzzle
+                    howtoWin how = new howtoWin(main, "Solve Puzzle");
+                    
+                    //general formatting for Jdialog window
+                    how.pack();
+                    how.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    how.setVisible(true);*/
+                    System.out.println("HOW TO PLAY");
+                  }});
+
+    //-----------------tutorial button------------------//
+
     tutor = new JButton("Tutorial");
+    tutor.addActionListener(new ActionListener()
+                {
+                  public void actionPerformed(ActionEvent e)
+                  {
+                    System.out.println("TUTORIAL");
+                  }});
+
+
+    //-----------------ABOUT BUTTON------------------//
     about = new JButton("About");
+    about.addActionListener(new ActionListener()
+                {
+                  public void actionPerformed(ActionEvent e)
+                  {
+                    //new Jdialog for solving puzzle
+                    aboutWin ab;
+                    ab = new aboutWin(main);
+                                       
+                    //general formatting for Jdialog window
+                    ab.setBackground(Color.BLACK);
+                    ab.pack();
+                    ab.setSize(ab.getWidth()+100, ab.getHeight()+10);
+                    ab.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    ab.setVisible(true);
+                  }});
 
 
     JLabel fill = new JLabel("    ");
@@ -52,7 +126,6 @@ public class startFrame extends JFrame
     buttons.add(tutor);
     buttons.add(about);
     buttons.setOpaque(false);
-
     buttons2.add(buttons);
     buttons2.setOpaque(false);
     
