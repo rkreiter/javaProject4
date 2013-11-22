@@ -50,9 +50,7 @@ public class startFrame extends JFrame
     setLayout(new BorderLayout());
     ImageIcon icon = new ImageIcon("src/images/introbackground.png"); 
     Image img = icon.getImage();
-    Image newimg = img.getScaledInstance(INTRO_WIDTH, INTRO_HEIGHT,  
-                                         java.awt.Image.SCALE_SMOOTH);
-    icon = new ImageIcon(newimg);
+    icon = new ImageIcon(img);
     setContentPane(new JLabel(icon));
     setLayout(new BorderLayout());
     getContentPane().setBackground(Color.BLACK);
@@ -78,13 +76,15 @@ public class startFrame extends JFrame
                 {
                   public void actionPerformed(ActionEvent e)
                   {
-                    /*//new Jdialog for solving puzzle
-                    howtoWin how = new howtoWin(main, "Solve Puzzle");
+                    //new Jdialog for solving puzzle
+                    howtoWin how = new howtoWin(main);
                     
                     //general formatting for Jdialog window
                     how.pack();
-                    how.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    how.setVisible(true);*/
+                    how.setSize(how.getWidth()+100, how.getHeight()-200);
+                    how.setBackground(Color.BLACK);
+                    how.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    how.setVisible(true);
                     System.out.println("HOW TO PLAY");
                   }});
 
@@ -110,9 +110,10 @@ public class startFrame extends JFrame
                     ab = new aboutWin(main);
                                        
                     //general formatting for Jdialog window
-                    ab.setBackground(Color.BLACK);
+                    
                     ab.pack();
                     ab.setSize(ab.getWidth()+100, ab.getHeight()+10);
+                    ab.setBackground(Color.BLACK);
                     ab.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     ab.setVisible(true);
                   }});

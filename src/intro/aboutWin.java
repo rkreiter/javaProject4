@@ -20,7 +20,6 @@ public class aboutWin extends JDialog
     super(mainFrame, "About", true);
     setLayout(new FlowLayout());
 
-    //public variables
     JPanel textPanel;
     JButton close;
     JLabel head;
@@ -34,7 +33,7 @@ public class aboutWin extends JDialog
     head = new JLabel("This version of BLOKUS was created by:");
     head.setForeground(Color.WHITE);
     name = new JLabel("Kyle Hildebrandt", SwingConstants.CENTER);
-    name.setForeground(Color.BLUE);
+    name.setForeground(((((Color.BLUE).brighter()).brighter()).brighter()));
     names.add(name);
     name = new JLabel("Ryan Kreiter", SwingConstants.CENTER);
     name.setForeground(Color.RED);
@@ -46,7 +45,7 @@ public class aboutWin extends JDialog
     name.setForeground(Color.YELLOW);
     names.add(name);
     name = new JLabel("Asher Perlmutter", SwingConstants.CENTER);
-    name.setForeground(Color.PINK);
+    name.setForeground(Color.MAGENTA);
     names.add(name);
     name = new JLabel("_______________");
     names.add(name);
