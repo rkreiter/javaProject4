@@ -1,16 +1,18 @@
-package src.intro;
+package intro;
 
-import static java.lang.System.out;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.awt.image.*;
-import java.awt.event.*;
-import java.applet.*;
-import javax.imageio.*;
-import java.io.*;
-import java.util.*;
-import java.net.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class aboutWin extends JDialog
 {
@@ -47,7 +49,7 @@ public class aboutWin extends JDialog
     name = new JLabel("Asher Perlmutter", SwingConstants.CENTER);
     name.setForeground(Color.MAGENTA);
     names.add(name);
-    name = new JLabel("_______________");
+    name = new JLabel("");
     names.add(name);
 
     textPanel.add(head, BorderLayout.NORTH);

@@ -1,8 +1,7 @@
 package proj4board;
-import java.awt.*;
-import java.awt.event.*;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 
 public class Board
 {

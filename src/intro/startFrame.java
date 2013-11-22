@@ -1,29 +1,18 @@
-package src.intro;
+package intro;
 
-import static java.lang.System.out;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.awt.image.*;
-import java.awt.event.*;
-import java.applet.*;
-import javax.imageio.*;
-import java.io.*;
-import java.util.*;
-import java.net.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
- 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 
 public class startFrame extends JFrame
@@ -78,11 +67,11 @@ public class startFrame extends JFrame
                   {
                     //new Jdialog for solving puzzle
                     howtoWin how = new howtoWin(main);
+                    how.setBackground(Color.BLACK);
                     
                     //general formatting for Jdialog window
                     how.pack();
                     how.setSize(how.getWidth()+100, how.getHeight()-200);
-                    how.setBackground(Color.BLACK);
                     how.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     how.setVisible(true);
                     System.out.println("HOW TO PLAY");

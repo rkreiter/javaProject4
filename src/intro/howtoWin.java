@@ -1,16 +1,16 @@
-package src.intro;
+package intro;
 
-import static java.lang.System.out;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.awt.image.*;
-import java.awt.event.*;
-import java.applet.*;
-import javax.imageio.*;
-import java.io.*;
-import java.util.*;
-import java.net.*;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 public class howtoWin extends JDialog
 {
@@ -60,13 +60,8 @@ public class howtoWin extends JDialog
     rulzArea.setOpaque(false);
     rulzArea.setForeground(Color.WHITE);
 
-  
-    JLabel fill = new JLabel("    ");
-    fill.setBackground(Color.BLACK);
-
     main.add(rulzArea);
-    //main.add(fill);
-
+    
     JPanel buttonPan = new JPanel(new FlowLayout());
     close = new JButton("Close");
     close.addActionListener(new ActionListener()
