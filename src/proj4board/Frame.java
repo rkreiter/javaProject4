@@ -12,7 +12,7 @@ public class Frame extends JFrame
   final int PLAYERWIDTH = 300;
   final int N = 20;
   
-  final int SPACESIZE = GRIDSIZE/N;
+  public final int SPACESIZE = GRIDSIZE/N;
   
   private BoardListener mouseListener;
   
@@ -21,7 +21,7 @@ public class Frame extends JFrame
     super(title);
     setLayout(new FlowLayout());
     
-    draggable = new ImageDrag();
+    draggable = new ImageDrag(3, 3, SPACESIZE);
     
     JPanel LeftPlayers = new JPanel(new GridLayout(2,1));
     LeftPlayers.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
@@ -57,8 +57,6 @@ public class Frame extends JFrame
     Board.add(gridholder, JLayeredPane.DEFAULT_LAYER);
     Board.add(draggable, JLayeredPane.DRAG_LAYER);
     
-//    JPanel temp = new JPanel(new FlowLayout());
-//    temp.add(Board);
     
     All.add(LeftPlayers);
     All.add(Board);
@@ -66,25 +64,12 @@ public class Frame extends JFrame
 
     add(All);
     
-    System.out.println("The width of draggable image: " + draggable.image.getWidth());
-    System.out.println("The height of draggable image: " + draggable.image.getHeight());
-    System.out.println("Draggable.x: " + draggable.x);
-    System.out.println("Draggable.y: " + draggable.y);
-    
-    
     mouseListener = new BoardListener();
     draggable.addMouseListener(mouseListener);
   }
     
     public class BoardListener extends MouseAdapter
     {
-      public boolean inBounds(MouseEvent e)
-      {
-        if (e.getX() > draggable.x && e.getX() < draggable.x + draggable.image.getWidth()
-         && e.getY() > draggable.y && e.getY() < draggable.y + draggable.image.getHeight())
-          return true;
-        return false;
-      }
       
       public int Xloc(MouseEvent e)
       { return e.getX()/SPACESIZE;}
@@ -97,32 +82,10 @@ public class Frame extends JFrame
      
       public void mouseClicked(MouseEvent e)
       {
-        if (inBounds(e))
-        {
-          System.out.println("Board clicked");
-          System.out.println(draggable.x);
-          System.out.println(draggable.y);
-          System.out.println("BLAHHH");
-//          System.out.println(Xloc(e));
-//          System.out.println(Yloc(e));  
-        }
       }
       public void mouseReleased(MouseEvent e)
       {
-        System.out.println("Board released");
-        System.out.println(Xloc(e));
-        System.out.println(Yloc(e));
         draggable.setLocation(Xsnap(e), Ysnap(e));
-        System.out.println("Draggable.x: " + draggable.x);
-        System.out.println("Draggable.y: " + draggable.y);
-        
-//        if (Xloc(e) == 0 && Yloc(e) == 0)
-//        {
-//          draggable.setLocation(0, 0);
-//          System.out.println("Valid location");
-//        }
-//        else
-//          System.out.println("Invalid location");
       }
     }
 }

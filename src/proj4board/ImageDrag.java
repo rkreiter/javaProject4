@@ -12,46 +12,44 @@ import java.awt.image.*;
 
 public class ImageDrag extends JComponent implements MouseMotionListener, MouseListener
 {
-  BufferedImage image;
+  Image image;
   int x=0, y=0;
   int mouseX, mouseY;
   
-  public ImageDrag()
-  {
-    initComponents();
+  public ImageDrag(int numx, int numy, int size)
+  { 
+    initComponents(numx, numy, size);
     addMouseMotionListener(this);
     addMouseListener(this);
   }
-  public void initComponents()
-  {
+  public void initComponents(int numx, int numy, int size)
+  {  
     try
-    { image = ImageIO.read(new File("src/proj4board/Leven.png"));}
+    { image = ImageIO.read(new File("src/proj4board/F.png"));}
     catch(IOException ioe)
     { ioe.printStackTrace(); }
+    
+    image = image.getScaledInstance((numx*size)+1, (numy*size)+1, BufferedImage.SCALE_DEFAULT);
   }
   public void paint(Graphics g)
   {
-    g.drawImage(image, x, y, this);
+    g.drawImage(image, x, y+1, this);
   }
   public void mouseDragged(MouseEvent me)
   {
-    if (!(mouseX > x && mouseX < x + image.getWidth() &&
-        mouseY > y && mouseY < y + image.getHeight()))
-    {
       x = me.getX();
       y = me.getY();
       repaint();
-    }
   }
   public void mouseMoved(MouseEvent arg0){}
-  public void mouseClicked(MouseEvent e) 
+  public void mouseClicked(MouseEvent arg0) {}
+  public void mouseEntered(MouseEvent arg0) {}
+  public void mouseExited(MouseEvent arg0) {}
+  public void mousePressed(MouseEvent e) 
   {
     mouseX = e.getX();
     mouseY = e.getY();
   }
-  public void mouseEntered(MouseEvent arg0) {}
-  public void mouseExited(MouseEvent arg0) {}
-  public void mousePressed(MouseEvent arg0) {}
   public void mouseReleased(MouseEvent arg0) {}
   public void setLocation(int xloc, int yloc)
   {
