@@ -59,7 +59,7 @@ public class ClientServerSocket {
 	            		try{
 	            			String recvd = recvString(i);
 	            			numPlayers = Integer.parseInt(recvd);
-	            			if(numPlayers >= 2 && numPlayers <= 4)
+	            			if(numPlayers >= 1 && numPlayers <= 4)
 	            				break;
 	            		}
 	            		catch(NumberFormatException e){}

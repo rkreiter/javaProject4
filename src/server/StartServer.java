@@ -31,23 +31,25 @@ public class StartServer{
 		//Game Information
 		Board board;
 		Player players[];
-		String initPlayer, playerMove;
+		String playerName, playerMove;
 		int numPlayers = -1;
 		char colors[] = new char[] {'b', 'y', 'g', 'r'};
 
 		//Create Server
 		IP = initServer();
 	    theServer = new ClientServerSocket(IP.getHostAddress(), 4000);
+	    out.println("calling start server");
 	    numPlayers = theServer.startServer();
-
+	    out.println("Got num players: " + numPlayers);
+	    
 	    //Initialize Everything
 	    board = new Board();
 	    players = new Player[numPlayers];
 
 	    //Wait for players to join
 	    for(int i = 0; i < numPlayers; ++i){
-	    	initPlayer = theServer.recvString(i);
-	    	players[i] = new Player(initPlayer, colors[i]);
+	    	playerName = theServer.getPlayer(i);
+	    	players[i] = new Player(playerName, colors[i]);
 	    	theServer.sendAcknowledgement(i);
 	    }
 
@@ -55,5 +57,7 @@ public class StartServer{
 	    playerMove = "";
 	    board.printBoard();
 	    out.print(playerMove);
+	    
+	    while(true);
 	}
 }
