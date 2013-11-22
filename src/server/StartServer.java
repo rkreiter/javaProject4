@@ -37,7 +37,7 @@ public class StartServer{
 
 		//Create Server
 		IP = initServer();
-	    theServer = new ClientServerSocket(IP.getHostAddress(), 4000);
+	    theServer = new ClientServerSocket(IP.getHostAddress(), 4343);
 	    out.println("calling start server");
 	    numPlayers = theServer.startServer();
 	    out.println("Got num players: " + numPlayers);
@@ -54,10 +54,36 @@ public class StartServer{
 	    }
 
 	    //Actual game logic will loop until winner
-	    playerMove = "";
 	    board.printBoard();
-	    out.print(playerMove);
+	    int turn = 0;
 	    
-	    while(true);
+	    while(true){
+	    	//Get a valid move from current Player
+	    	boolean validMove = false;
+	    	do{
+	    		theServer.askForMove(turn);
+	    		playerMove = theServer.getMove(turn);
+	    		validMove = true;
+	    		//**Check if this move is a valid move
+	    	} while(!validMove);
+	    	theServer.sendAcknowledgement(turn);
+	    	
+	    	//Send Updates
+	    	theServer.sendUpdate(playerMove, turn);
+	    	
+	    	//Find next player
+	    	int count = 0;
+	    	do{
+	    		count++;
+	    		turn = (turn + 1) % numPlayers;
+	    		if(count > numPlayers){
+	    			//End game scenario say who wins
+	    			theServer.sendEndGame(players[0].getName());
+	    		}
+	    	} while(players[turn].getScore() != 89 && !board.playerCanPlay(players[turn]));
+
+	    	//Debugging stuff
+	    	board.printBoard();
+	    }
 	}
 }

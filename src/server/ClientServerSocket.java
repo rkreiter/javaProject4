@@ -141,9 +141,10 @@ public class ClientServerSocket {
     }
     
     //Tells all Clients a move to execute
-    public boolean sendUpdate(String move){
+    public boolean sendUpdate(String move, int client){
     	for(int i = 0; i < numPlayers; ++i){
-    		sendString("3 " + move, i);
+    		if(i != client)
+    			sendString("3 " + move, i);
     	}
     	return true;
     }

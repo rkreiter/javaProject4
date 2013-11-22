@@ -10,13 +10,14 @@ public class StartClient{
 		switch (str.charAt(0)){
     	//OK
 		case '0':
+			out.println("OK");
     		break;
 
     	//SEND NUMBER
    		//This will make a pop up for player in gui
    	    //Send number of players to server
 		case '1':
-	    out.println("Sending Num Players");
+			out.println("Sending Num Players");
     	    c.sendString("1", 0);
     	    String recvdStr = c.getResponse();
     	    interpretResponse(recvdStr, c, b, p);
@@ -24,15 +25,18 @@ public class StartClient{
     	
     	//SEND MOVE
 		case '2':
+			out.println("Send server move");
     		break;
     	
     	//DO UPDATE
 		case '3':
+			out.println("Update board");
 			//Piece p;
     		break;
     	
     	//END GAME
 		case '4':
+			out.println("Game over");
 			System.exit(0);
     		break;
 		}
@@ -55,7 +59,6 @@ public class StartClient{
 	    interpretResponse(recvdStr, theClient, board, player);  
 	    
 	    //Send Init Player request and wait for response
-	    out.println("Sending player name");
 	    theClient.sendName("ASHER");
 	    recvdStr = theClient.getResponse();
 	    interpretResponse(recvdStr, theClient, board, player);
