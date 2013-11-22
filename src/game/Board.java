@@ -165,7 +165,7 @@ public class Board
     					out.print("Y ");
     					break;
     				case 'e':
-    					out.print("0 ");
+    					out.print(". ");
     					break;
     				default:
     					out.print(map[i][j] + " ");

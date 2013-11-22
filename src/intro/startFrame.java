@@ -28,6 +28,7 @@ public class startFrame extends JFrame
   JLabel title;
   JPanel buttons = new JPanel(new GridLayout(5,1));
   JPanel buttons2 = new JPanel(new FlowLayout());
+  boolean playGame;
 
   final int INTRO_WIDTH = 600, INTRO_HEIGHT = 600;
   
@@ -54,7 +55,9 @@ public class startFrame extends JFrame
                 {
                   public void actionPerformed(ActionEvent e)
                   {
-                    System.out.println("PLAY");
+                	playGame = true;
+                	//System.out.println("PLAY = " + getPlay());
+                    setVisible(false);
                   }
                 });
 
@@ -65,7 +68,6 @@ public class startFrame extends JFrame
                 {
                   public void actionPerformed(ActionEvent e)
                   {
-                    //new Jdialog for solving puzzle
                     howtoWin how = new howtoWin(main);
                     
                     //general formatting for Jdialog window
@@ -95,7 +97,6 @@ public class startFrame extends JFrame
                 {
                   public void actionPerformed(ActionEvent e)
                   {
-                    //new Jdialog for solving puzzle
                     aboutWin ab;
                     ab = new aboutWin(main);
                                        
@@ -123,5 +124,9 @@ public class startFrame extends JFrame
     add(title, BorderLayout.NORTH);
     add(fill, BorderLayout.CENTER);
     add(buttons2, BorderLayout.SOUTH);
+  }
+  
+  public boolean getPlay(){
+	  return playGame;
   }
 }

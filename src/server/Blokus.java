@@ -103,28 +103,40 @@ public class Blokus{
 	    init.setVisible(true);
 	    init.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
-	    //Create Client
-	    theClient = new ClientServerSocket("192.168.1.243", 4000);
-	    theClient.startClient();
+	    //System.out.println(init.isShowing());
+	    //System.out.println(init.getPlay());
+	    boolean running = false;
+	    //while(!init.getPlay()){System.out.println(init.getPlay());}
+	    while(!init.getPlay()){
+	    	if(!running){
+	    		System.out.print("");
+	    		running = true;
+	    	}
+	    }
+	    	//Create Client
+	    	theClient = new ClientServerSocket("192.168.1.250", 4700);
+	    	theClient.startClient();
 	    
-	    //Get response from server
-	    recvdStr = theClient.getResponse();
-	    interpretResponse(recvdStr, theClient, board, player);  
+	    	//Get response from server
+	    	recvdStr = theClient.getResponse();
+	    	interpretResponse(recvdStr, theClient, board, player);  
 	    
-	    //Send Init Player request and wait for response
-	    theClient.sendName("Asher");
-	    recvdStr = theClient.getResponse();
-	    interpretResponse(recvdStr, theClient, board, player);
-	    out.println(recvdStr.charAt(2));
-	    
-	    //Initialize stuff
-	    player = new Player("Asher", recvdStr.charAt(2));
-	    board.printBoard();
-	    
-	    //Start actual game
-	    while(true){
+	    	//Send Init Player request and wait for response
+	    	theClient.sendName("Asher");
 	    	recvdStr = theClient.getResponse();
 	    	interpretResponse(recvdStr, theClient, board, player);
-	    }
+	    	out.println(recvdStr.charAt(2));
+	    
+	    	//Initialize stuff
+	    	player = new Player("Asher", recvdStr.charAt(2));
+	    	board.printBoard();
+	    	
+	    	
+	    	//Start actual game
+	    	while(true){
+	    		recvdStr = theClient.getResponse();
+	    		interpretResponse(recvdStr, theClient, board, player);
+	    	}
+	 
 	}
 }
