@@ -50,9 +50,9 @@ public class Frame extends JFrame
     
     ImageIcon drag = new ImageIcon(draggable.image);
     JLabel dragholder = new JLabel(drag);
-    dragholder.setSize(200,200);
+    dragholder.setSize(GRIDSIZE,GRIDSIZE);
     
-    draggable.setSize(680, 680);
+    draggable.setSize(GRIDSIZE, GRIDSIZE);
     
     Board.add(gridholder, JLayeredPane.DEFAULT_LAYER);
     Board.add(draggable, JLayeredPane.DRAG_LAYER);
@@ -66,35 +66,63 @@ public class Frame extends JFrame
 
     add(All);
     
+    System.out.println("The width of draggable image: " + draggable.image.getWidth());
+    System.out.println("The height of draggable image: " + draggable.image.getHeight());
+    System.out.println("Draggable.x: " + draggable.x);
+    System.out.println("Draggable.y: " + draggable.y);
+    
+    
     mouseListener = new BoardListener();
     draggable.addMouseListener(mouseListener);
   }
     
     public class BoardListener extends MouseAdapter
     {
+      public boolean inBounds(MouseEvent e)
+      {
+        if (e.getX() > draggable.x && e.getX() < draggable.x + draggable.image.getWidth()
+         && e.getY() > draggable.y && e.getY() < draggable.y + draggable.image.getHeight())
+          return true;
+        return false;
+      }
+      
       public int Xloc(MouseEvent e)
       { return e.getX()/SPACESIZE;}
       public int Yloc(MouseEvent e)
       { return e.getY()/SPACESIZE;}
+      public int Xsnap(MouseEvent e)
+      { return Xloc(e)*SPACESIZE; }
+      public int Ysnap(MouseEvent e)
+      { return Yloc(e)*SPACESIZE; }
      
       public void mouseClicked(MouseEvent e)
       {
-        System.out.println("Board clicked");
-        System.out.println(Xloc(e));
-        System.out.println(Yloc(e));
+        if (inBounds(e))
+        {
+          System.out.println("Board clicked");
+          System.out.println(draggable.x);
+          System.out.println(draggable.y);
+          System.out.println("BLAHHH");
+//          System.out.println(Xloc(e));
+//          System.out.println(Yloc(e));  
+        }
       }
       public void mouseReleased(MouseEvent e)
       {
-        System.out.println("Board clicked");
+        System.out.println("Board released");
         System.out.println(Xloc(e));
         System.out.println(Yloc(e));
-        if (Xloc(e) == 0 && Yloc(e) == 0)
-        {
-          draggable.setLocation(0, 0);
-          System.out.println("Valid location");
-        }
-        else
-          System.out.println("Invalid location");
+        draggable.setLocation(Xsnap(e), Ysnap(e));
+        System.out.println("Draggable.x: " + draggable.x);
+        System.out.println("Draggable.y: " + draggable.y);
+        
+//        if (Xloc(e) == 0 && Yloc(e) == 0)
+//        {
+//          draggable.setLocation(0, 0);
+//          System.out.println("Valid location");
+//        }
+//        else
+//          System.out.println("Invalid location");
       }
     }
 }

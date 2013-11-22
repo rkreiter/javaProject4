@@ -1,12 +1,11 @@
 package proj4board;
+import java.awt.*;
+import java.awt.event.*;
 
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
+import javax.swing.*;
 
 public class Board
 {
-  private JLayeredPane layered = new JLayeredPane();
-  
   public static void main(String[] args) 
   {
     Frame frame = new Frame("Blokus");
