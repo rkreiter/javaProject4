@@ -67,12 +67,13 @@ public class startFrame extends JFrame
                   {
                     //new Jdialog for solving puzzle
                     howtoWin how = new howtoWin(main);
-                    how.setBackground(Color.BLACK);
                     
                     //general formatting for Jdialog window
                     how.pack();
-                    how.setSize(how.getWidth()+100, how.getHeight()-200);
+                    how.getContentPane().setSize(how.getContentPane().getWidth()+100,
+                    		how.getContentPane().getHeight()-500);
                     how.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    how.getContentPane().setBackground(Color.BLACK);
                     how.setVisible(true);
                     System.out.println("HOW TO PLAY");
                   }});
@@ -102,8 +103,8 @@ public class startFrame extends JFrame
                     
                     ab.pack();
                     ab.setSize(ab.getWidth()+100, ab.getHeight()+10);
-                    ab.setBackground(Color.BLACK);
                     ab.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    ab.getContentPane().setBackground(Color.BLACK);
                     ab.setVisible(true);
                   }});
 

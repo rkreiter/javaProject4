@@ -51,9 +51,11 @@ public class aboutWin extends JDialog
     names.add(name);
     name = new JLabel("");
     names.add(name);
+    names.setBackground(Color.BLACK);
 
     textPanel.add(head, BorderLayout.NORTH);
     textPanel.add(names, BorderLayout.CENTER);
+    textPanel.setBackground(Color.BLACK);
     add(textPanel);
 
     close = new JButton("Close");
@@ -64,5 +66,6 @@ public class aboutWin extends JDialog
                   setVisible(false);
                 }});
     textPanel.add(close, BorderLayout.SOUTH);
+    getContentPane().setBackground(Color.BLACK);
   }
 }
