@@ -100,6 +100,12 @@ public class StartServer{
 	    	//Send Updates
 	    	theServer.sendUpdate(playerMove, turn);
 	    	
+	    	//Check if Player has finished
+	    	if(player.getScore() == 0){
+	    		theServer.sendEndGame(player.getName());
+	    		System.exit(0);
+	    	}
+	    	
 	    	//Find next player
 	    	int count = 0;
 	    	do{
@@ -111,7 +117,7 @@ public class StartServer{
 	    					player = players[i];
 	    			}
 	    			theServer.sendEndGame(player.getName());
-	    			//System.exit(0);
+	    			System.exit(0);
 	    		}
 	    		if(player.isPlayable()){
 	    			if(!board.playerCanPlay(player))

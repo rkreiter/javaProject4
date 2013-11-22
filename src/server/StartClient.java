@@ -7,6 +7,7 @@ import java.util.Scanner;
 import game.*;
 
 public class StartClient{
+	static Scanner in;
 	
 	public static char interpretResponse(String str, ClientServerSocket c,
 			Board b, Player p){
@@ -19,14 +20,14 @@ public class StartClient{
     	//SEND NUMBER
 		case '1':
 			out.println("Sending Num Players");
-    	    c.sendString("1", 0);  //This will be replaced by a gui
+    	    c.sendString("2", 0);  //This will be replaced by a gui
     	    String recvdStr = c.getResponse();
     	    interpretResponse(recvdStr, c, b, p);
     		break;
     	
     	//SEND MOVE
 		case '2':
-			Scanner in = new Scanner(System.in);
+			out.println("Send server move");
 			int piece, x, y;
 			boolean loop = false;
 			do{
@@ -38,17 +39,17 @@ public class StartClient{
 				else
 					loop = b.validPlace(x, y, p.getPiece(piece), false);
 			}while(!loop);
-			in.close();
 			b.placePiece(x, y, p.getPiece(piece));
 			p.getPiece(piece).setPlaced();
 			p.updateScore(p.getPiece(piece).getValue());
 			c.sendMove(p.getPiece(piece).toString(x, y));
-			out.println("Send server move");
+			b.printBoard();
     		break;
     	
     	//DO UPDATE
 		case '3':
-			String s[] = c.parseMove(str);
+			out.println("Update board");
+			String s[] = c.parseMove(str.substring(2));
 			char color = s[0].charAt(0);
 			int type = Integer.parseInt(s[1]);
 			Piece curPiece = new Piece(type, color);
@@ -56,7 +57,7 @@ public class StartClient{
 			int Y = Integer.parseInt(s[3]);
 			curPiece.setState(s[4]);
 			b.placePiece(X, Y, curPiece);
-			out.println("Update board");
+			b.printBoard();
     		break;
     	
     	//GIVEN PLAYER INFO
@@ -66,13 +67,13 @@ public class StartClient{
     	
     	//END GAME
 		case '5':
+			out.println("Game over");
 			Scanner scan = new Scanner(str);
 			scan.next();
 			if(scan.next().equals(p.getName()))
 				out.println("YOU WIN!!!!");
 			else
 				out.println("loser....");
-			out.println("Game over");
 			scan.close();
 			//Kill socket stuff??
 			System.exit(0);
@@ -82,6 +83,7 @@ public class StartClient{
 	}
 	
 	public static void main(String[] args){
+		in = new Scanner(System.in);
 	    //Client Stuff
 		ClientServerSocket theClient;
 		//Game Variables
@@ -90,7 +92,7 @@ public class StartClient{
 	    String recvdStr;
 	    
 	    //Create Client
-	    theClient = new ClientServerSocket("67.194.56.42", 4000);
+	    theClient = new ClientServerSocket("192.168.1.250", 4500);
 	    theClient.startClient();
 	    
 	    //Get response from server
@@ -98,14 +100,14 @@ public class StartClient{
 	    interpretResponse(recvdStr, theClient, board, player);  
 	    
 	    //Send Init Player request and wait for response
-	    theClient.sendName("ASHER");
+	    theClient.sendName("Asher");
 	    recvdStr = theClient.getResponse();
 	    interpretResponse(recvdStr, theClient, board, player);
+	    out.println(recvdStr.charAt(2));
 	    
 	    //Initialize stuff
 	    player = new Player("Asher", recvdStr.charAt(2));
 	    board.printBoard();
-	    out.print(player);
 	    
 	    //Start actual game
 	    while(true){
