@@ -22,4 +22,14 @@ public class Player {
 			pieces[i] = new Piece(i, c);
 		}
 	}
+	
+	//Get name
+	public String getName(){
+		return name;
+	}
+	
+	//Get Score
+	public int getScore(){
+		return score;
+	}
 }

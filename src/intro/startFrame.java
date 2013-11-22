@@ -1,20 +1,21 @@
 package intro;
 
-import static java.lang.System.out;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.awt.image.*;
-import java.awt.event.*;
-import java.applet.*;
-import javax.imageio.*;
-import java.io.*;
-import java.util.*;
-import java.net.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
-public class startFrame extends JFrame
-{
+public class startFrame extends JFrame{
+	
   JPanel mainScreen = new JPanel(new BorderLayout());
 
   JButton play;
@@ -26,13 +27,21 @@ public class startFrame extends JFrame
   JLabel title;
   JPanel buttons = new JPanel(new GridLayout(5,1));
   
- 
-  public startFrame(String intit)
-  {
+  final static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+  final static int INTRO_WIDTH = (int) SCREEN_SIZE.getWidth();
+  final static int INTRO_HEIGHT = (int) SCREEN_SIZE.getHeight();
+  
+  public startFrame(String intit){
+	  
     //set title
     super(intit);
     setLayout(new BorderLayout());
-    setContentPane(new JLabel(new ImageIcon("images/introbackground.png")));
+    ImageIcon icon = new ImageIcon("src/images/introbackground.png"); 
+    Image img = icon.getImage();  
+    Image newimg = img.getScaledInstance(INTRO_WIDTH, INTRO_HEIGHT,
+    										java.awt.Image.SCALE_SMOOTH);  
+    icon = new ImageIcon(newimg);
+    setContentPane(new JLabel(icon));
     setLayout(new BorderLayout());
     getContentPane().setBackground(Color.BLACK);
 
@@ -54,6 +63,12 @@ public class startFrame extends JFrame
     
     add(title, BorderLayout.NORTH);
     add(fill, BorderLayout.CENTER);
+<<<<<<< HEAD
     add(buttons, BorderLayout.SOUTH);
+=======
+    add(buttons, BorderLayout.EAST);
+
+    pack();  
+>>>>>>> 1495540f8d70d140dc8f9e521c80eea23944cda3
   }
 }
