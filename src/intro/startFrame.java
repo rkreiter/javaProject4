@@ -17,8 +17,7 @@ public class startFrame extends JFrame
 {
   JPanel mainScreen = new JPanel(new BorderLayout());
 
-  JButton create;
-  JButton join;
+  JButton play;
   JButton instr;
   JButton tutor;
   JButton about;
@@ -35,29 +34,26 @@ public class startFrame extends JFrame
     setLayout(new BorderLayout());
     setContentPane(new JLabel(new ImageIcon("images/introbackground.png")));
     setLayout(new BorderLayout());
+    getContentPane().setBackground(Color.BLACK);
 
-    title = new JLabel("BLOKUS", SwingConstants.CENTER);
-    create = new JButton("Create A Game");
-    join = new JButton("Join A Game");
+    title = new JLabel(new ImageIcon("images/title.png"));
+    play = new JButton("Play Da Game");
     instr = new JButton("How To Play");
     tutor = new JButton("Tutorial");
     about = new JButton("About");
 
     JLabel fill = new JLabel("    ");
     fill.setBackground(Color.BLACK);
-    title.setForeground(Color.YELLOW);
 
-    buttons.add(create);
-    buttons.add(join);
+    buttons.add(play);
     buttons.add(instr);
     buttons.add(tutor);
     buttons.add(about);
+    buttons.setOpaque(false);
 
     
     add(title, BorderLayout.NORTH);
     add(fill, BorderLayout.CENTER);
     add(buttons, BorderLayout.SOUTH);
-
-    pack();
   }
 }

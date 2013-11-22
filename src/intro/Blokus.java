@@ -14,7 +14,7 @@ public class Blokus
   {
     
     startFrame init = new startFrame("Welcome To Blokus");
-    init.pack();
+    init.setSize(600,600);
     init.setVisible(true);
     init.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
