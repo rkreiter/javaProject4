@@ -37,4 +37,10 @@ public class ImageDrag extends JComponent implements MouseMotionListener
     y = me.getY();
     repaint();
   }
+  public void setLocation(int xloc, int yloc)
+  {
+    x = xloc;
+    y = yloc;
+    repaint();
+  }
 }

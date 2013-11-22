@@ -6,12 +6,12 @@ import javax.swing.*;
 
 public class Board
 {
-  private static JLayeredPane layered = new JLayeredPane();
+  private JLayeredPane layered = new JLayeredPane();
   
   public static void main(String[] args) 
   {
-    Frame frame = new Frame("Board");
-    Layers main = new Layers(frame);
+    Frame frame = new Frame("Blokus");
+    
     frame.pack();
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setExtendedState(Frame.MAXIMIZED_BOTH);
