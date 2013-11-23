@@ -34,10 +34,12 @@ public class Frame extends JFrame {
 		//Actual game board logic
 		game.Board gameBoard = new game.Board();
 		
+		setLayout(new FlowLayout());	
 		
 		//Create Player Panel
 		BufferedImage p[] = new BufferedImage[4];
 		Color[] colors = {Color.BLUE,Color.RED,Color.YELLOW, Color.GREEN};
+		
 		//Get player images
 		try {
 			p[0] = ImageIO.read(new File("src/images/Board/Avatars/Stephen.png"));
@@ -60,6 +62,7 @@ public class Frame extends JFrame {
 		//Create Board Panel
 		JLayeredPane Board = new JLayeredPane();
 		Board.setPreferredSize(new Dimension(GRIDSIZE, GRIDSIZE));
+		
 		//Add board image
 		ImageIcon grid = new ImageIcon("src/images/Board/Grid.png");
 	    JLabel gridholder = new JLabel(grid);
