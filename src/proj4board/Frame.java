@@ -20,16 +20,21 @@ public class Frame extends JFrame
   final int SPACESIZE = GRIDSIZE/N;
   private BoardListener mouseListener;
 
-  public Frame(String title) throws IOException
+  public Frame(String title)
   {
     super(title);
     setLayout(new FlowLayout());
     
-    BufferedImage stephen = ImageIO.read(new File("src/proj4board/Stephen.png"));
-    BufferedImage kyle = ImageIO.read(new File("src/proj4board/Kyle.png"));
-    BufferedImage troy = ImageIO.read(new File("src/proj4board/Troy.png"));
-    BufferedImage asher = ImageIO.read(new File("src/proj4board/Asher.png"));
+    BufferedImage stephen=null, kyle=null, troy=null, asher=null;
     
+    try
+    {
+      stephen = ImageIO.read(new File("src/proj4board/Stephen.png"));
+      kyle = ImageIO.read(new File("src/proj4board/Kyle.png"));
+      troy = ImageIO.read(new File("src/proj4board/Troy.png"));
+      asher = ImageIO.read(new File("src/proj4board/Asher.png"));
+    }
+    catch (IOException e){ System.exit(10);}
     
     draggable = new ImageDrag(1, 5, SPACESIZE);
     
@@ -44,10 +49,10 @@ public class Frame extends JFrame
     
     JPanel All = new JPanel(new FlowLayout());
     
-    Player One = new Player("Stephen", stephen, Color.blue);
-    Player Two = new Player("Kyle", kyle, Color.red);
-    Player Three = new Player("Troy", troy, Color.yellow);
-    Player Four = new Player("Asher", asher, Color.green);
+    User One = new User("Stephen", stephen, Color.blue);
+    User Two = new User("Kyle", kyle, Color.red);
+    User Three = new User("Troy", troy, Color.yellow);
+    User Four = new User("Asher", asher, Color.green);
     
     Players.add(One);
     Players.add(Two);

@@ -7,14 +7,14 @@ import javax.swing.border.*;
 
 import javax.swing.*;
 
-public class Player extends JPanel
+public class User extends JPanel
 {
   Image avatar;
   JPanel stats;
   JLabel name;
   JLabel score;
   
-  public Player(String name, Image avatar, Color c)
+  public User(String name, Image avatar, Color c)
   {
     setLayout(new GridLayout(1,2));
     
