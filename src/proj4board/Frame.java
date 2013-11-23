@@ -32,13 +32,12 @@ public class Frame extends JFrame {
 	public Frame(String title, Player players[]) {
 		//Set up the title and general layout
 		super(title);
-		setLayout(new FlowLayout());
-    
-		
+		setLayout(new FlowLayout());	
 		
 		//Create Player Panel
 		BufferedImage p[] = new BufferedImage[4];
 		Color[] colors = {Color.BLUE,Color.RED,Color.YELLOW, Color.GREEN};
+		
 		//Get player images
 		try {
 			p[0] = ImageIO.read(new File("src/images/Board/Avatars/Stephen.png"));
@@ -61,18 +60,20 @@ public class Frame extends JFrame {
 		//Create Board Panel
 		JLayeredPane Board = new JLayeredPane();
 		Board.setPreferredSize(new Dimension(GRIDSIZE, GRIDSIZE));
+		
 		//Add board image
 		ImageIcon grid = new ImageIcon("src/images/Board/Grid.png");
-	    JLabel gridholder = new JLabel(grid);
-	    gridholder.setSize(GRIDSIZE, GRIDSIZE);
-	    Board.add(gridholder, JLayeredPane.DEFAULT_LAYER);
-	    //Create actual draggable piece
-	    Piece piece = new Piece(16, 'b');
-	    draggable = new ImageDrag(piece, SPACESIZE);
-	    draggable.setSize(GRIDSIZE, GRIDSIZE);
-	    Board.add(draggable, JLayeredPane.DRAG_LAYER);
-	    mouseListener = new BoardListener();
-	    draggable.addMouseListener(mouseListener);
+    JLabel gridholder = new JLabel(grid);
+    gridholder.setSize(GRIDSIZE, GRIDSIZE);
+    Board.add(gridholder, JLayeredPane.DEFAULT_LAYER);
+    
+    //Create actual draggable piece
+    Piece piece = new Piece(16, 'b');
+    draggable = new ImageDrag(piece, SPACESIZE);
+    draggable.setSize(GRIDSIZE, GRIDSIZE);
+    Board.add(draggable, JLayeredPane.DRAG_LAYER);
+    mouseListener = new BoardListener();
+    draggable.addMouseListener(mouseListener);
 
 		
 	    
@@ -84,7 +85,7 @@ public class Frame extends JFrame {
 		//Merge panels together
 		JPanel All = new JPanel(new FlowLayout());        
 		All.add(Players);
-		//All.add(Board);
+		All.add(Board);
 		All.add(Pieces);
 		All.setBackground(Color.DARK_GRAY);
 		add(All);
