@@ -126,6 +126,7 @@ public class StartServer{
 	    	} while(!player.isPlayable());
 	    	
 	    	//Debugging stuff
+	    	System.out.println(players[turn] + "'s Move");
 	    	board.printBoard();
 	    }
 	}
