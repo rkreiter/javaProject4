@@ -27,7 +27,6 @@ public class User extends JPanel
     stats = new JPanel(new GridLayout(2,1));
     stats.add(this.name);
     stats.add(this.score);
-    stats.setBorder((BorderFactory.createLineBorder(Color.black)));
     stats.setBackground(c);
     
     this.avatar = avatar.getScaledInstance(680/4, 
@@ -36,6 +35,7 @@ public class User extends JPanel
 
     new JPanel(new FlowLayout());
     add(new JLabel( new ImageIcon(this.avatar)));
+    setBorder((BorderFactory.createLineBorder(Color.white, 3)));
     add(stats);
   }
 }
