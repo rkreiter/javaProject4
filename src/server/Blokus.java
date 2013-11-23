@@ -136,7 +136,7 @@ public class Blokus{
 	    	}
 	    }
 	    //Create Client
-	    theClient = new ClientServerSocket("192.168.1.213", 4000);
+	    theClient = new ClientServerSocket("192.168.56.1", 4000);
 	    theClient.startClient();
 	    
     	//0: Get response from server to get name
