@@ -160,7 +160,7 @@ public class ClientServerSocket {
     }
     
     public boolean sendAllPlayersToClient(Player p[], int client){
-    	String s = "5 ";
+    	String s = "5 " + numPlayers + " ";
     	for(int i = 0; i < numPlayers; i++){
     		s += p[i].getName() + " ";
     		s += p[i].getColor() + " ";

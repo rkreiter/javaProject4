@@ -87,7 +87,9 @@ public class Blokus{
 			out.println("Get all Players");
 			Scanner scan1 = new Scanner(str);
 			scan1.next();
-			for(int i = 0; scan1.hasNext(); ++i){
+			int numP = scan1.nextInt();
+			players = new Player[numP];
+			for(int i = 0; i < numP; ++i){
 				players[i] = new Player(scan1.next(), scan1.next().charAt(0));
 			}
 			break;
@@ -118,7 +120,6 @@ public class Blokus{
 		Player player = null;
 	    String recvdStr;
 	    
-	    players = null;
 	    colors = new char[] {'b', 'r', 'y', 'g'};
 	    
 	    init = new startFrame("Welcome To Blokus");
