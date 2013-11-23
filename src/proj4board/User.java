@@ -11,31 +11,28 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class User extends JPanel
-{
-  Image avatar;
-  JPanel stats;
-  JLabel name;
-  JLabel score;
+public class User extends JPanel {
+	Image avatar;
+	JPanel stats;
+	JLabel name;
+	JLabel score;
   
-  public User(String name, Image avatar, Color c)
-  {
-    setLayout(new GridLayout(1,2));
+	public User(String name, Image avatar, Color c) {
+		setLayout(new GridLayout(1,2));
     
-    this.name = new JLabel(name, JLabel.CENTER);
-    this.score = new JLabel("89", JLabel.CENTER);
-    stats = new JPanel(new GridLayout(2,1));
-    stats.add(this.name);
-    stats.add(this.score);
-    stats.setBackground(c);
+		this.name = new JLabel(name, JLabel.CENTER);
+		this.score = new JLabel("89", JLabel.CENTER);
+		stats = new JPanel(new GridLayout(2,1));
+		stats.add(this.name);
+		stats.add(this.score);
+		stats.setBackground(c);
     
-    this.avatar = avatar.getScaledInstance(680/4, 
-                                           680/4,
-                                           BufferedImage.SCALE_DEFAULT);
+		this.avatar = avatar.getScaledInstance(680/4, 
+				680/4, BufferedImage.SCALE_DEFAULT);
 
-    new JPanel(new FlowLayout());
-    add(new JLabel( new ImageIcon(this.avatar)));
-    setBorder((BorderFactory.createLineBorder(Color.DARK_GRAY, 3)));
-    add(stats);
-  }
+		new JPanel(new FlowLayout());
+		add(new JLabel( new ImageIcon(this.avatar)));
+		setBorder((BorderFactory.createLineBorder(Color.DARK_GRAY, 3)));
+		add(stats);
+	}
 }
