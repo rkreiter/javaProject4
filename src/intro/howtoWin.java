@@ -1,16 +1,13 @@
 package intro;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
 public class howtoWin extends JDialog
 {
@@ -31,18 +28,18 @@ public class howtoWin extends JDialog
       "Rules:\n" +
       "1.  Each player chooses a color and places that set of 21 pieces in " + 
       "front of his/her side of the board.  The order of play is as follows: "+
-      "blue, yellow, red, and then green.\n\n 2.  The first player (blue) " +
+      "blue, red, yellow, and then green.\n\n 2.  The first player (blue) " +
       "any of his/her pieces in a corner square.  Play proceeds clockwise " +
-      "around the board (yellow, red, and green), each player putting their " +
+      "around the board (red, yellow, and green), each player putting their " +
       "first piece down in one of the corner squares.\n\n3.  Play continues as "+
-      "each player lays down one piece during a turn.\n    - Each new piece must"+
+      "each player lays down one piece during a turn.\n  - Each new piece must"+
       " touch at least one other piece of the same color, but only at the " +
-      "corners.\n    - No flat edges of same color pieces can touch.\n\nThere " +
-      "are no restrictions on how pieces of different colors can touch one " + 
+      "corners.\n  - No flat edges of same color pieces can touch.\n\nThere"+
+      " are no restrictions on how pieces of different colors can touch one " + 
       "another.\n\n4.  Whenever a player is unable to place one of his/her " + 
-      "remaining pieces on the board, that player must pass his/her turn.\n\n" +
-      "\nEnd of Game\nThe game ends when all players are blocked from laying " +
-      "down any more of their pieces.  This also includes any players who may" +
+      "remaining pieces on the board, that player must pass his/her turn.\n\n"+
+      "\nEnd of Game\nThe game ends when all players are blocked from laying "+
+      "down any more of their pieces.  This also includes any players who may"+
       " have placed all of their pieces on the board.  Scores are tallied, " + 
       "and the player with the highest score is the winner.\n\n\nScoring\n" +
       "Each player counts the number of unit squares in his/her remaining " +
@@ -50,7 +47,7 @@ public class howtoWin extends JDialog
       "all his/her pieces have been placed on the board plus 5 additional " +
       "bonus points if the last piece placed on the board was the smallest " +
       "piece (one square).\n\n\n\nCitation: " +
-      "www.educationallearninggames.com/how-to-play-blokus-game-rules.asp"
+      "www.educationallearninggames.com/how-to-play-blokus-game-rules.asp\n"
     );
 
     
@@ -59,9 +56,30 @@ public class howtoWin extends JDialog
     rulzArea.setEditable(false);
     rulzArea.setOpaque(false);
     rulzArea.setForeground(Color.WHITE);
-    rulzArea.setColumns(40);
+    rulzArea.setColumns(50);
+    
+    JPanel blue = new JPanel(new FlowLayout());
+    blue.add(rulzArea);
+    blue.setBorder(BorderFactory.createLineBorder(Color.blue));
+    blue.setOpaque(false);
+    
+    JPanel yellow = new JPanel(new FlowLayout());
+    yellow.add(blue);
+    yellow.setBorder(BorderFactory.createLineBorder(Color.yellow));
+    yellow.setOpaque(false);
+    
+    JPanel red = new JPanel(new FlowLayout());
+    red.add(yellow);
+    red.setBorder(BorderFactory.createLineBorder(Color.red));
+    red.setOpaque(false);
+    
+    JPanel green = new JPanel(new FlowLayout());
+    green.add(red);
+    green.setBorder(BorderFactory.createLineBorder(Color.green));
+    green.setOpaque(false);
+    
+    main.add(green);
 
-    main.add(rulzArea);
     main.setBackground(Color.BLACK);
     
     JPanel buttonPan = new JPanel(new FlowLayout());
