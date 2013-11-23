@@ -32,10 +32,10 @@ public class Frame extends JFrame
     
     try
     {
-      p[0] = ImageIO.read(new File("src/proj4board/Stephen.png"));
-      p[1] = ImageIO.read(new File("src/proj4board/Kyle.png"));
-      p[2] = ImageIO.read(new File("src/proj4board/Troy.png"));
-      p[3] = ImageIO.read(new File("src/proj4board/Asher.png"));
+      p[0] = ImageIO.read(new File("src/images/Board/Avatars/Stephen.png"));
+      p[1] = ImageIO.read(new File("src/images/Board/Avatars/Kyle.png"));
+      p[2] = ImageIO.read(new File("src/images/Board/Avatars/Troy.png"));
+      p[3] = ImageIO.read(new File("src/images/Board/Avatars/Asher.png"));
     }
     catch (IOException e){ System.exit(10);}
     
@@ -57,7 +57,7 @@ public class Frame extends JFrame
         Players.add(u);
     }
     
-    ImageIcon grid = new ImageIcon("src/proj4board/Grid.png");
+    ImageIcon grid = new ImageIcon("src/images/Board/Grid.png");
     JLabel gridholder = new JLabel(grid);
     gridholder.setSize(GRIDSIZE, GRIDSIZE);
     

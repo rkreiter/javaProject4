@@ -38,14 +38,14 @@ public class startFrame extends JFrame
     //set title
     super(init);
     setLayout(new BorderLayout());
-    ImageIcon icon = new ImageIcon("src/images/introbackground.png"); 
+    ImageIcon icon = new ImageIcon("src/images/StartScreen/introbackground.png"); 
     Image img = icon.getImage();
     icon = new ImageIcon(img);
     setContentPane(new JLabel(icon));
     setLayout(new BorderLayout());
     getContentPane().setBackground(Color.BLACK);
 
-    title = new JLabel(new ImageIcon("src/images/title.png"));
+    title = new JLabel(new ImageIcon("src/images/StartScreen/title.png"));
     
 
     //--------------------PLAY BUTTON---------------------//

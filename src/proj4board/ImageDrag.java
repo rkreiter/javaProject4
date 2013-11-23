@@ -26,7 +26,7 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
   public void initComponents(int numx, int numy, int size)
   {  
     try
-    { image = ImageIO.read(new File("src/proj4board/I.png"));}
+    { image = ImageIO.read(new File("src/images/Blue/9.png"));}
     catch(IOException ioe)
     { ioe.printStackTrace(); }
     
