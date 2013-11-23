@@ -35,19 +35,12 @@ public class Frame extends JFrame
     
     Border bord1, bord2, finalborder;
     bord1 = new CompoundBorder(
-    		BorderFactory.createMatteBorder(0, 10, 0, 0, Color.BLUE),
-    		BorderFactory.createMatteBorder(10, 0, 0, 0, Color.RED));
+    		BorderFactory.createMatteBorder(0, 5, 0, 0, Color.BLUE),
+    		BorderFactory.createMatteBorder(5, 0, 0, 0, Color.RED));
     bord2 = new CompoundBorder(
-    		BorderFactory.createMatteBorder(0, 0, 0, 10, Color.YELLOW),
-    		BorderFactory.createMatteBorder(0, 0, 10, 0, Color.GREEN));
+    		BorderFactory.createMatteBorder(0, 0, 0, 5, Color.YELLOW),
+    		BorderFactory.createMatteBorder(0, 0, 5, 0, Color.GREEN));
     finalborder = new CompoundBorder(bord1, bord2);
-    
-    //ENABLE THIS CODE TO RUN WITHOUT SERVER
-//    players[0] = new Player("Stephen", 'b');
-//    players[1] = new Player("Kyle", 'r');
-//    players[2] = new Player("Troy", 'y');
-//    players[3] = new Player("Asher", 'g');
-    ///////////////////////////////////////
     
     try
     {
@@ -67,6 +60,7 @@ public class Frame extends JFrame
     JPanel RightPlayers = new JPanel(new GridLayout(2,1));
     RightPlayers.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
     RightPlayers.setBorder(finalborder);
+    RightPlayers.setBackground(Color.DARK_GRAY.darker());
     
     JLayeredPane Board = new JLayeredPane();
     Board.setPreferredSize(new Dimension(GRIDSIZE, GRIDSIZE));
@@ -95,6 +89,8 @@ public class Frame extends JFrame
     All.add(Board);
     All.add(RightPlayers);
 
+    All.setBackground(Color.DARK_GRAY);
+    
     add(All);
     
     mouseListener = new BoardListener();

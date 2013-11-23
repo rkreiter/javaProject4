@@ -1,4 +1,6 @@
 package proj4board;
+import java.awt.Color;
+
 import game.*;
 
 import javax.swing.JFrame;
@@ -15,6 +17,7 @@ public class Board
 	
     Frame frame = new Frame("Blokus", players);
     
+    frame.getContentPane().setBackground(Color.DARK_GRAY);
     frame.pack();
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);

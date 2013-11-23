@@ -35,7 +35,7 @@ public class User extends JPanel
 
     new JPanel(new FlowLayout());
     add(new JLabel( new ImageIcon(this.avatar)));
-    setBorder((BorderFactory.createLineBorder(Color.white, 3)));
+    setBorder((BorderFactory.createLineBorder(Color.DARK_GRAY, 3)));
     add(stats);
   }
 }
