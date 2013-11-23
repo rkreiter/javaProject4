@@ -4,7 +4,8 @@ import static java.lang.System.out;
 import game.Board;
 import game.Piece;
 import game.Player;
-import intro.startFrame;
+import intro.*;
+import proj4board.*;
 
 import java.awt.Color;
 import java.util.Scanner;
@@ -13,6 +14,7 @@ import javax.swing.JFrame;
 
 public class Blokus{
 	static Scanner in;
+	static startFrame init;
 	
 	public static char interpretResponse(String str, ClientServerSocket c,
 			Board b, Player p){
@@ -25,9 +27,16 @@ public class Blokus{
     	//SEND NUMBER
 		case '1':
 			out.println("Sending Num Players");
+			String num;
+			textDial numplayers;
+			do{
+				numplayers = new textDial(init, "Number Of Players",
+						"   Enter the number of players (1-4): ");
+				num = numplayers.getText();
+			}while(!(num).matches("[1-4]"));
 			
-    	    c.sendString("2", 0);  //This will be replaced by a gui
-    	    String recvdStr = c.getResponse();
+			c.sendString(num, 0);  //This will be replaced by a gui
+			String recvdStr = c.getResponse();
     	    interpretResponse(recvdStr, c, b, p);
     		break;
     	
@@ -97,46 +106,56 @@ public class Blokus{
 		Player player = null;
 	    String recvdStr;
 	    
-	    startFrame init = new startFrame("Welcome To Blokus");
+	    init = new startFrame("Welcome To Blokus");
 	    init.setBackground(Color.BLACK);
 	    init.setSize(600,600);
 	    init.setVisible(true);
 	    init.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
-	    //System.out.println(init.isShowing());
-	    //System.out.println(init.getPlay());
+	    
 	    boolean running = false;
-	    //while(!init.getPlay()){System.out.println(init.getPlay());}
+	    
 	    while(!init.getPlay()){
 	    	if(!running){
 	    		System.out.print("");
 	    		running = true;
 	    	}
 	    }
-	    	//Create Client
-	    	theClient = new ClientServerSocket("192.168.1.250", 4700);
-	    	theClient.startClient();
+	    //Create Client
+	    theClient = new ClientServerSocket("192.168.1.250", 4000);
+	    theClient.startClient();
 	    
-	    	//Get response from server
-	    	recvdStr = theClient.getResponse();
-	    	interpretResponse(recvdStr, theClient, board, player);  
-	    
-	    	//Send Init Player request and wait for response
-	    	theClient.sendName("Asher");
-	    	recvdStr = theClient.getResponse();
-	    	interpretResponse(recvdStr, theClient, board, player);
-	    	out.println(recvdStr.charAt(2));
-	    
-	    	//Initialize stuff
-	    	player = new Player("Asher", recvdStr.charAt(2));
-	    	board.printBoard();
-	    	
-	    	
-	    	//Start actual game
-	    	while(true){
-	    		recvdStr = theClient.getResponse();
-	    		interpretResponse(recvdStr, theClient, board, player);
-	    	}
+    	//Get response from server
+    	recvdStr = theClient.getResponse();
+    	interpretResponse(recvdStr, theClient, board, player);  
+    	
+    	//Send Init Player request and wait for response
+    	textDial nameplayer;
+    	nameplayer = new textDial(init, "Name",
+				"   Enter your name:  ");
+    	theClient.sendName(nameplayer.getText());
+    	recvdStr = theClient.getResponse();
+    	interpretResponse(recvdStr, theClient, board, player);
+    	out.println(recvdStr.charAt(2));
+    
+    	//Initialize stuff
+    	player = new Player(nameplayer.getText(), recvdStr.charAt(2));
+    	board.printBoard();
+    	
+    	
+    	Frame frame = new Frame("Blokus");
+        
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
+    	
+    	
+    	//Start actual game
+    	while(true){
+    		recvdStr = theClient.getResponse();
+    		interpretResponse(recvdStr, theClient, board, player);
+    	}
 	 
 	}
 }
