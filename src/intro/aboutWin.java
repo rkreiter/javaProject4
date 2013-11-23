@@ -35,7 +35,7 @@ public class aboutWin extends JDialog
     head = new JLabel("This version of BLOKUS was created by:");
     head.setForeground(Color.WHITE);
     name = new JLabel("Kyle Hildebrandt", SwingConstants.CENTER);
-    name.setForeground(((((Color.BLUE).brighter()).brighter()).brighter()));
+    name.setForeground(Color.BLUE);
     names.add(name);
     name = new JLabel("Ryan Kreiter", SwingConstants.CENTER);
     name.setForeground(Color.RED);

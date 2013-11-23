@@ -42,7 +42,7 @@ public class StartServer{
 		//Create Server
 		IP = initServer();
 	    theServer = new ClientServerSocket(IP.getHostAddress(), 4000);
-	    out.println("calling start server");
+	    out.println("Calling start server");
 	    numPlayers = theServer.startServer();
 	    out.println("Got num players: " + numPlayers);
 	    

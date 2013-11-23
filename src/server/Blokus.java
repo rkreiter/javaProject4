@@ -37,7 +37,7 @@ public class Blokus{
 				num = numplayers.getText();
 			}while(!(num).matches("[1-4]"));
 			
-			c.sendString(num, 0);  //This will be replaced by a gui
+			c.sendString(num, 0);
 			String recvdStr = c.getResponse();
     	    interpretResponse(recvdStr, c, b, p);
     		break;
@@ -136,10 +136,10 @@ public class Blokus{
 	    	}
 	    }
 	    //Create Client
-	    theClient = new ClientServerSocket("192.168.1.250", 4000);
+	    theClient = new ClientServerSocket("192.168.1.213", 4000);
 	    theClient.startClient();
 	    
-    	//Get response from server to get name
+    	//0: Get response from server to get name
     	recvdStr = theClient.getResponse();
     	interpretResponse(recvdStr, theClient, board, player);  
     	
@@ -154,7 +154,7 @@ public class Blokus{
 		
 		theClient.sendName(name);
     	
-    	//get player color
+    	//4: get player color
     	recvdStr = theClient.getResponse();
     	interpretResponse(recvdStr, theClient, board, player);
     	out.println(recvdStr.charAt(2));
@@ -163,16 +163,24 @@ public class Blokus{
     	player = new Player(nameplayer.getText(), recvdStr.charAt(2));
     	board.printBoard();
     	
-    	//get all player names from server
+    	waitingWin waiting = new waitingWin(init);
+    	waiting.pack();
+    	waiting.setSize(waiting.getWidth()+50, waiting.getHeight()+10);
+        waiting.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	waiting.setVisible(true);
+    	
+    	//5: get all player names from server
     	recvdStr = theClient.getResponse();
     	interpretResponse(recvdStr, theClient, board, player);
+
+    	waiting.setVisible(false);
     	
     	//Start game for each player
     	Frame frame = new Frame("Blokus", players);
         
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     	
     	//Start actual game

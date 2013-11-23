@@ -81,6 +81,8 @@ public class Frame extends JFrame
     
     mouseListener = new BoardListener();
     draggable.addMouseListener(mouseListener);
+    
+    setExtendedState(JFrame.MAXIMIZED_BOTH);
   }
     
     public class BoardListener extends MouseAdapter
