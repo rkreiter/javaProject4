@@ -8,6 +8,8 @@ public class Piece {
 	protected boolean placed;
 	protected int type;
 	protected int val;
+	protected int width;
+	protected int height;
 	final int PIECE_SIZE = 5;
 	
 	//This is our constructor
@@ -20,23 +22,31 @@ public class Piece {
 		switch(type){
 			case 0:
 				defaultShape[0][0] = true;
+				width = 1;
+				height = 1;
 				val = 1;
 				break;
 			case 1:
 				defaultShape[0][0] = true;
 				defaultShape[0][1] = true;
+				width = 2;
+				height = 1;
 				val = 2;
 				break;
 			case 2:
 				defaultShape[0][0] = true;
 				defaultShape[0][1] = true;
 				defaultShape[0][2] = true;
+				width = 3;
+				height = 1;
 				val = 3;
 				break;
 			case 3:
 				defaultShape[0][0] = true;
 				defaultShape[0][1] = true;
 				defaultShape[1][1] = true;
+				width = 2;
+				height = 2;
 				val = 3;
 				break;
 			case 4:
@@ -44,6 +54,8 @@ public class Piece {
 				defaultShape[0][1] = true;
 				defaultShape[0][2] = true;
 				defaultShape[0][3] = true;
+				width = 4;
+				height = 1;
 				val = 4;
 				break;
 			case 5:
@@ -51,6 +63,8 @@ public class Piece {
 				defaultShape[0][1] = true;
 				defaultShape[1][0] = true;
 				defaultShape[1][1] = true;
+				width = 2;
+				height = 2;
 				val = 4;
 				break;
 			case 6:
@@ -58,6 +72,8 @@ public class Piece {
 				defaultShape[1][0] = true;
 				defaultShape[1][1] = true;
 				defaultShape[1][2] = true;
+				width = 3;
+				height = 2;
 				val = 4;
 				break;
 			case 7:
@@ -65,6 +81,8 @@ public class Piece {
 				defaultShape[0][2] = true;
 				defaultShape[1][0] = true;
 				defaultShape[1][1] = true;
+				width = 3;
+				height = 2;
 				val = 4;
 				break;
 			case 8:
@@ -72,6 +90,8 @@ public class Piece {
 				defaultShape[1][0] = true;
 				defaultShape[1][1] = true;
 				defaultShape[1][2] = true;
+				width = 3;
+				height = 2;
 				val = 4;
 				break;
 			case 9:
@@ -80,6 +100,8 @@ public class Piece {
 				defaultShape[0][2] = true;
 				defaultShape[0][3] = true;
 				defaultShape[0][4] = true;
+				width = 5;
+				height = 1;
 				val = 5;
 				break;
 			case 10:
@@ -88,6 +110,8 @@ public class Piece {
 				defaultShape[1][1] = true;
 				defaultShape[1][2] = true;
 				defaultShape[1][3] = true;
+				width = 4;
+				height = 2;
 				val = 5;
 				break;
 			case 11:
@@ -96,6 +120,8 @@ public class Piece {
 				defaultShape[2][0] = true;
 				defaultShape[2][1] = true;
 				defaultShape[2][2] = true;
+				width = 3;
+				height = 3;
 				val = 5;
 				break;
 			case 12:
@@ -104,6 +130,8 @@ public class Piece {
 				defaultShape[1][1] = true;
 				defaultShape[1][2] = true;
 				defaultShape[2][1] = true;
+				width = 3;
+				height = 3;
 				val = 5;
 				break;
 			case 13:
@@ -112,6 +140,8 @@ public class Piece {
 				defaultShape[1][1] = true;
 				defaultShape[1][2] = true;
 				defaultShape[2][0] = true;
+				width = 3;
+				height = 3;
 				val = 5;
 				break;
 			case 14:
@@ -120,6 +150,8 @@ public class Piece {
 				defaultShape[1][1] = true;
 				defaultShape[1][2] = true;
 				defaultShape[1][3] = true;
+				width = 4;
+				height = 2;
 				val = 5;
 				break;
 			case 15:
@@ -128,6 +160,8 @@ public class Piece {
 				defaultShape[1][1] = true;
 				defaultShape[2][0] = true;
 				defaultShape[2][1] = true;
+				width = 2;
+				height = 3;
 				val = 5;
 				break;
 			case 16:
@@ -136,6 +170,8 @@ public class Piece {
 				defaultShape[1][0] = true;
 				defaultShape[2][0] = true;
 				defaultShape[2][1] = true;
+				width = 2;
+				height = 3;
 				val = 5;
 				break;
 			case 17:
@@ -144,6 +180,8 @@ public class Piece {
 				defaultShape[1][0] = true;
 				defaultShape[1][1] = true;
 				defaultShape[2][0] = true;
+				width = 3;
+				height = 3;
 				val = 5;
 				break;
 			case 18:
@@ -152,6 +190,8 @@ public class Piece {
 				defaultShape[0][3] = true;
 				defaultShape[1][0] = true;
 				defaultShape[1][1] = true;
+				width = 4;
+				height = 2;
 				val = 5;
 				break;
 			case 19:
@@ -160,6 +200,8 @@ public class Piece {
 				defaultShape[0][2] = true;
 				defaultShape[1][1] = true;
 				defaultShape[2][1] = true;
+				width = 3;
+				height = 3;
 				val = 5;
 				break;
 			case 20:
@@ -168,6 +210,8 @@ public class Piece {
 				defaultShape[1][0] = true;
 				defaultShape[1][1] = true;
 				defaultShape[2][1] = true;
+				width = 3;
+				height = 3;
 				val = 5;
 				break;
 		}
@@ -184,9 +228,24 @@ public class Piece {
 		return color;
 	}
 	
+	//Get Piece type
+	public int getType(){
+		return type;
+	}
+	
 	//Get Piece value
 	public int getValue(){
 		return val;
+	}
+	
+	//Get Piece width
+	public int getWidth(){
+		return width;
+	}
+	
+	//Get Piece height
+	public int getHeight(){
+		return height;
 	}
 	
 	//Set placed
@@ -258,6 +317,9 @@ public class Piece {
 		}
 		currentShape = temp;
 		while(shiftUp());
+		int tmp = width;
+		width = height;
+		height = tmp;
 	}
 	
 	//This function rotates currentShape clockwise
@@ -270,6 +332,9 @@ public class Piece {
 		}
 		currentShape = temp;
 		while(shiftLeft());
+		int tmp = width;
+		width = height;
+		height = tmp;
 	}
 
 	//This function flips currentShape across vertical axis

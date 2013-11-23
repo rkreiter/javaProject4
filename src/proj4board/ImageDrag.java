@@ -1,4 +1,6 @@
 package proj4board;
+import game.Piece;
+
 import java.io.*;
 
 import javax.imageio.ImageIO;
@@ -17,16 +19,41 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
   int x=0, y=0;
   int mouseX, mouseY;
   
-  public ImageDrag(int numx, int numy, int size)
+  public ImageDrag(Piece p, int size)
   { 
-    initComponents(numx, numy, size);
+    initComponents(p, size);
     addMouseMotionListener(this);
     addMouseListener(this);
   }
-  public void initComponents(int numx, int numy, int size)
+  public void initComponents(Piece p, int size)
   {  
-    try
-    { image = ImageIO.read(new File("src/images/Blue/9.png"));}
+	int numx = p.getWidth();
+	int numy = p.getHeight();
+	
+	try
+    { 
+	  switch(p.getColor()){
+	  	case 'b':
+	  	  image = ImageIO.read(new File("src/images/Blue/"
+	  			  			+ p.getType() + ".png"));
+	  	  break;
+	  	  
+	  	case 'r':
+	  	  image = ImageIO.read(new File("src/images/Red/"
+	  			  			+ p.getType() + ".png"));
+		  break;
+		  	  
+	  	case 'y':
+	  	  image = ImageIO.read(new File("src/images/Yellow/"
+	  			  			+ p.getType() + ".png"));
+		  break;
+		  	  
+	  	case 'g':
+	  	  image = ImageIO.read(new File("src/images/Green/"
+	  			  			+ p.getType() + ".png"));
+		  break;
+	  }
+	}
     catch(IOException ioe)
     { ioe.printStackTrace(); }
     

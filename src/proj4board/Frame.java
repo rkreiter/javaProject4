@@ -1,5 +1,6 @@
 package proj4board;
 
+import game.Piece;
 import game.Player;
 
 import java.awt.*;
@@ -39,7 +40,8 @@ public class Frame extends JFrame
     }
     catch (IOException e){ System.exit(10);}
     
-    draggable = new ImageDrag(1, 5, SPACESIZE);
+    Piece piece = new Piece(18, 'b');
+    draggable = new ImageDrag(piece, SPACESIZE);
     
     JPanel Players = new JPanel(new GridLayout(4,1));
     Players.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
