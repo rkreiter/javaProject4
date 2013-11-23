@@ -27,6 +27,7 @@ public class Frame extends JFrame
 
   public Frame(String title, Player players[])
   {
+	//Set up the title and general layout
     super(title);
     setLayout(new FlowLayout());
     
@@ -57,10 +58,10 @@ public class Frame extends JFrame
     JPanel Players = new JPanel(new GridLayout(4,1));
     Players.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
     
-    JPanel RightPlayers = new JPanel(new GridLayout(2,1));
-    RightPlayers.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
-    RightPlayers.setBorder(finalborder);
-    RightPlayers.setBackground(Color.DARK_GRAY.darker());
+    JPanel Pieces = new JPanel(new GridLayout(2,1));
+    Pieces.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
+    Pieces.setBorder(finalborder);
+    Pieces.setBackground(Color.DARK_GRAY.darker());
     
     JLayeredPane Board = new JLayeredPane();
     Board.setPreferredSize(new Dimension(GRIDSIZE, GRIDSIZE));
@@ -87,7 +88,7 @@ public class Frame extends JFrame
     
     All.add(Players);
     All.add(Board);
-    All.add(RightPlayers);
+    All.add(Pieces);
 
     All.setBackground(Color.DARK_GRAY);
     
@@ -110,10 +111,7 @@ public class Frame extends JFrame
       { return Xloc(e)*SPACESIZE; }
       public int Ysnap(MouseEvent e)
       { return Yloc(e)*SPACESIZE; }
-     
-      public void mouseClicked(MouseEvent e)
-      {
-      }
+
       public void mouseReleased(MouseEvent e)
       {
         if (!draggable.clicked)
