@@ -1,7 +1,12 @@
 package proj4board;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Frame extends JFrame 
@@ -12,19 +17,24 @@ public class Frame extends JFrame
   final int PLAYERWIDTH = 300;
   final int N = 20;
   
-  public final int SPACESIZE = GRIDSIZE/N;
-  
+  final int SPACESIZE = GRIDSIZE/N;
   private BoardListener mouseListener;
-  
-  public Frame(String title)
+
+  public Frame(String title) throws IOException
   {
     super(title);
     setLayout(new FlowLayout());
     
-    draggable = new ImageDrag(3, 3, SPACESIZE);
+    BufferedImage stephen = ImageIO.read(new File("src/proj4board/Stephen.png"));
+    BufferedImage kyle = ImageIO.read(new File("src/proj4board/Kyle.png"));
+    BufferedImage troy = ImageIO.read(new File("src/proj4board/Troy.png"));
+    BufferedImage asher = ImageIO.read(new File("src/proj4board/Asher.png"));
     
-    JPanel LeftPlayers = new JPanel(new GridLayout(2,1));
-    LeftPlayers.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
+    
+    draggable = new ImageDrag(1, 5, SPACESIZE);
+    
+    JPanel Players = new JPanel(new GridLayout(4,1));
+    Players.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
     
     JPanel RightPlayers = new JPanel(new GridLayout(2,1));
     RightPlayers.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
@@ -34,15 +44,15 @@ public class Frame extends JFrame
     
     JPanel All = new JPanel(new FlowLayout());
     
-    JButton Player1 = new JButton("Player1");
-    JButton Player2 = new JButton("Player2");
-    JButton Player3 = new JButton("Player3");
-    JButton Player4 = new JButton("Player4");
+    Player One = new Player("Stephen", stephen, Color.blue);
+    Player Two = new Player("Kyle", kyle, Color.red);
+    Player Three = new Player("Troy", troy, Color.yellow);
+    Player Four = new Player("Asher", asher, Color.green);
     
-    LeftPlayers.add(Player1);
-    LeftPlayers.add(Player2);
-    RightPlayers.add(Player3);
-    RightPlayers.add(Player4);
+    Players.add(One);
+    Players.add(Two);
+    Players.add(Three);
+    Players.add(Four);
     
     ImageIcon grid = new ImageIcon("src/proj4board/Grid.png");
     JLabel gridholder = new JLabel(grid);
@@ -58,7 +68,7 @@ public class Frame extends JFrame
     Board.add(draggable, JLayeredPane.DRAG_LAYER);
     
     
-    All.add(LeftPlayers);
+    All.add(Players);
     All.add(Board);
     All.add(RightPlayers);
 
@@ -85,7 +95,8 @@ public class Frame extends JFrame
       }
       public void mouseReleased(MouseEvent e)
       {
-        draggable.setLocation(Xsnap(e), Ysnap(e));
+        if (!draggable.clicked)
+          draggable.setLocation(Xsnap(e), Ysnap(e));
       }
     }
 }

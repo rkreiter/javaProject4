@@ -1,10 +1,13 @@
 package proj4board;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class Board
 {
-  public static void main(String[] args) 
+  public static void main(String[] args) throws IOException 
   {
     Frame frame = new Frame("Blokus");
     
