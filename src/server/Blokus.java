@@ -145,9 +145,14 @@ public class Blokus{
     	
     	//Send Init Player request and wait for response
     	textDial nameplayer;
-    	nameplayer = new textDial(init, "Name",
-				"   Enter your name:  ");
-    	theClient.sendName(nameplayer.getText());
+    	String name;
+		do{
+	    	nameplayer = new textDial(init, "Name",
+					"   Enter your name (no spaces allowed):  ");
+	    	name = nameplayer.getText();
+		}while(name.contains(" ") || name.isEmpty());
+		
+		theClient.sendName(name);
     	
     	//get player color
     	recvdStr = theClient.getResponse();
