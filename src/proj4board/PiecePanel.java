@@ -84,12 +84,20 @@ public class PiecePanel extends JPanel
 		{
 		  pieces[i] = new Piece(i, piececolor);
 		  icons[i] = new ImageDrag(pieces[i], SPACESIZE);
+		  
 		  w = icons[i].width;
 		  h = icons[i].height;
+		  
 		  icons[i].image = icons[i].image.getScaledInstance(3*w/4, 3*h/4, BufferedImage.SCALE_DEFAULT);
+		  
 		  drag = new ImageIcon(icons[i].image);
 		  dragholder = new JLabel(drag);
+		  
 		  this.add(dragholder);
 		}
 	}
+  public void changeDraggable(ImageDrag g)
+  {
+    g = icons[4];
+  }
 }
