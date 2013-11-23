@@ -2,6 +2,7 @@ package proj4board;
 
 import game.Piece;
 import game.Player;
+import proj4board.PiecePanel;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -55,7 +56,7 @@ public class Frame extends JFrame
     JLayeredPane Board = new JLayeredPane();
     Board.setPreferredSize(new Dimension(GRIDSIZE, GRIDSIZE));
     
-    JPanel Pieces = new PiecePanel('b', PLAYERWIDTH, GRIDSIZE);
+    PiecePanel Pieces = new PiecePanel('b', PLAYERWIDTH, GRIDSIZE);
     
     JPanel All = new JPanel(new FlowLayout());
     
@@ -68,13 +69,9 @@ public class Frame extends JFrame
     JLabel gridholder = new JLabel(grid);
     gridholder.setSize(GRIDSIZE, GRIDSIZE);
     
-    Piece piece = new Piece(18, 'b');
+    Piece piece = new Piece(16, 'b');
     draggable = new ImageDrag(piece, SPACESIZE);
-    
-    ImageIcon drag = new ImageIcon(draggable.image);
-    JLabel dragholder = new JLabel(drag);
-    dragholder.setSize(GRIDSIZE,GRIDSIZE);
-    
+
     draggable.setSize(GRIDSIZE, GRIDSIZE);
     
     Board.add(gridholder, JLayeredPane.DEFAULT_LAYER);
@@ -108,8 +105,10 @@ public class Frame extends JFrame
 
       public void mouseReleased(MouseEvent e)
       {
-        if (!draggable.clicked)
+        if (!draggable.clicked && draggable.inBounds(e))
+        {
           draggable.setLocation(Xsnap(e), Ysnap(e));
+        }
       }
     }
 }

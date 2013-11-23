@@ -107,7 +107,7 @@ public class PiecePanel extends JPanel
 	  public void mouseClicked(MouseEvent me)
 	  {
 	    System.out.println("BLAHHH");
-	    System.out.println();
+	    System.out.println(me.getSource());
 	  }
 	}
 }
