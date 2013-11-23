@@ -1,11 +1,15 @@
 package proj4board;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
-import javax.swing.border.*;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class User extends JPanel
 {
