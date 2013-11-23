@@ -30,7 +30,6 @@ public class Frame extends JFrame
   
   final int SPACESIZE = GRIDSIZE/N;
   private BoardListener mouseListener;
-  private PanelListener panlist;
 
   public Frame(String title, Player players[])
   {
@@ -57,8 +56,6 @@ public class Frame extends JFrame
     Board.setPreferredSize(new Dimension(GRIDSIZE, GRIDSIZE));
     
     JPanel Pieces = new PiecePanel('b', PLAYERWIDTH, GRIDSIZE);
-    panlist = new PanelListener();
-    Pieces.addMouseListener(panlist);
     
     JPanel All = new JPanel(new FlowLayout());
     
@@ -94,7 +91,6 @@ public class Frame extends JFrame
     mouseListener = new BoardListener();
     draggable.addMouseListener(mouseListener);
     
-    
     setExtendedState(JFrame.MAXIMIZED_BOTH);
   }
     
@@ -114,17 +110,6 @@ public class Frame extends JFrame
       {
         if (!draggable.clicked)
           draggable.setLocation(Xsnap(e), Ysnap(e));
-      }
-    }
-    public class PanelListener extends MouseAdapter
-    {
-      public void mouseClicked(MouseEvent me) 
-      { 
-        System.out.println("You clicked me!");
-      }
-      public void mouseEntered(MouseEvent me)
-      {
-        System.out.println("Entered something");
       }
     }
 }

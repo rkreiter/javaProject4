@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +27,7 @@ public class PiecePanel extends JPanel
 	String color;
 	Piece[] pieces;
 	ImageDrag[] icons;
+	IconListener list;
 	
 	public PiecePanel(char piececolor, int width, int height)
 	{
@@ -79,6 +82,7 @@ public class PiecePanel extends JPanel
 		int w, h;
 		ImageIcon drag;
 		JLabel dragholder;
+		list = new IconListener();
 		
 		for (int i=0; i<21; i++)
 		{
@@ -92,12 +96,18 @@ public class PiecePanel extends JPanel
 		  
 		  drag = new ImageIcon(icons[i].image);
 		  dragholder = new JLabel(drag);
+		  dragholder.addMouseListener(list);
 		  
 		  this.add(dragholder);
 		}
 	}
-  public void changeDraggable(ImageDrag g)
-  {
-    g = icons[4];
-  }
+  
+	public class IconListener extends MouseAdapter
+	{
+	  public void mouseClicked(MouseEvent me)
+	  {
+	    System.out.println("BLAHHH");
+	    System.out.println();
+	  }
+	}
 }
