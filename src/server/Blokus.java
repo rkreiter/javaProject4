@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 public class Blokus{
 	static Scanner in;
 	static startFrame init;
+	static Player players[];
+	static char colors[];
 	
 	public static char interpretResponse(String str, ClientServerSocket c,
 			Board b, Player p){
@@ -80,16 +82,26 @@ public class Blokus{
 			out.println("Got Color!");
 			break;
     	
-    	//END GAME
+		//INITIALIZE PLAYER ARRAY
 		case '5':
+			out.println("Get all Players");
+			Scanner scan1 = new Scanner(str);
+			scan1.next();
+			for(int i = 0; scan1.hasNext(); ++i){
+				players[i] = new Player(scan1.next(), scan1.next().charAt(0));
+			}
+			break;
+						
+    	//END GAME
+		case '6':
 			out.println("Game over");
-			Scanner scan = new Scanner(str);
-			scan.next();
-			if(scan.next().equals(p.getName()))
+			Scanner scan2 = new Scanner(str);
+			scan2.next();
+			if(scan2.next().equals(p.getName()))
 				out.println("YOU WIN!!!!");
 			else
 				out.println("loser....");
-			scan.close();
+			scan2.close();
 			//Kill socket stuff??
 			System.exit(0);
     		break;
@@ -106,15 +118,16 @@ public class Blokus{
 		Player player = null;
 	    String recvdStr;
 	    
+	    players = null;
+	    colors = new char[] {'b', 'r', 'y', 'g'};
+	    
 	    init = new startFrame("Welcome To Blokus");
 	    init.setBackground(Color.BLACK);
 	    init.setSize(600,600);
 	    init.setVisible(true);
 	    init.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
-	    
 	    boolean running = false;
-	    
 	    while(!init.getPlay()){
 	    	if(!running){
 	    		System.out.print("");
@@ -125,7 +138,7 @@ public class Blokus{
 	    theClient = new ClientServerSocket("192.168.1.250", 4000);
 	    theClient.startClient();
 	    
-    	//Get response from server
+    	//Get response from server to get name
     	recvdStr = theClient.getResponse();
     	interpretResponse(recvdStr, theClient, board, player);  
     	
@@ -134,6 +147,8 @@ public class Blokus{
     	nameplayer = new textDial(init, "Name",
 				"   Enter your name:  ");
     	theClient.sendName(nameplayer.getText());
+    	
+    	//get player color
     	recvdStr = theClient.getResponse();
     	interpretResponse(recvdStr, theClient, board, player);
     	out.println(recvdStr.charAt(2));
@@ -142,14 +157,17 @@ public class Blokus{
     	player = new Player(nameplayer.getText(), recvdStr.charAt(2));
     	board.printBoard();
     	
+    	//get all player names from server
+    	recvdStr = theClient.getResponse();
+    	interpretResponse(recvdStr, theClient, board, player);
     	
+    	//Start game for each player
     	Frame frame = new Frame("Blokus");
         
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setVisible(true);
-    	
     	
     	//Start actual game
     	while(true){

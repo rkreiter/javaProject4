@@ -162,8 +162,8 @@ public class ClientServerSocket {
     public boolean sendAllPlayersToClient(Player p[], int client){
     	String s = "5 ";
     	for(int i = 0; i < numPlayers; i++){
-    		s += p[i].getName();
-    		s += p[i].getColor();
+    		s += p[i].getName() + " ";
+    		s += p[i].getColor() + " ";
     	}
     	return sendString(s, client);
     }
@@ -171,7 +171,7 @@ public class ClientServerSocket {
     //Tells all Clients to end game and says winner
     public boolean sendEndGame(String name){
     	for(int i = 0; i < numPlayers; ++i){
-    		sendString("5 " + name, i);
+    		sendString("6 " + name, i);
     	}
     	return true;
     }

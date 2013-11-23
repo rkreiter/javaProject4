@@ -33,7 +33,7 @@ public class StartServer{
 		Player players[];
 		String playerName, playerMove;
 		int numPlayers = -1;
-		char colors[] = new char[] {'b', 'y', 'g', 'r'};
+		char colors[] = new char[] {'b', 'r', 'y', 'g'};
 		//Instant variables
 		int type, x, y;
 		Player player = null;
@@ -55,6 +55,11 @@ public class StartServer{
 	    	playerName = theServer.getPlayerName(i);
 	    	players[i] = new Player(playerName, colors[i]);
 	    	theServer.sendPlayerInfoToClient(players[i], i);
+	    }
+	    
+	    //send all player info to each client for them to make their boards
+	    for(int i = 0; i < numPlayers; ++i){
+	    	theServer.sendAllPlayersToClient(players, i);
 	    }
 
 	    //Actual game logic will loop until winner
