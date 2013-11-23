@@ -153,22 +153,28 @@ public class Blokus{
 		}while(name.contains(" ") || name.isEmpty());
 		
 		theClient.sendName(name);
-    	
+	
+		waitingWin waiting = new waitingWin(init);
+    	waiting.pack();
+    	waiting.setSize(waiting.getWidth()+50, waiting.getHeight()+10);
+        waiting.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	waiting.setVisible(true);
+		
     	//4: get player color
     	recvdStr = theClient.getResponse();
     	interpretResponse(recvdStr, theClient, board, player);
     	out.println(recvdStr.charAt(2));
+    	
+    	System.out.println("before");
     
     	//Initialize stuff
     	player = new Player(nameplayer.getText(), recvdStr.charAt(2));
     	board.printBoard();
     	
-    	waitingWin waiting = new waitingWin(init);
-    	waiting.pack();
-    	waiting.setSize(waiting.getWidth()+50, waiting.getHeight()+10);
-        waiting.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-    	waiting.setVisible(true);
+    	System.out.println("before");
     	
+    	
+    	System.out.println("before");
     	//5: get all player names from server
     	recvdStr = theClient.getResponse();
     	interpretResponse(recvdStr, theClient, board, player);
