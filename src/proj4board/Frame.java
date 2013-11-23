@@ -1,5 +1,7 @@
 package proj4board;
 
+import game.Player;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -20,19 +22,20 @@ public class Frame extends JFrame
   final int SPACESIZE = GRIDSIZE/N;
   private BoardListener mouseListener;
 
-  public Frame(String title)
+  public Frame(String title, Player players[])
   {
     super(title);
     setLayout(new FlowLayout());
     
-    BufferedImage stephen=null, kyle=null, troy=null, asher=null;
+    BufferedImage p[] = new BufferedImage[4];
+    Color[] colors = {Color.BLUE,Color.RED,Color.YELLOW, Color.GREEN};
     
     try
     {
-      stephen = ImageIO.read(new File("src/proj4board/Stephen.png"));
-      kyle = ImageIO.read(new File("src/proj4board/Kyle.png"));
-      troy = ImageIO.read(new File("src/proj4board/Troy.png"));
-      asher = ImageIO.read(new File("src/proj4board/Asher.png"));
+      p[0] = ImageIO.read(new File("src/proj4board/Stephen.png"));
+      p[1] = ImageIO.read(new File("src/proj4board/Kyle.png"));
+      p[2] = ImageIO.read(new File("src/proj4board/Troy.png"));
+      p[3] = ImageIO.read(new File("src/proj4board/Asher.png"));
     }
     catch (IOException e){ System.exit(10);}
     
@@ -49,15 +52,10 @@ public class Frame extends JFrame
     
     JPanel All = new JPanel(new FlowLayout());
     
-    User One = new User("Stephen", stephen, Color.blue);
-    User Two = new User("Kyle", kyle, Color.red);
-    User Three = new User("Troy", troy, Color.yellow);
-    User Four = new User("Asher", asher, Color.green);
-    
-    Players.add(One);
-    Players.add(Two);
-    Players.add(Three);
-    Players.add(Four);
+    for(int i = 0; i < players.length; ++i){
+        User u = new User(players[i].getName(), p[i], colors[i]);
+        Players.add(u);
+    }
     
     ImageIcon grid = new ImageIcon("src/proj4board/Grid.png");
     JLabel gridholder = new JLabel(grid);

@@ -163,7 +163,7 @@ public class Blokus{
     	interpretResponse(recvdStr, theClient, board, player);
     	
     	//Start game for each player
-    	Frame frame = new Frame("Blokus");
+    	Frame frame = new Frame("Blokus", players);
         
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
