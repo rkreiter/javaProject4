@@ -16,7 +16,7 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 {
   Image image;
   boolean clicked;
-  int x=0, y=0;
+  int x=0, y=0, width, height;
   int mouseX, mouseY;
   
   public ImageDrag(Piece p, int size)
@@ -29,6 +29,9 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
   {  
 	int numx = p.getWidth();
 	int numy = p.getHeight();
+	
+	this.width = (numx*size)+1;
+	this.height = (numy*size)+1;
 	
 	try
     { 
@@ -57,7 +60,7 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
     catch(IOException ioe)
     { ioe.printStackTrace(); }
     
-    image = image.getScaledInstance((numx*size)+1, (numy*size)+1, BufferedImage.SCALE_DEFAULT);
+    image = image.getScaledInstance(width, height, BufferedImage.SCALE_DEFAULT);
     this.clicked = false;
   }
   public void paint(Graphics g)

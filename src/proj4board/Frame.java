@@ -3,16 +3,22 @@ package proj4board;
 import game.Piece;
 import game.Player;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 
 public class Frame extends JFrame 
 { 
@@ -34,15 +40,6 @@ public class Frame extends JFrame
     BufferedImage p[] = new BufferedImage[4];
     Color[] colors = {Color.BLUE,Color.RED,Color.YELLOW, Color.GREEN};
     
-    Border bord1, bord2, finalborder;
-    bord1 = new CompoundBorder(
-    		BorderFactory.createMatteBorder(0, 5, 0, 0, Color.BLUE),
-    		BorderFactory.createMatteBorder(5, 0, 0, 0, Color.RED));
-    bord2 = new CompoundBorder(
-    		BorderFactory.createMatteBorder(0, 0, 0, 5, Color.YELLOW),
-    		BorderFactory.createMatteBorder(0, 0, 5, 0, Color.GREEN));
-    finalborder = new CompoundBorder(bord1, bord2);
-    
     try
     {
       p[0] = ImageIO.read(new File("src/images/Board/Avatars/Stephen.png"));
@@ -58,13 +55,10 @@ public class Frame extends JFrame
     JPanel Players = new JPanel(new GridLayout(4,1));
     Players.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
     
-    JPanel Pieces = new JPanel(new GridLayout(2,1));
-    Pieces.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
-    Pieces.setBorder(finalborder);
-    Pieces.setBackground(Color.DARK_GRAY.darker());
-    
     JLayeredPane Board = new JLayeredPane();
     Board.setPreferredSize(new Dimension(GRIDSIZE, GRIDSIZE));
+    
+    JPanel Pieces = new PiecePanel('b', PLAYERWIDTH, GRIDSIZE);
     
     JPanel All = new JPanel(new FlowLayout());
     
