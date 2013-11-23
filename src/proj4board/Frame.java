@@ -1,9 +1,7 @@
 package proj4board;
 
-import game.Piece;
 import game.Player;
 import proj4board.PiecePanel;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -27,13 +24,15 @@ public class Frame extends JFrame {
 	final int PLAYERWIDTH = 300;
 	final int N = 20;
 	final int SPACESIZE = GRIDSIZE/N;
-	private BoardListener mouseListener;
+	//private BoardListener mouseListener;
 
 	public Frame(String title, Player players[]) {
 		//Set up the title and general layout
 		super(title);
 		setLayout(new FlowLayout());
-    
+
+		//Actual game board logic
+		game.Board gameBoard = new game.Board();
 		
 		
 		//Create Player Panel
@@ -65,30 +64,31 @@ public class Frame extends JFrame {
 		ImageIcon grid = new ImageIcon("src/images/Board/Grid.png");
 	    JLabel gridholder = new JLabel(grid);
 	    gridholder.setSize(GRIDSIZE, GRIDSIZE);
-	    Board.add(gridholder, JLayeredPane.DEFAULT_LAYER);
+	    Board.add(gridholder, 2);
+	    //*****DOING THIS in PiecePanel class
 	    //Create actual draggable piece
-	    Piece piece = new Piece(16, 'b');
-	    draggable = new ImageDrag(piece, SPACESIZE);
-	    draggable.setSize(GRIDSIZE, GRIDSIZE);
-	    Board.add(draggable, JLayeredPane.DRAG_LAYER);
-	    mouseListener = new BoardListener();
-	    draggable.addMouseListener(mouseListener);
+	    //Piece piece = new Piece(16, 'b');
+	    //draggable = new ImageDrag(piece, SPACESIZE);
+	    //draggable.setSize(GRIDSIZE, GRIDSIZE);
+	    //Board.add(draggable, JLayeredPane.DRAG_LAYER);
+	    //mouseListener = new BoardListener();
+	    //draggable.addMouseListener(mouseListener);
 
 		
 	    
 		//Create Pieces Panel
-		PiecePanel Pieces = new PiecePanel('b', PLAYERWIDTH, GRIDSIZE);
+		PiecePanel Pieces = new PiecePanel('b', PLAYERWIDTH, GRIDSIZE, Board, gameBoard);
     
 		
 		
 		//Merge panels together
 		JPanel All = new JPanel(new FlowLayout());        
 		All.add(Players);
-		//All.add(Board);
+		All.add(Board);
 		All.add(Pieces);
 		All.setBackground(Color.DARK_GRAY);
 		add(All);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
     
     public class BoardListener extends MouseAdapter {

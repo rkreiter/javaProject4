@@ -18,7 +18,7 @@ public class Board {
 		frame.getContentPane().setBackground(Color.DARK_GRAY);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);   
   }
 }
