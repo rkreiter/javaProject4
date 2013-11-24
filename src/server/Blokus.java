@@ -169,7 +169,6 @@ public class Blokus{
     	
        	//5: get all player names from server
     	recvdStr = theClient.getResponse();
-    	System.out.println(recvdStr);
     	interpretResponse(recvdStr);
     	waiting.setVisible(false);
 

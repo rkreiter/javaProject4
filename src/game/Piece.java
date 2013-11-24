@@ -7,6 +7,7 @@ public class Piece {
 	protected char color;
 	protected boolean placed;
 	protected int type;
+	protected int state;
 	protected int val;
 	protected int width;
 	protected int height;
@@ -17,6 +18,7 @@ public class Piece {
 		color = c;
 		placed = false;
 		this.type = type;
+		state = 0;
 		currentShape = new boolean[PIECE_SIZE][PIECE_SIZE];
 		defaultShape = new boolean[PIECE_SIZE][PIECE_SIZE];
 		switch(type){
@@ -215,7 +217,7 @@ public class Piece {
 				val = 5;
 				break;
 		}
-		copyState();
+		setOriginalState();
 	}
 	
 	//Check if spot is part of piece
@@ -259,12 +261,13 @@ public class Piece {
 	}
 	
 	//This function copies defaultShape into currentShape
-	protected void copyState(){
+	protected void setOriginalState(){
 		for(int i = 0; i < PIECE_SIZE; ++i){
 			for(int j = 0; j < PIECE_SIZE; ++j){
 				currentShape[i][j] = defaultShape[i][j];
 			}
 		}
+		state = 0;
 	}
 
 	//This function removes any empty rows in image
@@ -320,6 +323,16 @@ public class Piece {
 		int tmp = width;
 		width = height;
 		height = tmp;
+		switch (state){
+			case 0: state = 3; break;
+			case 1: state = 0; break;
+			case 2: state = 1; break;
+			case 3: state = 2; break;
+			case 4: state = 7; break;
+			case 5: state = 4; break;
+			case 6: state = 5; break;
+			case 7: state = 6; break;
+		}
 	}
 	
 	//This function rotates currentShape clockwise
@@ -335,6 +348,16 @@ public class Piece {
 		int tmp = width;
 		width = height;
 		height = tmp;
+		switch (state){
+			case 0: state = 1; break;
+			case 1: state = 2; break;
+			case 2: state = 3; break;
+			case 3: state = 0; break;
+			case 4: state = 5; break;
+			case 5: state = 6; break;
+			case 6: state = 7; break;
+			case 7: state = 4; break;
+		}
 	}
 
 	//This function flips currentShape across vertical axis
@@ -348,6 +371,16 @@ public class Piece {
 			}
 		}
 		while(shiftLeft());
+		switch (state){
+			case 0: state = 4; break;
+			case 1: state = 7; break;
+			case 2: state = 6; break;
+			case 3: state = 5; break;
+			case 4: state = 0; break;
+			case 5: state = 3; break;
+			case 6: state = 2; break;
+			case 7: state = 1; break;
+		}
 	}
 	
 	//This function flips currentShape across horizontal axis
@@ -361,6 +394,16 @@ public class Piece {
 			}
 		}
 		while(shiftUp());
+		switch (state){
+			case 0: state = 6; break;
+			case 1: state = 5; break;
+			case 2: state = 4; break;
+			case 3: state = 7; break;
+			case 4: state = 2; break;
+			case 5: state = 1; break;
+			case 6: state = 0; break;
+			case 7: state = 3; break;
+		}
 	}
 
 	
@@ -380,6 +423,7 @@ public class Piece {
 					s += "0";
 			}
 		}
+		s += " " + state;
 		return s;
 	}
 

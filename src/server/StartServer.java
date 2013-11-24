@@ -66,97 +66,121 @@ public class StartServer{
 	    //Actual game logic will loop until winner
 	    board.printBoard();
 	    int turn = 0;
-	    
-	    while(true){
-	    	//Get a valid move from current Player
-	    	theServer.askForMove(turn);
-    		playerMove = theServer.getMove(turn);
-    		String move[] = theServer.parseMove(playerMove);
-	    	
-    		player = players[turn];
-    		type = Integer.parseInt(move[1]);
-    		piece = player.getPiece(type);
-    		x = Integer.parseInt(move[2]);
-			y = Integer.parseInt(move[3]);
-			piece.setState(move[4]);
-			
-    		board.placePiece(x, y, piece);
-			piece.setPlaced();
-			player.updateScore(piece.getValue());
-	    	
-			/* 
-	    	boolean validMove = false;
-	    	do{
-	    		theServer.askForMove(turn);
+	    try{
+		    while(true){
+		    	System.out.println(players[turn].getName() + "'s Move");
+		    	//Get a valid move from current Player
+		    	theServer.askForMove(turn);
 	    		playerMove = theServer.getMove(turn);
 	    		String move[] = theServer.parseMove(playerMove);
-	    		try{
-	    			player = players[turn];
-	    			if(move[0].charAt(0) == player.getColor()){
-	    				type = Integer.parseInt(move[1]);
-	    				if(type >= 0 && type < 21){
-	    					piece = player.getPiece(type);
-	    					if(!piece.isPlaced()){
-	    						x = Integer.parseInt(move[2]);
-	    						y = Integer.parseInt(move[3]);
-	    						if(move[4].length() == 25){
-	    							piece.setState(move[4]);
-	    							if(player.getScore() == 89)
-	    								validMove = board.validInit(x, y, piece);
-	    							else
-	    								validMove = board.validPlace(x, y, piece, false);
-	    							if(validMove){
-	    								board.placePiece(x, y, piece);
-	    								piece.setPlaced();
-	    								player.updateScore(piece.getValue());
-	    							}
-	    						}
-	    					}
-	    				}
-	    			}	    				
-	    		}
-	    		catch(Exception e){}
+	    		player = players[turn];
+	    		type = Integer.parseInt(move[1]);
+	    		piece = player.getPiece(type);
+	    		x = Integer.parseInt(move[2]);
+				y = Integer.parseInt(move[3]);
+				piece.setState(move[4]);
 	    		board.placePiece(x, y, piece);
 				piece.setPlaced();
 				player.updateScore(piece.getValue());
-				
-	    	}while(!validMove);
-	    	*/
-	    	theServer.sendAcknowledgement(turn);
-	    	
-	    	//Send Updates
-	    	System.out.println("Update:   " + playerMove);
-	    	theServer.sendUpdate(playerMove, turn);
-	    	
-	    	//Check if Player has finished
-	    	if(player.getScore() == 0){
-	    		theServer.sendEndGame(player.getName());
-	    		System.exit(0);
-	    	}
-	    	
-	    	//Find next player
-	    	int count = 0;
-	    	do{
-	    		count++;
-	    		turn = (turn + 1) % numPlayers;
-	    		player = players[turn];
-	    		if(count > numPlayers){
-	    			for(int i = 0; i < numPlayers; ++i){
-	    				if(players[i].getScore() < player.getScore())
-	    					player = players[i];
-	    			}
-	    			theServer.sendEndGame(player.getName());
-	    			System.exit(0);
-	    		}
-	    		if(player.isPlayable()){
-	    			if(!board.playerCanPlay(player))
-	    				player.setPlayable(false);
-	    		}
-	    	} while(!player.isPlayable());
-	    	
-	    	//Debugging stuff
-	    	System.out.println(players[turn] + "'s Move");
-	    	board.printBoard();
+		    	
+		    	
+		    	//Send Updates
+				theServer.sendAcknowledgement(turn);
+		    	System.out.println("Update:   " + playerMove);
+		    	theServer.sendUpdate(playerMove, turn);
+		    	
+		    	
+		    	//Check if Player has finished
+		    	if(player.getScore() == 0){
+		    		theServer.sendEndGame(player.getName());
+		    		System.exit(0);
+		    	}
+		    	
+		    	
+		    	//Find next player
+		    	int count = 0;
+		    	do{
+		    		count++;
+		    		turn = (turn + 1) % numPlayers;
+		    		player = players[turn];
+		    		if(count > numPlayers){
+		    			for(int i = 0; i < numPlayers; ++i){
+		    				if(players[i].getScore() < player.getScore())
+		    					player = players[i];
+		    			}
+		    			theServer.sendEndGame(player.getName());
+		    			System.exit(0);
+		    		}
+		    		if(player.isPlayable()){
+		    			if(!board.playerCanPlay(player))
+		    				player.setPlayable(false);
+		    		}
+		    	} while(!player.isPlayable());
+		    	
+		    	//Debugging stuff
+		    	board.printBoard();
+		    }
 	    }
+	    catch(Exception e){
+	    	System.out.println("A player has quit the game");
+	    }
+	    
+	    
+	    //If a connection has been lost send everyone an end game
+	    player = players[0];
+	    for(int i = 1; i < numPlayers; ++i){
+	    	if(players[i].getScore() < player.getScore())
+	    		player = players[i];
+	    }
+	    String name = player.getName();
+	    for(int i = 0; i < numPlayers; ++i){
+	    	try{
+	    		theServer.sendEndGame(name);
+	    	}
+	    	catch(Exception e){
+	    		
+	    	}
+	    }
+	}
+	
+	public void garabage(){
+	/*	This code is to check that string reepresenting a move is correct 
+	boolean validMove = false;
+	do{
+		theServer.askForMove(turn);
+		playerMove = theServer.getMove(turn);
+		String move[] = theServer.parseMove(playerMove);
+		try{
+			player = players[turn];
+			if(move[0].charAt(0) == player.getColor()){
+				type = Integer.parseInt(move[1]);
+				if(type >= 0 && type < 21){
+					piece = player.getPiece(type);
+					if(!piece.isPlaced()){
+						x = Integer.parseInt(move[2]);
+						y = Integer.parseInt(move[3]);
+						if(move[4].length() == 25){
+							piece.setState(move[4]);
+							if(player.getScore() == 89)
+								validMove = board.validInit(x, y, piece);
+							else
+								validMove = board.validPlace(x, y, piece, false);
+							if(validMove){
+								board.placePiece(x, y, piece);
+								piece.setPlaced();
+								player.updateScore(piece.getValue());
+							}
+						}
+					}
+				}
+			}	    				
+		}
+		catch(Exception e){}
+		board.placePiece(x, y, piece);
+		piece.setPlaced();
+		player.updateScore(piece.getValue());
+		
+	}while(!validMove);
+	*/
 	}
 }
