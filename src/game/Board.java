@@ -126,6 +126,7 @@ public class Board
     
     
     //Checks if player still has a move available
+    //*must check all rotatable positions
     public boolean playerCanPlay(final Player player){
     	Piece piece;
     	if(player.score == 89)

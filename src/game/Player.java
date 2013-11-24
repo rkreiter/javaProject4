@@ -7,7 +7,6 @@ public class Player {
 	protected int score;
 	protected boolean playable;
 	protected Piece pieces[];
-	protected int queuedPiece;
 	final int NUM_PIECES = 21;
 	
 	//The Constructor
@@ -15,7 +14,6 @@ public class Player {
 		name = n;
 		color = c;
 		score = 89;
-		queuedPiece = -1;
 		playable = true;
 		pieces = new Piece[NUM_PIECES];
 		for(int i = 0; i < NUM_PIECES; ++i){
@@ -56,11 +54,6 @@ public class Player {
 	//Decrease score
 	public void updateScore(int val){
 		score -= val;
-	}
-	
-	//Get queued piece
-	public Piece getQueuedPiece(){
-		return pieces[queuedPiece];
 	}
 	
 	//Check if player's opening move

@@ -19,10 +19,12 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 
 public class PiecePanel extends JPanel {
+	//Constants
 	final int GRIDSIZE = Frame.GRIDSIZE;
 	final int PLAYERWIDTH = Frame.PLAYERWIDTH;
 	final int N = Frame.N;
 	final int SPACESIZE = GRIDSIZE/N;
+	//Variables for Frame
 	String color;
 	Piece[] pieces;
 	JRadioButton[] clickables;
@@ -31,13 +33,14 @@ public class PiecePanel extends JPanel {
 	JLayeredPane boardPanel;
 	JPanel piecesPanel;
 	JButton submitButton;
+	Frame frame;
+	Image im[];
+	//Game stuff
 	Board board;
 	Player player;
 	Piece piece;
-	Frame frame;
 	
 	public PiecePanel(Frame frame) {
-		//Set the layout, size, background of the panel
 		this.setLayout(new BorderLayout());
 		this.setPreferredSize(new Dimension(PLAYERWIDTH, GRIDSIZE));
 		this.setBackground(Color.DARK_GRAY.darker());
@@ -45,7 +48,7 @@ public class PiecePanel extends JPanel {
 		//Initialize variables
 		boardPanel = frame.boardPanel;
 		this.board = frame.board;
-		this.player = frame.players[frame.playerNum];
+		this.player = frame.player;
 		this.frame = frame;
 		currentPiece = null;
 	  
@@ -60,7 +63,7 @@ public class PiecePanel extends JPanel {
 		finalborder = new CompoundBorder(bord1, bord2);
 		this.setBorder(finalborder);
 	  
-		//Set the piececolor string to grab the images
+		//Set color string to grab the images
 		switch (player.getColor()) {
 			case 'b':
 				color = "Blue";
@@ -76,9 +79,9 @@ public class PiecePanel extends JPanel {
 				break;		
 		}
 		
-		//Grab all the images for that player based on his/her color
-		Image im[] = new Image[21];
-		for (int i=0; i<21; i++) {
+		//Grab all the images for that player based on color
+		im = new Image[21];
+		for (int i = 0; i < 21; ++i) {
 			try {
 				im[i] = ImageIO.read(new File("src/images/" + color 
 						+ "/" + String.valueOf(i) + ".png"));
@@ -95,7 +98,7 @@ public class PiecePanel extends JPanel {
 		ImageIcon icon = null;
 		ButtonListener clicked = new ButtonListener();
 		
-		for (int i=0; i<21; i++) {		  
+		for (int i = 0; i < 21; ++i) {		  
 			pieces[i] = player.getPiece(i);
 			w = (int) (0.75 * (pieces[i].getWidth() * SPACESIZE));
 			h = (int) (0.75 * (pieces[i].getHeight() * SPACESIZE + 1));
@@ -112,10 +115,6 @@ public class PiecePanel extends JPanel {
 		submitButton.addActionListener(new SubmitListener());
 		submitButton.setEnabled(false);
 		this.add(submitButton, BorderLayout.SOUTH);
-
-		//Testing ability to send updates to the board
-		//frame.placePieceOnBoard('b', 0, 0, 1);
-		//frame.placePieceOnBoard('r', 0, 5, 0);
 	}
 	
 	public class ButtonListener implements ActionListener{
@@ -149,6 +148,7 @@ public class PiecePanel extends JPanel {
 				board.placePiece(X, Y, piece);
 				piece.setPlaced();
 				player.updateScore(piece.getValue());
+				frame.users[frame.playerNum].score.setText(String.valueOf(player.getScore()));
 				board.printBoard();
 				currentPiece = null;
 				if(frame.theClient != null){

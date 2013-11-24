@@ -2,28 +2,24 @@ package server;
 
 import static java.lang.System.out;
 import game.Board;
-import game.Piece;
 import game.Player;
 import intro.*;
 import proj4board.*;
-
 import java.awt.Color;
 import java.util.Scanner;
-
 import javax.swing.JFrame;
 
 public class Blokus{
 	static startFrame init;
-	static Player players[];
-	static char colors[];
 	static Frame frame;
-	static Board board;
-	static Player player;
-	static int playerNum;
-	static ClientServerSocket theClient;
+	public static Board board;
+	public static Player players[] = null;
+	public static Player player;
+	public static int playerNum = -1;
+	public static int numPlayers;
+	public static ClientServerSocket theClient;
 	
-	public static char interpretResponse(String str, ClientServerSocket c,
-			Board b, Player p){
+	public static char interpretResponse(String str){
 		switch (str.charAt(0)){
     	//OK
 		case '0':
@@ -40,10 +36,10 @@ public class Blokus{
 						"   Enter the number of players (1-4): ");
 				num = numplayers.getText();
 			}while(!(num).matches("[1-4]"));
-			
-			c.sendString(num, 0);
-			String recvdStr = c.getResponse();
-    	    interpretResponse(recvdStr, c, b, p);
+			theClient.sendString(num, 0);
+	    	
+			String recvdStr = theClient.getResponse();
+	    	interpretResponse(recvdStr);
     		break;
     	
     	//SEND MOVE
@@ -55,14 +51,28 @@ public class Blokus{
     	//DO UPDATE
 		case '3':
 			out.println("Update board");
-			System.out.println(str);
-			String s[] = c.parseMove(str.substring(2));
+			String s[] = theClient.parseMove(str.substring(2));
 			frame.placePieceOnBoard(s);
     		break;
     	
     	//GIVEN PLAYER INFO
 		case '4':
-			out.println("Got Color!");
+			out.println("Got Color!: " + str.charAt(2));
+			switch (str.charAt(2)){
+				case 'b':
+					playerNum = 0;
+					break;
+				case 'r':
+					playerNum = 1;
+					break;
+				case 'y':
+					playerNum = 2;
+					break;
+				case 'g':
+					playerNum = 3;
+					break;
+			}
+			System.out.println(playerNum);
 			break;
     	
 		//INITIALIZE PLAYER ARRAY
@@ -70,11 +80,12 @@ public class Blokus{
 			out.println("Get all Players");
 			Scanner scan1 = new Scanner(str);
 			scan1.next();
-			int numP = scan1.nextInt();
-			players = new Player[numP];
-			for(int i = 0; i < numP; ++i){
+			numPlayers = scan1.nextInt();
+			players = new Player[numPlayers];
+			for(int i = 0; i < numPlayers; ++i){
 				players[i] = new Player(scan1.next(), scan1.next().charAt(0));
 			}
+			scan1.close();
 			break;
 						
     	//END GAME
@@ -82,10 +93,12 @@ public class Blokus{
 			out.println("Game over");
 			Scanner scan2 = new Scanner(str);
 			scan2.next();
-			if(scan2.next().equals(p.getName()))
+			if(scan2.next().equals(player.getName())){
 				out.println("YOU WIN!!!!");
-			else
+			}
+			else{
 				out.println("loser....");
+			}
 			scan2.close();
 			//Kill socket stuff??
 			System.exit(0);
@@ -97,10 +110,10 @@ public class Blokus{
 	public static void main(String[] args){
 		//Game Variables
 		board = new Board();
+		//players array constructed above
 		player = null;
 	    playerNum = 0;
 	    String recvdStr;
-	    colors = new char[] {'b', 'r', 'y', 'g'};
 	    
 	    
 	    //Make Welcome Screen
@@ -126,7 +139,8 @@ public class Blokus{
 	    
     	//0: Get response from server to get name
     	recvdStr = theClient.getResponse();
-    	interpretResponse(recvdStr, theClient, board, player);  
+    	interpretResponse(recvdStr);  
+    	
     	//Send Init Player request and wait for response
     	textDial nameplayer;
     	String name;
@@ -136,6 +150,8 @@ public class Blokus{
 	    	name = nameplayer.getText();
 		}while(name.contains(" ") || name.isEmpty());
 		theClient.sendName(name);
+		
+		//Put up waiting prompt
 		waitingWin waiting = new waitingWin(init);
     	waiting.pack();
     	waiting.setSize(waiting.getWidth()+50, waiting.getHeight()-30);
@@ -145,41 +161,26 @@ public class Blokus{
     	
     	//4: get player color
     	recvdStr = theClient.getResponse();
-    	interpretResponse(recvdStr, theClient, board, player);
-    	out.println(recvdStr.charAt(2));
-    	switch (recvdStr.charAt(2)){
-    		case 'b':
-    			playerNum = 0;
-    			break;
-    		case 'r':
-    			playerNum = 1;
-    			break;
-    		case 'y':
-    			playerNum = 2;
-    			break;
-    		case 'g':
-    			playerNum = 3;
-    			break;
-    	}
-
+    	interpretResponse(recvdStr);
     	
-    	//Initialize stuff
-    	player = new Player(nameplayer.getText(), recvdStr.charAt(2));
-    	board.printBoard();
-
     	
        	//5: get all player names from server
     	recvdStr = theClient.getResponse();
-    	interpretResponse(recvdStr, theClient, board, player);
+    	System.out.println(recvdStr);
+    	interpretResponse(recvdStr);
     	waiting.setVisible(false);
+
+    	//Initialize stuff
+    	player = players[playerNum];
+    	board.printBoard();
     	
     	
     	//Start game for each player
-    	frame = new Frame("Blokus", players, playerNum, theClient);
+    	frame = new Frame("Blokus", board, players, player, playerNum, theClient);
     	frame.getContentPane().setBackground(Color.DARK_GRAY);
-        frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.pack();
         if(playerNum != 0){
         	frame.setPlayerTurn(false);
         }
@@ -189,7 +190,7 @@ public class Blokus{
         //Start actual game
       	while(true){
       		recvdStr = theClient.getResponse();
-      		Blokus.interpretResponse(recvdStr, theClient, board, players[playerNum]);
+      		interpretResponse(recvdStr);
       	}
 	}
 }

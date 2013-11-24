@@ -105,13 +105,15 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 				else
 					validSpot = board.validPlace(xVal, yVal, piece, false);
 				if(validSpot){
-					submitButton.setEnabled(true);
 					//setAlpha((byte) 255);
+					if(submitButton != null)
+						submitButton.setEnabled(true);
 				}
 			}
 			else{
-				submitButton.setEnabled(false);
 				//setAlpha((byte) 50);
+				if(submitButton != null)
+					submitButton.setEnabled(false);
 			}
 			clicked = !clicked;
 			setLocation(Xsnap(e), Ysnap(e));

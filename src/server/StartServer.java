@@ -58,6 +58,7 @@ public class StartServer{
 	    }
 	    
 	    //send all player info to each client for them to make their boards
+	    out.println("Sending All Player's Information");
 	    for(int i = 0; i < numPlayers; ++i){
 	    	theServer.sendAllPlayersToClient(players, i);
 	    }

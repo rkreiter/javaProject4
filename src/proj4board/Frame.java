@@ -2,9 +2,7 @@ package proj4board;
 
 import game.*;
 import proj4board.PiecePanel;
-import server.Blokus;
 import server.ClientServerSocket;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -12,7 +10,6 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -21,25 +18,31 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 public class Frame extends JFrame { 
+	//Constants
 	final static int GRIDSIZE =  680;
 	final static int PLAYERWIDTH = 300;
 	final static int N = 20;
 	final static int SPACESIZE = GRIDSIZE/N;
+	//Display
 	JPanel playersPanel;
 	JLayeredPane boardPanel;
 	PiecePanel pieces;
+	User[] users;
+	//Game Variables
 	Board board;
 	Player[] players;
-	User[] users;
+	Player player;
 	int playerNum;
 	ClientServerSocket theClient;
-
-	public Frame(String title, Player[] playersArray, int playerNum, ClientServerSocket theClient) {
+	
+	public Frame(String title, Board board, Player[] players, Player player, 
+			int playerNum, ClientServerSocket theClient){
 		//Initialize
 		super(title);
 		setLayout(new FlowLayout());
-		board = new Board();
-		this.players = playersArray;
+		this.board = board;
+		this.players = players;
+		this.player = player;
 		this.playerNum = playerNum;
 		this.theClient = theClient;
 		
@@ -105,6 +108,24 @@ public class Frame extends JFrame {
 		
 		board.placePiece(X, Y, curPiece);
 		board.printBoard();
+		
+		int num = 0;
+		switch(color){
+			case 'b':
+				num = 0;
+				break;
+			case 'r':
+				num = 1;
+				break;
+			case 'y':
+				num = 2;
+				break;
+			case 'g':
+				num = 3;
+				break;
+		}
+		players[num].updateScore(curPiece.getValue());
+		users[num].score.setText(String.valueOf(players[num].getScore()));
 	}
 
 	public void setPlayerTurn(boolean bool){
