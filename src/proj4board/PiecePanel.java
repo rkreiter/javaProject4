@@ -136,7 +136,8 @@ public class PiecePanel extends JPanel {
 		}
 	}
 	public class BoardListener extends MouseAdapter {
-    	public int Xloc(MouseEvent e) { 
+	  
+	    public int Xloc(MouseEvent e) { 
     		return e.getX()/SPACESIZE;
     	}
     	public int Yloc(MouseEvent e) { 
@@ -148,9 +149,9 @@ public class PiecePanel extends JPanel {
     	public int Ysnap(MouseEvent e) { 
     		return Yloc(e)*SPACESIZE; 
     	}
-
+    	
     	public void mouseReleased(MouseEvent e) {
-    		if (currentPiece != null && !currentPiece.clicked && currentPiece.inBounds(e)) {
+    		if (currentPiece != null && !currentPiece.clicked && currentPiece.inBounds(e)){
     			System.out.println("Location: " + Xloc(e) + "," + Yloc(e));
     			currentPiece.setLocation(Xsnap(e), Ysnap(e));
     			currentPiece = null;
