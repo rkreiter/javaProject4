@@ -1,5 +1,5 @@
 package proj4board;
-import game.Piece;
+import game.*;
 
 import java.io.*;
 
@@ -13,75 +13,102 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.*;
 
 public class ImageDrag extends JComponent implements MouseMotionListener, MouseListener {
-	Image image;
+	final int GRIDSIZE = Frame.GRIDSIZE;
+	final int N = Frame.N;
+	final int SPACESIZE = GRIDSIZE/N; 
+	BufferedImage image;
+	BufferedImage defaultImage;
 	boolean clicked;
 	int x=0, y=0, width, height, size;
-	int mouseX, mouseY;
+	Board board;
+	Player player;
+	Piece piece;
+	Color color;
   
-	public ImageDrag(Piece p, int size) { 
-		initComponents(p, size);
+	public ImageDrag(Piece piece, int size, Board board, Player player) {
+		this.board = board;
+		this.player = player;
+		this.piece = piece;
+		initComponents(size);
 		addMouseMotionListener(this);
 		addMouseListener(this);
 	}
 	
-	public void initComponents(Piece p, int size) {  
-		int numx = p.getWidth();
-		int numy = p.getHeight();
-	
-		this.width = (numx*size);
-		this.height = (numy*size)+1;
+	public void initComponents(int size) {  
+		this.width = (piece.getWidth() * size);
+		this.height = (piece.getHeight() * size) + 1;
 		this.size = size;
 		this.clicked = false;
-	
 		try { 
-			switch(p.getColor()) {
+			switch(piece.getColor()) {
 				case 'b':
 					image = ImageIO.read(new File("src/images/Blue/"
-							+ p.getType() + ".png"));
+							+ piece.getType() + ".png"));
+					color = Color.BLUE;
 					break;
 				case 'r':
 					image = ImageIO.read(new File("src/images/Red/"
-	  			  			+ p.getType() + ".png"));
+	  			  			+ piece.getType() + ".png"));
+					color = Color.RED;
 					break;
 				case 'y':
 					image = ImageIO.read(new File("src/images/Yellow/"
-	  			  			+ p.getType() + ".png"));
+	  			  			+ piece.getType() + ".png"));
+					color = Color.YELLOW;
 					break;
 				case 'g':
 					image = ImageIO.read(new File("src/images/Green/"
-	  			  			+ p.getType() + ".png"));
+	  			  			+ piece.getType() + ".png"));
+					color = Color.GREEN;
 					break;
 			}
+			defaultImage = image;
+			setAlpha((byte) 50);
 		}
 		catch(IOException ioe) { ioe.printStackTrace(); }
-    
-		image = image.getScaledInstance(width, height, BufferedImage.SCALE_DEFAULT);
+		Image img = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		image = new BufferedImage(width, height, Image.SCALE_REPLICATE);
+		image.getGraphics().drawImage(img, 0, 0, null);
+		
 	}
 	
 	public void paint(Graphics g) {
 		g.drawImage(image, x, y+1, this);
 	}
   
-	public boolean inBounds(MouseEvent me) {
-		return (me.getX() < (680 - (width-size)) && me.getY() < (680 - (height-size)));
+	public boolean inBounds(MouseEvent e) {
+		return (e.getX() < (680 - (width-size)) && e.getY() < (680 - (height-size)));
 	}
   
-	public void mouseMoved(MouseEvent me) {
+	public void mouseMoved(MouseEvent e) {
 		if (!clicked) {
-			x = me.getX();
-			y = me.getY();
+			x = e.getX();
+			y = e.getY();
 			repaint();
 		}
 	}
   
-	public void mouseClicked(MouseEvent me) {
-		if(inBounds(me)){
-			if(clicked){
-				clicked = false;
+	public void mouseClicked(MouseEvent e) {
+		if(inBounds(e)){
+			if(!clicked){
+				int x = Xloc(e);
+				int y = Yloc(e);
+				System.out.println("Location: " + x + "," + y);
+				boolean validSpot = false;
+				if(player.isInit()){
+					validSpot = board.validInit(x, y, piece);
+				}
+				else
+					validSpot = board.validPlace(x, y, piece, false);
+				if(validSpot){
+					setAlpha((byte) 255);
+				}
 			}
 			else{
-				clicked = true;
+				setAlpha((byte) 50);
 			}
+			clicked = !clicked;
+			setLocation(Xsnap(e), Ysnap(e));
 		}
 	}
   
@@ -94,5 +121,38 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 		x = xloc;
 		y = yloc;
 		repaint(); 
+	}
+	
+	public int Xloc(MouseEvent e) { 
+		return e.getX() / SPACESIZE;
+	}
+	public int Yloc(MouseEvent e) { 
+		return e.getY() / SPACESIZE;
+	}
+	public int Xsnap(MouseEvent e) { 
+		return Xloc(e) * SPACESIZE; 
+	}
+	public int Ysnap(MouseEvent e) { 
+		return Yloc(e) * SPACESIZE; 
+	}
+	
+	public void finalize(){
+		removeMouseListener(this);
+		removeMouseMotionListener(this);
+	}
+
+	public void setAlpha(byte alpha) {       
+	    alpha %= 0xff; 
+		for (int cx=0;cx<image.getWidth();cx++) {          
+	        for (int cy=0;cy<image.getHeight();cy++) {
+	            int color = image.getRGB(cx, cy);
+
+	            int mc = (alpha << 24) | 0x00ffffff;
+	            int newcolor = color & mc;
+	            image.setRGB(cx, cy, newcolor);            
+
+	        }
+
+	    }
 	}
 }

@@ -62,4 +62,9 @@ public class Player {
 	public Piece getQueuedPiece(){
 		return pieces[queuedPiece];
 	}
+	
+	//Check if player's opening move
+	public boolean isInit(){
+		return score == 89;
+	}
 }

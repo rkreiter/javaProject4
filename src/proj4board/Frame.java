@@ -1,13 +1,11 @@
 package proj4board;
 
-import game.Player;
+import game.*;
 import proj4board.PiecePanel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,26 +17,24 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 public class Frame extends JFrame { 
-	//public ImageDrag draggable;
-	final int GRIDSIZE =  680;
-	final int PLAYERWIDTH = 300;
-	final int N = 20;
-	final int SPACESIZE = GRIDSIZE/N;
-	//private BoardListener mouseListener;
+	final static int GRIDSIZE =  680;
+	final static int PLAYERWIDTH = 300;
+	final static int N = 20;
+	final static int SPACESIZE = GRIDSIZE/N;
 
 	public Frame(String title, Player players[]) {
-		//Set up the title and general layout
+		//Initialize
 		super(title);
 		setLayout(new FlowLayout());
-
-		//Actual game board logic
-		game.Board gameBoard = new game.Board();
+		Board board = new Board();
+		
+		
 		
 		//Create Player Panel
+		JPanel playersPanel = new JPanel(new GridLayout(4,1));
+		playersPanel.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
 		BufferedImage p[] = new BufferedImage[4];
 		Color[] colors = {Color.BLUE,Color.RED,Color.YELLOW, Color.GREEN};
-		
-		//Get player images
 		try {
 			p[0] = ImageIO.read(new File("src/images/Board/Avatars/Stephen.png"));
 			p[1] = ImageIO.read(new File("src/images/Board/Avatars/Kyle.png"));
@@ -46,63 +42,36 @@ public class Frame extends JFrame {
 			p[3] = ImageIO.read(new File("src/images/Board/Avatars/Asher.png"));
 		}
 		catch (IOException e){ System.exit(10);}
-		//Create panel
-		JPanel Players = new JPanel(new GridLayout(4,1));
-		Players.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
-		//load each user into panel
 		for(int i = 0; i < players.length; ++i){
 	        User u = new User(players[i].getName(), p[i], colors[i]);
-	        Players.add(u);
+	        playersPanel.add(u);
 	    }
 		
 		
 		
 		//Create Board Panel
-		JLayeredPane board = new JLayeredPane();
-		board.setPreferredSize(new Dimension(GRIDSIZE, GRIDSIZE));
-		
-		//Add board image
+		JLayeredPane boardPanel = new JLayeredPane();
+		boardPanel.setPreferredSize(new Dimension(GRIDSIZE, GRIDSIZE));
 		ImageIcon grid = new ImageIcon("src/images/Board/Grid.png");
 	    JLabel gridholder = new JLabel(grid);
 	    gridholder.setSize(GRIDSIZE, GRIDSIZE);
-	    board.add(gridholder, JLayeredPane.DEFAULT_LAYER);
+	    boardPanel.add(gridholder, JLayeredPane.DEFAULT_LAYER);
 	    
 	    
 	    
 		//Create Pieces Panel
-		PiecePanel Pieces = new PiecePanel('b', PLAYERWIDTH, GRIDSIZE, board, gameBoard);
+		PiecePanel Pieces = new PiecePanel(players[1].getColor(), PLAYERWIDTH, 
+				GRIDSIZE, boardPanel, board, players[1]);
     
 		
 		
 		//Merge panels together
-		JPanel All = new JPanel(new FlowLayout());        
-		//All.add(Players);
-		All.add(board);
-		All.add(Pieces);
-		All.setBackground(Color.DARK_GRAY);
-		add(All);
+		JPanel mainPanel = new JPanel(new FlowLayout());        
+		mainPanel.add(playersPanel);
+		mainPanel.add(boardPanel);
+		mainPanel.add(Pieces);
+		mainPanel.setBackground(Color.DARK_GRAY);
+		add(mainPanel);
 		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
-    /*
-    public class BoardListener extends MouseAdapter {
-    	public int Xloc(MouseEvent e) { 
-    		return e.getX()/SPACESIZE;
-    	}
-    	public int Yloc(MouseEvent e) { 
-    		return e.getY()/SPACESIZE;
-    	}
-    	public int Xsnap(MouseEvent e) { 
-    		return Xloc(e)*SPACESIZE; 
-    	}
-    	public int Ysnap(MouseEvent e) { 
-    		return Yloc(e)*SPACESIZE; 
-    	}
-
-    	public void mouseReleased(MouseEvent e) {
-    		if (!draggable.clicked && draggable.inBounds(e)) {
-    			draggable.setLocation(Xsnap(e), Ysnap(e));
-    		}
-    	}
-    }
-    */
 }

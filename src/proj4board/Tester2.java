@@ -5,7 +5,7 @@ import game.*;
 
 import javax.swing.JFrame;
 
-public class Board {
+public class Tester2 {
 	public static void main(String[] args) {
 		Player players[] = new Player[4];
 		players[0] = new Player("Stephen", 'b');

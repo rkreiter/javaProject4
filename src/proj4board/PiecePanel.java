@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -27,23 +26,26 @@ public class PiecePanel extends JPanel {
 	String color;
 	Piece[] pieces;
 	JRadioButton[] clickables;
-	//ImageDrag[] icons;
-	//IconListener list;
 	ImageDrag currentPiece;
 	int currentPieceNum;
-	JLayeredPane board;
-	BoardListener mouseListener;
-	game.Board gameBoard;
+	JLayeredPane boardPanel;
+	JPanel piecesPanel;
+	JButton submitButton;
+	Board board;
+	Player player;
 	
-	public PiecePanel(char piececolor, int width, int height, JLayeredPane b, game.Board gB) {
+	public PiecePanel(char piececolor, int width, int height, 
+			JLayeredPane pane, Board board, Player player) {
 		//Set the layout, size, background of the panel
-		this.setLayout(new FlowLayout());
+		//this.setLayout(new FlowLayout());
+		this.setLayout(new BorderLayout());
 		this.setPreferredSize(new Dimension(width, height));
 		this.setBackground(Color.DARK_GRAY.darker());
 
 		//Initialize variables
-		board = b;
-		gameBoard = gB;
+		boardPanel = pane;
+		this.board = board;
+		this.player = player;
 		currentPiece = null;
 	  
 		//Set the border of the panel
@@ -84,30 +86,15 @@ public class PiecePanel extends JPanel {
 		}
 		
 		//Add all the images to the panel
-		//icons = new ImageDrag[21];		
+		piecesPanel = new JPanel(new FlowLayout());
+		piecesPanel.setBackground(Color.DARK_GRAY.darker());
 		pieces = new Piece[21];
 		clickables = new JRadioButton[21];
-		//JLabel dragholder;
-		//list = new IconListener();
 		int w, h;
 		ImageIcon icon = null;
-		ButtonListener al = new ButtonListener();
+		ButtonListener clicked = new ButtonListener();
 		
-		for (int i=0; i<21; i++) {
-			/*
-			icons[i] = new ImageDrag(pieces[i], SPACESIZE);
-			
-			w = icons[i].width;
-			h = icons[i].height;
-		  
-			icons[i].image = icons[i].image.getScaledInstance(3*w/4, 
-					3*h/4, BufferedImage.SCALE_DEFAULT);
-		  
-			drag = new ImageIcon(icons[i].image);
-			dragholder = new JLabel(drag);
-			clickables[i] = dragholder;
-			dragholder.addMouseListener(list);*/
-		  
+		for (int i=0; i<21; i++) {		  
 			pieces[i] = new Piece(i, piececolor);
 			w = (int) (0.75 * (pieces[i].getWidth() * SPACESIZE));
 			h = (int) (0.75 * (pieces[i].getHeight() * SPACESIZE + 1));
@@ -115,9 +102,14 @@ public class PiecePanel extends JPanel {
 			icon = new ImageIcon(im[i]);
 			clickables[i] = new JRadioButton(icon);
 			clickables[i].setOpaque(false);
-			clickables[i].addActionListener(al);
-			this.add(clickables[i]);
+			clickables[i].addActionListener(clicked);
+			piecesPanel.add(clickables[i]);
 		}
+		this.add(piecesPanel);
+		
+		submitButton = new JButton("Submit Move!");
+		submitButton.addActionListener(new SubmitListener());
+		this.add(submitButton, BorderLayout.SOUTH);
 	}
 	
 	public class ButtonListener implements ActionListener{
@@ -126,16 +118,15 @@ public class PiecePanel extends JPanel {
 				if(e.getSource() == clickables[i]){
 					System.out.println("Piece Num Clicked: " + i);
 					if(currentPiece != null){
-						currentPiece.removeMouseListener(mouseListener);
-						board.remove(currentPiece);
+						boardPanel.remove(currentPiece);
 						clickables[currentPieceNum].setVisible(true);
 					}
 					Piece piece = pieces[i];
-				    currentPiece = new ImageDrag(piece, SPACESIZE);
+				    currentPiece = new ImageDrag(piece, SPACESIZE, board, player);
 				    currentPiece.setSize(GRIDSIZE, GRIDSIZE);
-				    board.add(currentPiece, JLayeredPane.DRAG_LAYER);
-				    mouseListener = new BoardListener();
-				    currentPiece.addMouseListener(mouseListener);
+				    boardPanel.add(currentPiece, JLayeredPane.DRAG_LAYER);
+				    //mouseListener = new BoardListener();
+				    //currentPiece.addMouseListener(mouseListener);
 				    currentPieceNum = i;
 				    clickables[i].setVisible(false);
 				    break;
@@ -143,27 +134,13 @@ public class PiecePanel extends JPanel {
 			}
 		}
 	}
-  
-	public class BoardListener extends MouseAdapter {
-	    public int Xloc(MouseEvent e) { 
-    		return e.getX()/SPACESIZE;
-    	}
-    	public int Yloc(MouseEvent e) { 
-    		return e.getY()/SPACESIZE;
-    	}
-    	public int Xsnap(MouseEvent e) { 
-    		return Xloc(e)*SPACESIZE; 
-    	}
-    	public int Ysnap(MouseEvent e) { 
-    		return Yloc(e)*SPACESIZE; 
-    	}
-    	
-    	public void mouseClicked(MouseEvent e) {
-    		if (currentPiece != null && currentPiece.inBounds(e)){
-    			System.out.println("Location: " + Xloc(e) + "," + Yloc(e));
-    			currentPiece.setLocation(Xsnap(e), Ysnap(e));
-    			currentPiece = null;
-    		}
-    	}
-    }
+	
+  	public class SubmitListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			if(currentPiece != null){
+				currentPiece.finalize();
+				currentPiece = null;
+			}
+		}
+	}
 }
