@@ -20,5 +20,5 @@ public class Board {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);   
-  }
+	}
 }

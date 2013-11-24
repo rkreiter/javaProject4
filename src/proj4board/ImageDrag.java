@@ -75,8 +75,13 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 	}
   
 	public void mouseClicked(MouseEvent me) {
-		if (inBounds(me)) {
-			clicked = true;
+		if(inBounds(me)){
+			if(clicked){
+				clicked = false;
+			}
+			else{
+				clicked = true;
+			}
 		}
 	}
   

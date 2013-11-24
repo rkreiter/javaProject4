@@ -2,21 +2,20 @@ package proj4board;
 
 import game.*;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 
@@ -27,15 +26,14 @@ public class PiecePanel extends JPanel {
 	final int SPACESIZE = GRIDSIZE/N;
 	String color;
 	Piece[] pieces;
-	ImageDrag[] icons;
-	JLabel[] clickables;
-	IconListener list;
+	JRadioButton[] clickables;
+	//ImageDrag[] icons;
+	//IconListener list;
 	ImageDrag currentPiece;
 	int currentPieceNum;
 	JLayeredPane board;
-	private BoardListener mouseListener;
-	private game.Board gameBoard;
-	boolean init = true;
+	BoardListener mouseListener;
+	game.Board gameBoard;
 	
 	public PiecePanel(char piececolor, int width, int height, JLayeredPane b, game.Board gB) {
 		//Set the layout, size, background of the panel
@@ -43,7 +41,7 @@ public class PiecePanel extends JPanel {
 		this.setPreferredSize(new Dimension(width, height));
 		this.setBackground(Color.DARK_GRAY.darker());
 
-		//ASHER's STUFFF!!!!!!
+		//Initialize variables
 		board = b;
 		gameBoard = gB;
 		currentPiece = null;
@@ -86,18 +84,19 @@ public class PiecePanel extends JPanel {
 		}
 		
 		//Add all the images to the panel
+		//icons = new ImageDrag[21];		
 		pieces = new Piece[21];
-		icons = new ImageDrag[21];
-		clickables = new JLabel[21];
+		clickables = new JRadioButton[21];
+		//JLabel dragholder;
+		//list = new IconListener();
 		int w, h;
-		ImageIcon drag;
-		JLabel dragholder;
-		list = new IconListener();
+		ImageIcon icon = null;
+		ButtonListener al = new ButtonListener();
 		
 		for (int i=0; i<21; i++) {
-			pieces[i] = new Piece(i, piececolor);
+			/*
 			icons[i] = new ImageDrag(pieces[i], SPACESIZE);
-		  
+			
 			w = icons[i].width;
 			h = icons[i].height;
 		  
@@ -107,18 +106,27 @@ public class PiecePanel extends JPanel {
 			drag = new ImageIcon(icons[i].image);
 			dragholder = new JLabel(drag);
 			clickables[i] = dragholder;
-			dragholder.addMouseListener(list);
+			dragholder.addMouseListener(list);*/
 		  
-			this.add(dragholder);
+			pieces[i] = new Piece(i, piececolor);
+			w = (int) (0.75 * (pieces[i].getWidth() * SPACESIZE));
+			h = (int) (0.75 * (pieces[i].getHeight() * SPACESIZE + 1));
+			im[i] = im[i].getScaledInstance(w, h, BufferedImage.SCALE_DEFAULT);
+			icon = new ImageIcon(im[i]);
+			clickables[i] = new JRadioButton(icon);
+			clickables[i].setOpaque(false);
+			clickables[i].addActionListener(al);
+			this.add(clickables[i]);
 		}
 	}
-  
-	public class IconListener extends MouseAdapter {
-		public void mouseClicked(MouseEvent me) {
+	
+	public class ButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
 			for(int i = 0; i < clickables.length; ++i){
-				if(me.getSource() == clickables[i]){
+				if(e.getSource() == clickables[i]){
 					System.out.println("Piece Num Clicked: " + i);
 					if(currentPiece != null){
+						currentPiece.removeMouseListener(mouseListener);
 						board.remove(currentPiece);
 						clickables[currentPieceNum].setVisible(true);
 					}
@@ -135,8 +143,8 @@ public class PiecePanel extends JPanel {
 			}
 		}
 	}
+  
 	public class BoardListener extends MouseAdapter {
-	  
 	    public int Xloc(MouseEvent e) { 
     		return e.getX()/SPACESIZE;
     	}
@@ -150,8 +158,8 @@ public class PiecePanel extends JPanel {
     		return Yloc(e)*SPACESIZE; 
     	}
     	
-    	public void mouseReleased(MouseEvent e) {
-    		if (currentPiece != null && !currentPiece.clicked && currentPiece.inBounds(e)){
+    	public void mouseClicked(MouseEvent e) {
+    		if (currentPiece != null && currentPiece.inBounds(e)){
     			System.out.println("Location: " + Xloc(e) + "," + Yloc(e));
     			currentPiece.setLocation(Xsnap(e), Ysnap(e));
     			currentPiece = null;

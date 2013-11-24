@@ -19,7 +19,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 public class Frame extends JFrame { 
-	public ImageDrag draggable;
+	//public ImageDrag draggable;
 	final int GRIDSIZE =  680;
 	final int PLAYERWIDTH = 300;
 	final int N = 20;
@@ -33,8 +33,6 @@ public class Frame extends JFrame {
 
 		//Actual game board logic
 		game.Board gameBoard = new game.Board();
-		
-		setLayout(new FlowLayout());	
 		
 		//Create Player Panel
 		BufferedImage p[] = new BufferedImage[4];
@@ -60,40 +58,32 @@ public class Frame extends JFrame {
 		
 		
 		//Create Board Panel
-		JLayeredPane Board = new JLayeredPane();
-		Board.setPreferredSize(new Dimension(GRIDSIZE, GRIDSIZE));
+		JLayeredPane board = new JLayeredPane();
+		board.setPreferredSize(new Dimension(GRIDSIZE, GRIDSIZE));
 		
 		//Add board image
 		ImageIcon grid = new ImageIcon("src/images/Board/Grid.png");
 	    JLabel gridholder = new JLabel(grid);
 	    gridholder.setSize(GRIDSIZE, GRIDSIZE);
-	    Board.add(gridholder, 2);
-	    //*****DOING THIS in PiecePanel class
-	    //Create actual draggable piece
-	    //Piece piece = new Piece(16, 'b');
-	    //draggable = new ImageDrag(piece, SPACESIZE);
-	    //draggable.setSize(GRIDSIZE, GRIDSIZE);
-	    //Board.add(draggable, JLayeredPane.DRAG_LAYER);
-	    //mouseListener = new BoardListener();
-	    //draggable.addMouseListener(mouseListener);
-
-		
+	    board.add(gridholder, JLayeredPane.DEFAULT_LAYER);
+	    
+	    
 	    
 		//Create Pieces Panel
-		PiecePanel Pieces = new PiecePanel('b', PLAYERWIDTH, GRIDSIZE, Board, gameBoard);
+		PiecePanel Pieces = new PiecePanel('b', PLAYERWIDTH, GRIDSIZE, board, gameBoard);
     
 		
 		
 		//Merge panels together
 		JPanel All = new JPanel(new FlowLayout());        
-		All.add(Players);
-		All.add(Board);
+		//All.add(Players);
+		All.add(board);
 		All.add(Pieces);
 		All.setBackground(Color.DARK_GRAY);
 		add(All);
 		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
-    
+    /*
     public class BoardListener extends MouseAdapter {
     	public int Xloc(MouseEvent e) { 
     		return e.getX()/SPACESIZE;
@@ -114,4 +104,5 @@ public class Frame extends JFrame {
     		}
     	}
     }
+    */
 }
