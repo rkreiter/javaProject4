@@ -172,6 +172,7 @@ public class ClientServerSocket {
     public boolean sendEndGame(String name){
     	for(int i = 0; i < numPlayers; ++i){
     		sendString("6 " + name, i);
+    		closeConnection(i);
     	}
     	return true;
     }
@@ -218,5 +219,12 @@ public class ClientServerSocket {
     //Gets response from server
     public String getResponse(){
     	return recvString(0);
+    }
+    
+    public void closeConnection(int i){
+    	try{
+    		socket[i].close();
+    	}
+    	catch(Exception e){}
     }
 }

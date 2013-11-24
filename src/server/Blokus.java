@@ -18,6 +18,7 @@ public class Blokus{
 	public static int playerNum = -1;
 	public static int numPlayers;
 	public static ClientServerSocket theClient;
+	public static boolean playable = true;
 	
 	public static char interpretResponse(String str){
 		switch (str.charAt(0)){
@@ -100,8 +101,10 @@ public class Blokus{
 				out.println("loser....");
 			}
 			scan2.close();
-			//Kill socket stuff??
-			System.exit(0);
+			theClient.closeConnection(0);
+			//System.exit(0);
+			//HAVE TROY MAKE END GAME SCREEN APPEAR HERE!!!
+			playable = false;
     		break;
 		}
 		return '\0';
@@ -188,7 +191,7 @@ public class Blokus{
         
         
         //Start actual game
-      	while(true){
+      	while(playable){
       		recvdStr = theClient.getResponse();
       		interpretResponse(recvdStr);
       	}
