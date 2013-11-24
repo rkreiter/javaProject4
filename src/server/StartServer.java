@@ -68,6 +68,22 @@ public class StartServer{
 	    
 	    while(true){
 	    	//Get a valid move from current Player
+	    	theServer.askForMove(turn);
+    		playerMove = theServer.getMove(turn);
+    		String move[] = theServer.parseMove(playerMove);
+	    	
+    		player = players[turn];
+    		type = Integer.parseInt(move[1]);
+    		piece = player.getPiece(type);
+    		x = Integer.parseInt(move[2]);
+			y = Integer.parseInt(move[3]);
+			piece.setState(move[4]);
+			
+    		board.placePiece(x, y, piece);
+			piece.setPlaced();
+			player.updateScore(piece.getValue());
+	    	
+			/* 
 	    	boolean validMove = false;
 	    	do{
 	    		theServer.askForMove(turn);
@@ -99,10 +115,16 @@ public class StartServer{
 	    			}	    				
 	    		}
 	    		catch(Exception e){}
+	    		board.placePiece(x, y, piece);
+				piece.setPlaced();
+				player.updateScore(piece.getValue());
+				
 	    	}while(!validMove);
+	    	*/
 	    	theServer.sendAcknowledgement(turn);
 	    	
 	    	//Send Updates
+	    	System.out.println("Update:   " + playerMove);
 	    	theServer.sendUpdate(playerMove, turn);
 	    	
 	    	//Check if Player has finished
@@ -116,6 +138,7 @@ public class StartServer{
 	    	do{
 	    		count++;
 	    		turn = (turn + 1) % numPlayers;
+	    		player = players[turn];
 	    		if(count > numPlayers){
 	    			for(int i = 0; i < numPlayers; ++i){
 	    				if(players[i].getScore() < player.getScore())

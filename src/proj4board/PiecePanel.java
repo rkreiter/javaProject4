@@ -19,9 +19,9 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 
 public class PiecePanel extends JPanel {
-	final int GRIDSIZE =  680;
-	final int PLAYERWIDTH = 300;
-	final int N = 20;
+	final int GRIDSIZE = Frame.GRIDSIZE;
+	final int PLAYERWIDTH = Frame.PLAYERWIDTH;
+	final int N = Frame.N;
 	final int SPACESIZE = GRIDSIZE/N;
 	String color;
 	Piece[] pieces;
@@ -33,19 +33,20 @@ public class PiecePanel extends JPanel {
 	JButton submitButton;
 	Board board;
 	Player player;
+	Piece piece;
+	Frame frame;
 	
-	public PiecePanel(char piececolor, int width, int height, 
-			JLayeredPane pane, Board board, Player player) {
+	public PiecePanel(Frame frame) {
 		//Set the layout, size, background of the panel
-		//this.setLayout(new FlowLayout());
 		this.setLayout(new BorderLayout());
-		this.setPreferredSize(new Dimension(width, height));
+		this.setPreferredSize(new Dimension(PLAYERWIDTH, GRIDSIZE));
 		this.setBackground(Color.DARK_GRAY.darker());
 
 		//Initialize variables
-		boardPanel = pane;
-		this.board = board;
-		this.player = player;
+		boardPanel = frame.boardPanel;
+		this.board = frame.board;
+		this.player = frame.players[frame.playerNum];
+		this.frame = frame;
 		currentPiece = null;
 	  
 		//Set the border of the panel
@@ -60,7 +61,7 @@ public class PiecePanel extends JPanel {
 		this.setBorder(finalborder);
 	  
 		//Set the piececolor string to grab the images
-		switch (piececolor) {
+		switch (player.getColor()) {
 			case 'b':
 				color = "Blue";
 				break;
@@ -95,7 +96,7 @@ public class PiecePanel extends JPanel {
 		ButtonListener clicked = new ButtonListener();
 		
 		for (int i=0; i<21; i++) {		  
-			pieces[i] = new Piece(i, piececolor);
+			pieces[i] = player.getPiece(i);
 			w = (int) (0.75 * (pieces[i].getWidth() * SPACESIZE));
 			h = (int) (0.75 * (pieces[i].getHeight() * SPACESIZE + 1));
 			im[i] = im[i].getScaledInstance(w, h, BufferedImage.SCALE_DEFAULT);
@@ -109,7 +110,12 @@ public class PiecePanel extends JPanel {
 		
 		submitButton = new JButton("Submit Move!");
 		submitButton.addActionListener(new SubmitListener());
+		submitButton.setEnabled(false);
 		this.add(submitButton, BorderLayout.SOUTH);
+
+		//Testing ability to send updates to the board
+		//frame.placePieceOnBoard('b', 0, 0, 1);
+		//frame.placePieceOnBoard('r', 0, 5, 0);
 	}
 	
 	public class ButtonListener implements ActionListener{
@@ -121,12 +127,10 @@ public class PiecePanel extends JPanel {
 						boardPanel.remove(currentPiece);
 						clickables[currentPieceNum].setVisible(true);
 					}
-					Piece piece = pieces[i];
-				    currentPiece = new ImageDrag(piece, SPACESIZE, board, player);
+					piece = pieces[i];
+				    currentPiece = new ImageDrag(piece, SPACESIZE, board, player, submitButton);
 				    currentPiece.setSize(GRIDSIZE, GRIDSIZE);
 				    boardPanel.add(currentPiece, JLayeredPane.DRAG_LAYER);
-				    //mouseListener = new BoardListener();
-				    //currentPiece.addMouseListener(mouseListener);
 				    currentPieceNum = i;
 				    clickables[i].setVisible(false);
 				    break;
@@ -138,8 +142,19 @@ public class PiecePanel extends JPanel {
   	public class SubmitListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			if(currentPiece != null){
+				submitButton.setEnabled(false);
+				int X = currentPiece.xVal;
+				int Y = currentPiece.yVal;
 				currentPiece.finalize();
+				board.placePiece(X, Y, piece);
+				piece.setPlaced();
+				player.updateScore(piece.getValue());
+				board.printBoard();
 				currentPiece = null;
+				if(frame.theClient != null){
+					frame.setPlayerTurn(false);
+					frame.theClient.sendMove(piece.toString(X, Y));
+				}
 			}
 		}
 	}

@@ -13,7 +13,7 @@ public class Tester2 {
 		players[2] = new Player("Troy", 'y');
 		players[3] = new Player("Asher", 'g');
 	
-		Frame frame = new Frame("Blokus", players);
+		Frame frame = new Frame("Blokus", players, 1, null);
     
 		frame.getContentPane().setBackground(Color.DARK_GRAY);
 		frame.pack();

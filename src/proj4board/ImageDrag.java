@@ -1,37 +1,37 @@
 package proj4board;
 import game.*;
-
 import java.io.*;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.*;
 
 public class ImageDrag extends JComponent implements MouseMotionListener, MouseListener {
 	final int GRIDSIZE = Frame.GRIDSIZE;
 	final int N = Frame.N;
 	final int SPACESIZE = GRIDSIZE/N; 
-	BufferedImage image;
-	BufferedImage defaultImage;
+	Image image;
+	//BufferedImage defaultImage;
 	boolean clicked;
 	int x=0, y=0, width, height, size;
+	int xVal = 0, yVal = 0;
 	Board board;
 	Player player;
 	Piece piece;
 	Color color;
+	JButton submitButton;
   
-	public ImageDrag(Piece piece, int size, Board board, Player player) {
+	public ImageDrag(Piece piece, int size, Board board, Player player, JButton submit) {
 		this.board = board;
 		this.player = player;
 		this.piece = piece;
+		this.submitButton = submit;
 		initComponents(size);
 		addMouseMotionListener(this);
 		addMouseListener(this);
+		piece.printShape();
 	}
 	
 	public void initComponents(int size) {  
@@ -62,13 +62,17 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 					color = Color.GREEN;
 					break;
 			}
-			defaultImage = image;
-			setAlpha((byte) 50);
+			//defaultImage = image;
+			//setAlpha((byte) 50);
+			if(submitButton != null){
+				submitButton.setEnabled(false);
+			}
 		}
 		catch(IOException ioe) { ioe.printStackTrace(); }
-		Image img = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		image = new BufferedImage(width, height, Image.SCALE_REPLICATE);
-		image.getGraphics().drawImage(img, 0, 0, null);
+		image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		//img = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		//image = new BufferedImage(width, height, Image.SCALE_REPLICATE);
+		//image.getGraphics().drawImage(img, 0, 0, null);
 		
 	}
 	
@@ -91,21 +95,23 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 	public void mouseClicked(MouseEvent e) {
 		if(inBounds(e)){
 			if(!clicked){
-				int x = Xloc(e);
-				int y = Yloc(e);
-				System.out.println("Location: " + x + "," + y);
+				xVal = Yloc(e);
+				yVal = Xloc(e);
+				System.out.println("Location: " + xVal + "," + yVal);
 				boolean validSpot = false;
 				if(player.isInit()){
-					validSpot = board.validInit(x, y, piece);
+					validSpot = board.validInit(xVal, yVal, piece);
 				}
 				else
-					validSpot = board.validPlace(x, y, piece, false);
+					validSpot = board.validPlace(xVal, yVal, piece, false);
 				if(validSpot){
-					setAlpha((byte) 255);
+					submitButton.setEnabled(true);
+					//setAlpha((byte) 255);
 				}
 			}
 			else{
-				setAlpha((byte) 50);
+				submitButton.setEnabled(false);
+				//setAlpha((byte) 50);
 			}
 			clicked = !clicked;
 			setLocation(Xsnap(e), Ysnap(e));
@@ -140,7 +146,7 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 		removeMouseListener(this);
 		removeMouseMotionListener(this);
 	}
-
+/*
 	public void setAlpha(byte alpha) {       
 	    alpha %= 0xff; 
 		for (int cx=0;cx<image.getWidth();cx++) {          
@@ -152,7 +158,7 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 	            image.setRGB(cx, cy, newcolor);            
 
 	        }
-
 	    }
 	}
+*/	
 }

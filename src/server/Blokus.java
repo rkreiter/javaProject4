@@ -13,10 +13,14 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 
 public class Blokus{
-	static Scanner in;
 	static startFrame init;
 	static Player players[];
 	static char colors[];
+	static Frame frame;
+	static Board board;
+	static Player player;
+	static int playerNum;
+	static ClientServerSocket theClient;
 	
 	public static char interpretResponse(String str, ClientServerSocket c,
 			Board b, Player p){
@@ -45,36 +49,15 @@ public class Blokus{
     	//SEND MOVE
 		case '2':
 			out.println("Send server move");
-			int piece, x, y;
-			boolean loop = false;
-			do{
-				piece = in.nextInt();
-				x = in.nextInt();
-				y = in.nextInt();
-				if(p.getScore() == 89)
-					loop = b.validInit(x, y, p.getPiece(piece));
-				else
-					loop = b.validPlace(x, y, p.getPiece(piece), false);
-			}while(!loop);
-			b.placePiece(x, y, p.getPiece(piece));
-			p.getPiece(piece).setPlaced();
-			p.updateScore(p.getPiece(piece).getValue());
-			c.sendMove(p.getPiece(piece).toString(x, y));
-			b.printBoard();
+			frame.setPlayerTurn(true);
     		break;
     	
     	//DO UPDATE
 		case '3':
 			out.println("Update board");
+			System.out.println(str);
 			String s[] = c.parseMove(str.substring(2));
-			char color = s[0].charAt(0);
-			int type = Integer.parseInt(s[1]);
-			Piece curPiece = new Piece(type, color);
-			int X = Integer.parseInt(s[2]);
-			int Y = Integer.parseInt(s[3]);
-			curPiece.setState(s[4]);
-			b.placePiece(X, Y, curPiece);
-			b.printBoard();
+			frame.placePieceOnBoard(s);
     		break;
     	
     	//GIVEN PLAYER INFO
@@ -112,22 +95,20 @@ public class Blokus{
 	}
 	
 	public static void main(String[] args){
-		in = new Scanner(System.in);
-	    //Client Stuff
-		ClientServerSocket theClient;
 		//Game Variables
-		Board board = new Board();
-		Player player = null;
+		board = new Board();
+		player = null;
+	    playerNum = 0;
 	    String recvdStr;
-	    
 	    colors = new char[] {'b', 'r', 'y', 'g'};
 	    
+	    
+	    //Make Welcome Screen
 	    init = new startFrame("Welcome To Blokus");
 	    init.setBackground(Color.BLACK);
 	    init.setSize(600,600);
 	    init.setVisible(true);
 	    init.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    
 	    boolean running = false;
 	    while(!init.getPlay()){
 	    	if(!running){
@@ -135,14 +116,17 @@ public class Blokus{
 	    		running = true;
 	    	}
 	    }
-	    //Create Client
+	    
+	    
+	    //Create Client after Start button hit
 	    theClient = new ClientServerSocket("192.168.56.1", 4000);
 	    theClient.startClient();
+	    
+	    
 	    
     	//0: Get response from server to get name
     	recvdStr = theClient.getResponse();
     	interpretResponse(recvdStr, theClient, board, player);  
-    	
     	//Send Init Player request and wait for response
     	textDial nameplayer;
     	String name;
@@ -151,43 +135,61 @@ public class Blokus{
 					"   Enter your name (no spaces allowed):  ");
 	    	name = nameplayer.getText();
 		}while(name.contains(" ") || name.isEmpty());
-		
 		theClient.sendName(name);
-	
 		waitingWin waiting = new waitingWin(init);
     	waiting.pack();
     	waiting.setSize(waiting.getWidth()+50, waiting.getHeight()-30);
         waiting.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     	waiting.setVisible(true);
 		
+    	
     	//4: get player color
     	recvdStr = theClient.getResponse();
     	interpretResponse(recvdStr, theClient, board, player);
     	out.println(recvdStr.charAt(2));
-    	    
+    	switch (recvdStr.charAt(2)){
+    		case 'b':
+    			playerNum = 0;
+    			break;
+    		case 'r':
+    			playerNum = 1;
+    			break;
+    		case 'y':
+    			playerNum = 2;
+    			break;
+    		case 'g':
+    			playerNum = 3;
+    			break;
+    	}
+
+    	
     	//Initialize stuff
     	player = new Player(nameplayer.getText(), recvdStr.charAt(2));
     	board.printBoard();
-    	    	
+
+    	
        	//5: get all player names from server
     	recvdStr = theClient.getResponse();
     	interpretResponse(recvdStr, theClient, board, player);
-
     	waiting.setVisible(false);
     	
+    	
     	//Start game for each player
-    	Frame frame = new Frame("Blokus", players);
-        
+    	frame = new Frame("Blokus", players, playerNum, theClient);
+    	frame.getContentPane().setBackground(Color.DARK_GRAY);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        if(playerNum != 0){
+        	frame.setPlayerTurn(false);
+        }
         frame.setVisible(true);
-    	
-    	//Start actual game
-    	while(true){
-    		recvdStr = theClient.getResponse();
-    		interpretResponse(recvdStr, theClient, board, player);
-    	}
-	 
+        
+        
+        //Start actual game
+      	while(true){
+      		recvdStr = theClient.getResponse();
+      		Blokus.interpretResponse(recvdStr, theClient, board, players[playerNum]);
+      	}
 	}
 }
