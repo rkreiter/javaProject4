@@ -26,6 +26,7 @@ public class startFrame extends JFrame
   JButton about;
   startFrame main = this;
   loginActionListener lac = new loginActionListener();
+  loginDial log;
 
   JLabel title;
   JPanel buttons = new JPanel(new GridLayout(5,1));
@@ -135,12 +136,19 @@ public class startFrame extends JFrame
   class loginActionListener implements ActionListener{
     public void actionPerformed(ActionEvent e){
       //open login win
-      loginDial log = new loginDial(main,"Login", "   Enter username: ");
+      log = new loginDial(main,"Login", "   Enter username: ");
+      log.pack();
+      log.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      log.getContentPane().setBackground(Color.BLACK);
+      log.setVisible(true);
       System.out.println("LOGIN");
     }
   }
   
   public char getPlay(){
 	  return playGame;
+  }
+  public String getUsername(){
+	  return log.getName();
   }
 }

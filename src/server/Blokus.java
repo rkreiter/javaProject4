@@ -144,7 +144,7 @@ public class Blokus{
 	    
 	    
 	    //Create Client after Start button hit
-	    theClient = new ClientServerSocket("192.168.1.213", 4000);
+	    theClient = new ClientServerSocket("192.168.1.250", 4000);
 	    theClient.startClient();
 	    
 	    
@@ -154,6 +154,7 @@ public class Blokus{
     	interpretResponse(recvdStr);  
     	
     	//Send Init Player request and wait for response
+    	/*if(init.getPlay() == 'l'){
     	textDial nameplayer;
     	String name;
 		do{
@@ -161,7 +162,9 @@ public class Blokus{
 					"   Enter your name (no spaces allowed):  ");
 	    	name = nameplayer.getText();
 		}while(name.contains(" ") || name.isEmpty());
-		theClient.sendName(name);
+		*/
+		if(init.getPlay() == 'o')
+			theClient.sendName(init.getUsername());
 		
 		//Put up waiting prompt
 		waitingWin waiting = new waitingWin(init);

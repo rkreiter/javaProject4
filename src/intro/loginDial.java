@@ -1,10 +1,17 @@
 package intro;
 
-import java.awt.event.ActionEvent; 
-import java.awt.event.ActionListener; 
-import java.awt.FlowLayout;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 
 public class loginDial extends JDialog
@@ -98,11 +105,10 @@ public class loginDial extends JDialog
     getContentPane().setBackground(Color.BLACK);
 
     pack();
-    setVisible(true);
   }
   
   //returns what the user entered in the text field
-  public String getText()
+  public String getName()
   {
     return (username.getText());
   }
