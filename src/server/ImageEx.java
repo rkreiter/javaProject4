@@ -73,16 +73,19 @@ public class ImageEx extends JFrame
          * @return The rotated image
          */
         public Image rotate(Image img, double angle){
-            BufferedImage bimg = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+            double sin = Math.abs(Math.sin(Math.toRadians(angle))), cos = Math.abs(Math.cos(Math.toRadians(angle)));
+            int w = img.getWidth(null), h = img.getHeight(null);
+            int neww = (int) Math.floor(w * cos + h * sin), newh = (int) Math.floor(h
+                    * cos + w * sin);
+            BufferedImage bimg = new BufferedImage(neww, newh, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g = bimg.createGraphics();
-            AffineTransform tx = new AffineTransform();
-            tx.rotate(Math.toRadians(angle), img.getWidth(null) / 2, img.getHeight(null) / 2);
-            g.drawRenderedImage(toBufferedImage(img), tx);
+            g.translate((neww - w) / 2, (newh - h) / 2);
+            g.rotate(Math.toRadians(angle), w / 2, h / 2);
+            g.drawRenderedImage(toBufferedImage(img), null);
             g.dispose();
-
             return (Image)bimg;
         }
-
+        
         /**
          * Flips a new copy of the image.
          * 
