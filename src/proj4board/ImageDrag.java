@@ -40,6 +40,55 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 		this.height = (piece.getHeight() * size) + 1;
 		clicked = false;
 	}
+	
+	//Sets the display image to the correct thing THAT IS IT
+	public void setToState(int state){
+		switch(state){
+			case 0:
+				lightImage = initLight;
+				darkImage = initDark;
+				break;
+			case 1:
+				lightImage = rotateImage(initLight, 90);
+				darkImage = rotateImage(initDark, 90);
+				break;
+			case 2:
+				lightImage = rotateImage(initLight, 180);
+				darkImage = rotateImage(initDark, 180);
+				break;
+			case 3:
+				lightImage = rotateImage(initLight, -90);
+				darkImage = rotateImage(initDark, -90);
+				break;
+			case 4:
+				lightImage = flipImage(initLight);
+				darkImage = flipImage(initDark);
+				lightImage = rotateImage(lightImage, 180);
+				darkImage = rotateImage(darkImage, 180);
+				break;
+			case 5:
+				lightImage = flipImage(initLight);
+				darkImage = flipImage(initDark);
+				lightImage = rotateImage(lightImage, -90);
+				darkImage = rotateImage(darkImage, -90);
+				break;
+			case 6:
+				lightImage = flipImage(initLight);
+				darkImage = flipImage(initDark);
+				break;
+			case 7:
+				lightImage = flipImage(initLight);
+				darkImage = flipImage(initDark);
+				lightImage = rotateImage(lightImage, 90);
+				darkImage = rotateImage(darkImage, 90);
+				break;
+		}
+		lightImage = lightImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		darkImage = darkImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		if(player != null){
+			translatePieceHelper();
+		}
+	}
   
 	public ImageDrag(Piece piece, int size, Board board, Player player, JButton submit) {
 		this.board = board;
@@ -93,12 +142,11 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 			}
 		}
 		catch(IOException ioe) { ioe.printStackTrace(); }
-		lightImage = lightImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		darkImage = darkImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		initDark = darkImage;
 		initLight = lightImage;
+		lightImage = lightImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		darkImage = darkImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		image = lightImage;
-		
 	}
 	
 	public void paint(Graphics g) {
@@ -175,8 +223,12 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 		removeMouseMotionListener(this);
 	}
 	
+	
+	
+	//Only called When it is the current players move! NOT UPDATE
 	public void translatePieceHelper(){
 		System.out.println("Location: " + xVal + "," + yVal + "   State: " + piece.getState());
+		piece.printShape();
 		image = lightImage;
 		submitButton.setEnabled(false);
 		boolean validSpot = false;
@@ -191,38 +243,55 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 				submitButton.setEnabled(true);
 		}
 		repaint();
-		piece.printShape();
+	}
+
+	public void updatePieceHelper(){
+		System.out.println("Location: " + xVal + "," + yVal + "   State: " + piece.getState());
+		image = lightImage;
+		repaint();
 	}
 	
 	
+	
+	//Functions called by PiecePanel
+	public void ImageDragRC(){
+		rotateClockwise();
+		setToState(piece.getState());
+	}
+	
+	public void ImageDragRCC(){
+		rotateCounterClockwise();
+		setToState(piece.getState());
+	}
+	
+	public void ImageDragFlip(){
+		flip();
+		setToState(piece.getState());
+	}
+	
+	
+	
+	
+	//Internal Functions to make ONLY THE PIECE CHANGE
 	public void rotateClockwise(){
 		piece.rotateClockwise();
-		int tmp = width;
-		width = height;
-		height = tmp;
-		darkImage = rotateImage(darkImage, 90);
-		lightImage = rotateImage(lightImage, 90);
-		translatePieceHelper();
+		this.width = (piece.getWidth() * size);
+		this.height = (piece.getHeight() * size) + 1;
 	}
 	
 	public void rotateCounterClockwise(){
 		piece.rotateCounterClockwise();
-		int tmp = width;
-		width = height;
-		height = tmp;
-		darkImage = rotateImage(darkImage, -90);
-		lightImage = rotateImage(lightImage, -90);
-		translatePieceHelper();
+		this.width = (piece.getWidth() * size);
+		this.height = (piece.getHeight() * size) + 1;
 	}
 	
 	public void flip(){
 		piece.flipHorizontalAxis();
-		darkImage = flipImage(darkImage);
-		lightImage = flipImage(lightImage);
-		translatePieceHelper();
 	}
 	
 	
+	
+	//Functions to Change THE IMAGE ONLY!!
     public Image rotateImage(Image img, double angle){
         double sin = Math.abs(Math.sin(Math.toRadians(angle))), cos = Math.abs(Math.cos(Math.toRadians(angle)));
         int w = img.getWidth(null), h = img.getHeight(null);

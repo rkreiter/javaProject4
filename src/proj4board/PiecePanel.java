@@ -128,7 +128,7 @@ public class PiecePanel extends JPanel {
 		rcButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(currentPiece != null){
-					currentPiece.rotateClockwise();
+					currentPiece.ImageDragRC();
 				}
 			}
 		});
@@ -136,7 +136,7 @@ public class PiecePanel extends JPanel {
 		rccButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(currentPiece != null){
-					currentPiece.rotateCounterClockwise();
+					currentPiece.ImageDragRCC();
 				}
 			}
 		});
@@ -144,7 +144,7 @@ public class PiecePanel extends JPanel {
 		flipButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(currentPiece != null){
-					currentPiece.flip();
+					currentPiece.ImageDragFlip();
 				}
 			}
 		});

@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -110,23 +111,24 @@ public class Frame extends JFrame {
 		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 	
-	public void placePieceOnBoard(String moveArray[]){
+	public void placePieceOnBoard(String move){
+		String moveArray[] = new String[6];
+		Scanner scan = new Scanner(move);
+		for(int i = 0; i < 6; ++i){
+			moveArray[i] = scan.next();
+		}
+		scan.close();
+		
 		char color = moveArray[0].charAt(0);
 		int type = Integer.parseInt(moveArray[1]);
 		Piece curPiece = new Piece(type, color);
 		int X = Integer.parseInt(moveArray[2]);
 		int Y = Integer.parseInt(moveArray[3]);
-		curPiece.setState(moveArray[4]);
+		//curPiece.setState(moveArray[4]);
+		int state = Integer.parseInt(moveArray[5]);
 
-		ImageDrag currentPiece = new ImageDrag(curPiece, SPACESIZE, board, null, null);
-	    currentPiece.setSize(GRIDSIZE, GRIDSIZE);
-	    boardPanel.add(currentPiece, JLayeredPane.DRAG_LAYER);
-	    currentPiece.setLocation(Y * SPACESIZE, X * SPACESIZE);
-	    currentPiece.finalize();
-		
-		board.placePiece(X, Y, curPiece);
-		board.printBoard();
-		
+		//Local Player
+		Player updatePlayer;
 		int num = 0;
 		switch(color){
 			case 'b':
@@ -142,8 +144,53 @@ public class Frame extends JFrame {
 				num = 3;
 				break;
 		}
-		players[num].updateScore(curPiece.getValue());
-		users[num].score.setText(String.valueOf(players[num].getScore()));
+		updatePlayer = players[num];
+		
+		
+		
+		ImageDrag currentPiece = new ImageDrag(curPiece, SPACESIZE, board, null, null);
+	    currentPiece.setSize(GRIDSIZE, GRIDSIZE);
+	    boardPanel.add(currentPiece, JLayeredPane.DRAG_LAYER);
+	    currentPiece.setLocation(Y * SPACESIZE, X * SPACESIZE);
+	    switch (state){
+	    case 0:
+			break;
+		case 1:
+			currentPiece.rotateClockwise();
+			break;
+		case 2:
+			currentPiece.rotateClockwise();
+			currentPiece.rotateClockwise();
+			break;
+		case 3:
+			currentPiece.rotateCounterClockwise();
+			break;
+		case 4:
+			currentPiece.flip();
+			currentPiece.rotateClockwise();
+			currentPiece.rotateClockwise();
+			break;
+		case 5:
+			currentPiece.flip();
+			currentPiece.rotateCounterClockwise();
+			break;
+		case 6:
+			currentPiece.flip();
+			break;
+		case 7:
+			currentPiece.flip();
+			currentPiece.rotateClockwise();
+			break;
+	    }
+	    currentPiece.setToState(currentPiece.piece.getState());
+	    currentPiece.updatePieceHelper();
+	    currentPiece.finalize();
+		
+		board.placePiece(X, Y, curPiece);
+		board.printBoard();
+		
+		updatePlayer.updateScore(curPiece.getValue());
+		users[num].score.setText(String.valueOf(updatePlayer.getScore()));
 	}
 
 	public void setPlayerTurn(boolean bool){

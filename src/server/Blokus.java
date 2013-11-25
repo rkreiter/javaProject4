@@ -52,8 +52,7 @@ public class Blokus{
     	//DO UPDATE
 		case '3':
 			out.println("Update board");
-			String s[] = theClient.parseMove(str.substring(2));
-			frame.placePieceOnBoard(s);
+			frame.placePieceOnBoard(str.substring(2));
     		break;
     	
     	//GIVEN PLAYER INFO
@@ -154,7 +153,7 @@ public class Blokus{
     	interpretResponse(recvdStr);  
     	
     	//Send Init Player request and wait for response
-    	/*if(init.getPlay() == 'l'){
+    	/*if(init.getPlay() == 'l'){+-
     	textDial nameplayer;
     	String name;
 		do{
