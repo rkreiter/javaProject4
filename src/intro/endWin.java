@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class endWin extends JDialog
 {
@@ -26,11 +27,11 @@ public class endWin extends JDialog
     textPanel = new JPanel(new BorderLayout());
   
     if(lw == 'l'){
-    	head = new JLabel("YOU LOSE...");
+    	head = new JLabel("YOU LOSE...", SwingConstants.CENTER);
     	head.setForeground(Color.RED);
     }
     else{
-    	head = new JLabel("YOU WIN!!!");
+    	head = new JLabel("YOU WIN!!!", SwingConstants.CENTER);
     	head.setForeground(Color.GREEN);
     }
 
