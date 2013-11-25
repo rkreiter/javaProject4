@@ -5,9 +5,9 @@ import java.sql.*;
 
 public class BlokusDB {
 
-	static Connection conn;
+	Connection conn;
 	
-	public static void main(String[] args) {
+	public BlokusDB() {
 		String connInfo = "jdbc:sqlite:src/database/GameDB";
 		try
 		{
@@ -25,7 +25,7 @@ public class BlokusDB {
 		}
 	}
 	
-	public static boolean createUser(String userName, String password)
+	public boolean createUser(String userName, String password)
 	{
 		boolean valid = false;
 		try
@@ -33,15 +33,19 @@ public class BlokusDB {
 			Statement statement = conn.createStatement();
 			statement.setQueryTimeout(30);
 			ResultSet res = statement.executeQuery("SELECT UserId FROM PlayerInfo "
-									+ "WHERE UserName = " + userName + ";");
-			valid = !res.first();
-			if(valid)
+									+ "WHERE UserName = '" + userName + "';");
+			
+			if(!res.next())
 			{
+				valid = true;
 				statement.executeUpdate("INSERT INTO PlayerInfo "
 									+ "(UserName, Password, Wins, Losses) "
-									+ "VALUES (" + userName + ", " + password + ", 0, 0);");
+									+ "VALUES ('" + userName + "', '" + password + "', 0, 0);");
 				out.println("Entered " + userName + " into the table.");
 			}
+			else out.println("Create user invalid");
+			res.close();
+			statement.close();
 		}
 		catch(SQLException sqlEx)
 		{
@@ -52,7 +56,7 @@ public class BlokusDB {
 		return valid;
 	}
 	
-	public static boolean userLogin(String userName, String password)
+	public boolean userLogin(String userName, String password)
 	{
 		boolean loggedIn = false;
 		try
@@ -61,11 +65,16 @@ public class BlokusDB {
 			statement.setQueryTimeout(30);
 			ResultSet res = statement.executeQuery("SELECT UserId, Password "
 									+ "FROM PlayerInfo "
-									+ "WHERE UserName = " + userName + ";");
+									+ "WHERE UserName = '" + userName + "';");
 		
 			//if there is a user with this username
-			if(res.first())
-				if(res.getString("Password") == password) loggedIn = true;
+			if(res.next()){
+				if(res.getString("Password").equals(password)) loggedIn = true;
+				else out.println("Wrong Password. Password Should Be: " + res.getString("Password"));
+			}
+			else out.println("Invalid Username");
+			res.close();
+			statement.close();
 		}
 		catch(SQLException sqlEx)
 		{

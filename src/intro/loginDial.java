@@ -64,13 +64,14 @@ public class loginDial extends JDialog
                                   {
                                     public void actionPerformed(ActionEvent e)
                                     {
-                                    
-                                      while(!BlokusDB.userLogin(username.getText(), password.getText()))
+                                      BlokusDB db = new BlokusDB();
+                                      if(!db.userLogin(username.getText(), password.getText()))
                                       {
                                     	  username.setText("");
                                     	  password.setText("");
-                                    	  errorWin e = new errorWin(mainFrame, "Invalid Username/Password!");
-                                    	  e.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                    	  errorWin err = new errorWin(mainFrame, "Invalid Username/Password!");
+                                    	  err.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                    	  return;
                                       }
                                     	
                                       //hide window after action
@@ -93,12 +94,14 @@ public class loginDial extends JDialog
                                   {
                                     public void actionPerformed(ActionEvent e)
                                     {
-                                    	while(!BlokusDB.createUser(username.getText(), password.getText()))
+                                    	BlokusDB db = new BlokusDB();
+                                        if(!db.createUser(username.getText(), password.getText()))
                                         {
                                       	  username.setText("");
                                       	  password.setText("");
-                                      	  errorWin e = new errorWin(mainFrame, "Username Taken");
-                                      	  e.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                      	  errorWin err = new errorWin(mainFrame, "Username Taken");
+                                      	  err.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                      	  return;
                                         }
                                     	
                                     	mainFrame.login.removeActionListener(mainFrame.lac);
