@@ -3,6 +3,7 @@ package proj4board;
 import game.*;
 import proj4board.PiecePanel;
 import server.ClientServerSocket;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -10,12 +11,16 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 
 public class Frame extends JFrame { 
 	//Constants
@@ -50,6 +55,19 @@ public class Frame extends JFrame {
 		//Create Player Panel
 		playersPanel = new JPanel(new GridLayout(4,1));
 		playersPanel.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
+		
+    Border bord1, bord2, finalborder;
+    bord1 = new CompoundBorder(
+        BorderFactory.createMatteBorder(0, 5, 0, 0, Color.BLUE),
+        BorderFactory.createMatteBorder(5, 0, 0, 0, Color.RED));
+    bord2 = new CompoundBorder(
+        BorderFactory.createMatteBorder(0, 0, 0, 5, Color.YELLOW),
+        BorderFactory.createMatteBorder(0, 0, 5, 0, Color.GREEN));
+    finalborder = new CompoundBorder(bord1, bord2);
+		
+    playersPanel.setBorder(finalborder);
+    playersPanel.setBackground(Color.DARK_GRAY.darker());
+    
 		BufferedImage p[] = new BufferedImage[4];
 		Color[] colors = {Color.BLUE,Color.RED,Color.YELLOW, Color.GREEN};
 		users = new User[4];
