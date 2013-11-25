@@ -201,7 +201,12 @@ public class PiecePanel extends JPanel {
 				currentPiece = null;
 				if(frame.theClient != null){
 					frame.setPlayerTurn(false);
-					frame.theClient.sendMove(piece.toString(X, Y));
+					try {
+						frame.theClient.sendMove(piece.toString(X, Y));
+					} catch (IOException e1) {
+						System.out.println("Server is not listening to our move");
+						System.exit(0);
+					}
 				}
 			}
 		}

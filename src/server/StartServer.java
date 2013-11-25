@@ -158,6 +158,7 @@ public class StartServer{
 	    	//Debugging stuff
 	    	board.printBoard();
 	    }
+	    System.out.println("Server is doing clean up");
 	    
 	    //Find winning player
 	    for(int i = 0; i < numPlayers; ++i){
@@ -170,6 +171,8 @@ public class StartServer{
 	    //Send end game
 	    theServer.sendEndGame(name);
 	    
+	    while(true){
+	    }
 	    
 	    //UPDATE DATABASE STUFF
 	    //RYAN WE NEED TO DO YOUR STUFF HERE!!!!!!

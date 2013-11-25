@@ -5,8 +5,11 @@ import game.Board;
 import game.Player;
 import intro.*;
 import proj4board.*;
+
 import java.awt.Color;
+import java.io.IOException;
 import java.util.Scanner;
+
 import javax.swing.JFrame;
 
 public class Blokus{
@@ -20,7 +23,7 @@ public class Blokus{
 	public static ClientServerSocket theClient;
 	public static boolean playable = true;
 	
-	public static char interpretResponse(String str){
+	public static char interpretResponse(String str) throws IOException{
 		switch (str.charAt(0)){
     	//OK
 		case '0':
@@ -118,7 +121,7 @@ public class Blokus{
 		return '\0';
 	}
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws IOException{
 		//Game Variables
 		board = new Board();
 		//players array constructed above
@@ -143,7 +146,8 @@ public class Blokus{
 	    
 	    
 	    //Create Client after Start button hit
-	    theClient = new ClientServerSocket("67.194.3.146", 4000);
+	    theClient = new ClientServerSocket("192.168.56.1", 4000);
+	    //theClient = new ClientServerSocket("67.194.3.146", 4000);
 	    theClient.startClient();
 	    
 	    
@@ -201,9 +205,15 @@ public class Blokus{
         
         
         //Start actual game
-      	while(playable){
-      		recvdStr = theClient.getResponse();
-      		interpretResponse(recvdStr);
+      	try{
+	        while(playable){
+	      		recvdStr = theClient.getResponse();
+	      		interpretResponse(recvdStr);
+      		}
+      	}
+      	catch(Exception e){
+      		System.out.println("Server has given client some sort of problem");
+      		System.out.println(e);
       	}
 	}
 }

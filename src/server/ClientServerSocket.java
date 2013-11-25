@@ -79,7 +79,7 @@ public class ClientServerSocket {
     }
     
     //Sends a string to specific client
-    public boolean sendString(String strToSend, int client) {
+    public boolean sendString(String strToSend, int client) throws IOException {
         boolean success = false;
         try {
             outData[client].writeBytes(strToSend);
@@ -88,13 +88,13 @@ public class ClientServerSocket {
         }
         catch (IOException e) {
             System.out.println("Caught IOException Writing To Socket Stream!");
-            System.exit(-1);
+            throw(e);
         }
         return success;
     }
     
     //Receive string from specific client
-    public String recvString(int client) {
+    public String recvString(int client) throws IOException {
         Vector< Byte > byteVec = new Vector< Byte >();
         byte [] byteAry;
         byte recByte;
@@ -113,7 +113,7 @@ public class ClientServerSocket {
         }
         catch (IOException ioe) {
             out.println("ERROR: receiving string from socket");
-            System.exit(8);
+            throw(ioe);
         }
         return receivedString;
     }
@@ -128,17 +128,17 @@ public class ClientServerSocket {
     //4 - server has ended game
     
     //Tells Client everything is ok
-    public boolean sendAcknowledgement(int client){
+    public boolean sendAcknowledgement(int client) throws IOException{
     	return sendString("0", client);
     }
     
     //Asks client for number of players
-    public boolean askForNumber(int client){
+    public boolean askForNumber(int client) throws IOException{
     	return sendString("1", client);
     }
        
     //Asks Client to send a move
-    public boolean askForMove(int client){
+    public boolean askForMove(int client) throws IOException{
     	return sendString("2", client);
     }
     
@@ -159,12 +159,12 @@ public class ClientServerSocket {
     }
     
     //Tells a client its color
-    public boolean sendPlayerInfoToClient(Player p, int client){
+    public boolean sendPlayerInfoToClient(Player p, int client) throws IOException{
     	String s = "4 " + p.getColor();
     	return sendString(s, client);
     }
     
-    public boolean sendAllPlayersToClient(Player p[], int client){
+    public boolean sendAllPlayersToClient(Player p[], int client) throws IOException{
     	String s = "5 " + numPlayers + " ";
     	for(int i = 0; i < numPlayers; i++){
     		s += p[i].getName() + " ";
@@ -186,12 +186,12 @@ public class ClientServerSocket {
     }
     
     //Gets player login information from client
-    public String getPlayerName(int client){
+    public String getPlayerName(int client) throws IOException{
     	return recvString(client);
     }
     
     //Get move
-    public String getMove(int client){
+    public String getMove(int client) throws IOException{
     	return recvString(client);
     }
 
@@ -215,17 +215,17 @@ public class ClientServerSocket {
     
     //Client Functions
     //Send move to server
-    public boolean sendMove(String move){
+    public boolean sendMove(String move) throws IOException{
     	return sendString(move, 0);
     }
     
     //Send request to make player
-    public boolean sendName(String name){
+    public boolean sendName(String name) throws IOException{
     	return sendString(name, 0);
     }
     
     //Gets response from server
-    public String getResponse(){
+    public String getResponse() throws IOException{
     	return recvString(0);
     }
     
