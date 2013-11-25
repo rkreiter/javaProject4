@@ -8,10 +8,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import database.BlokusDB;
 
 
 public class loginDial extends JDialog
@@ -61,6 +64,15 @@ public class loginDial extends JDialog
                                   {
                                     public void actionPerformed(ActionEvent e)
                                     {
+                                    
+                                      while(!BlokusDB.userLogin(username.getText(), password.getText()))
+                                      {
+                                    	  username.setText("");
+                                    	  password.setText("");
+                                    	  errorWin e = new errorWin(mainFrame, "Invalid Username/Password!");
+                                    	  e.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                      }
+                                    	
                                       //hide window after action
                                       mainFrame.login.removeActionListener(mainFrame.lac);
                                       mainFrame.login.setText("     Play Online    ");
@@ -81,6 +93,14 @@ public class loginDial extends JDialog
                                   {
                                     public void actionPerformed(ActionEvent e)
                                     {
+                                    	while(!BlokusDB.createUser(username.getText(), password.getText()))
+                                        {
+                                      	  username.setText("");
+                                      	  password.setText("");
+                                      	  errorWin e = new errorWin(mainFrame, "Username Taken");
+                                      	  e.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                        }
+                                    	
                                     	mainFrame.login.removeActionListener(mainFrame.lac);
                                         mainFrame.login.setText("     Play Online    ");
                                      

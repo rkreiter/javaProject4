@@ -25,7 +25,7 @@ public class BlokusDB {
 		}
 	}
 	
-	public boolean createUser(String userName, String password)
+	public static boolean createUser(String userName, String password)
 	{
 		boolean valid = false;
 		try
@@ -52,7 +52,7 @@ public class BlokusDB {
 		return valid;
 	}
 	
-	public boolean userLogin(String userName, String password)
+	public static boolean userLogin(String userName, String password)
 	{
 		boolean loggedIn = false;
 		try
