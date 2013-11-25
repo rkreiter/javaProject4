@@ -79,6 +79,7 @@ public class StartServer{
 	    	}
 	    	catch(Exception e){
 	    		System.out.println("Player " + i + " left");
+	    		System.exit(2);
 	    	}
 	    }
 
@@ -114,8 +115,7 @@ public class StartServer{
 		    	
 		    	//Check if Player has finished
 		    	if(player.getScore() == 0){
-		    		theServer.sendEndGame(player.getName());
-		    		System.exit(0);
+		    		break;
 		    	}
 	    	}
 	    	catch(Exception e){
@@ -148,6 +148,7 @@ public class StartServer{
 	    			//Its an end game so close the server
 	    			break;
 	    		}
+	    		if(droppedConnection[turn]) continue;
 	    		if(player.isPlayable()){
 	    			if(!board.playerCanPlay(player))
 	    				player.setPlayable(false);
@@ -158,7 +159,6 @@ public class StartServer{
 	    	board.printBoard();
 	    }
 	    
-	    
 	    //Find winning player
 	    for(int i = 0; i < numPlayers; ++i){
 			if(players[i].getScore() < player.getScore())
@@ -166,9 +166,12 @@ public class StartServer{
 		}
 	    String name = player.getName();
 	    
+	    
 	    //Send end game
 	    theServer.sendEndGame(name);
 	    
+	    
 	    //UPDATE DATABASE STUFF
+	    //RYAN WE NEED TO DO YOUR STUFF HERE!!!!!!
 	}
 }
