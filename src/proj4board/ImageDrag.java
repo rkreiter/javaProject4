@@ -20,6 +20,8 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 	Image image;
 	Image darkImage;
 	Image lightImage;
+	Image initDark;
+	Image initLight;
 	boolean clicked;
 	int x=0, y=0, width, height, size;
 	int xVal = 0, yVal = 0;
@@ -83,6 +85,8 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 		catch(IOException ioe) { ioe.printStackTrace(); }
 		lightImage = lightImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		darkImage = darkImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		initDark = darkImage;
+		initLight = lightImage;
 		image = lightImage;
 		
 	}
@@ -179,9 +183,19 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 	
 	
 	public void rotateClockwise(){
+		if(piece.getState() == 0){
+			darkImage = initDark;
+			lightImage = initLight;
+		}
 		piece.rotateClockwise();
-		darkImage = rotateImage(darkImage, 90);
-		lightImage = rotateImage(lightImage, 90);
+		if(piece.getState() == 0){
+			darkImage = initDark;
+			lightImage = initLight;
+		}
+		else{
+			darkImage = rotateImage(darkImage, 90);
+			lightImage = rotateImage(lightImage, 90);
+		}
 		translatePieceHelper();
 	}
 	

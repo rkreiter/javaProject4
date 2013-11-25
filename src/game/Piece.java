@@ -235,6 +235,11 @@ public class Piece {
 		return type;
 	}
 	
+	//Get Piece state
+	public int getState(){
+		return state;
+	}
+	
 	//Get Piece value
 	public int getValue(){
 		return val;
