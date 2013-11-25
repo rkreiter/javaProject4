@@ -13,7 +13,8 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 	final int N = Frame.N;
 	final int SPACESIZE = GRIDSIZE/N; 
 	Image image;
-	//BufferedImage defaultImage;
+	Image darkImage;
+	Image lightImage;
 	boolean clicked;
 	int x=0, y=0, width, height, size;
 	int xVal = 0, yVal = 0;
@@ -42,37 +43,42 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 		try { 
 			switch(piece.getColor()) {
 				case 'b':
-					image = ImageIO.read(new File("src/images/Blue/"
+					darkImage = ImageIO.read(new File("src/images/Blue/"
 							+ piece.getType() + ".png"));
+					lightImage = ImageIO.read(new File("src/images/Blue/"
+							+ piece.getType() + "T.png"));
 					color = Color.BLUE;
 					break;
 				case 'r':
-					image = ImageIO.read(new File("src/images/Red/"
+					darkImage = ImageIO.read(new File("src/images/Red/"
 	  			  			+ piece.getType() + ".png"));
+					lightImage = ImageIO.read(new File("src/images/Red/"
+	  			  			+ piece.getType() + "T.png"));
 					color = Color.RED;
 					break;
 				case 'y':
-					image = ImageIO.read(new File("src/images/Yellow/"
+					darkImage = ImageIO.read(new File("src/images/Yellow/"
 	  			  			+ piece.getType() + ".png"));
+					lightImage = ImageIO.read(new File("src/images/Yellow/"
+	  			  			+ piece.getType() + "T.png"));
 					color = Color.YELLOW;
 					break;
 				case 'g':
-					image = ImageIO.read(new File("src/images/Green/"
+					darkImage = ImageIO.read(new File("src/images/Green/"
 	  			  			+ piece.getType() + ".png"));
+					lightImage = ImageIO.read(new File("src/images/Green/"
+	  			  			+ piece.getType() + "T.png"));
 					color = Color.GREEN;
 					break;
 			}
-			//defaultImage = image;
-			//setAlpha((byte) 50);
 			if(submitButton != null){
 				submitButton.setEnabled(false);
 			}
 		}
 		catch(IOException ioe) { ioe.printStackTrace(); }
-		image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		//img = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		//image = new BufferedImage(width, height, Image.SCALE_REPLICATE);
-		//image.getGraphics().drawImage(img, 0, 0, null);
+		lightImage = lightImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		darkImage = darkImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		image = lightImage;
 		
 	}
 	
@@ -105,13 +111,13 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 				else
 					validSpot = board.validPlace(xVal, yVal, piece, false);
 				if(validSpot){
-					//setAlpha((byte) 255);
+					image = darkImage;
 					if(submitButton != null)
 						submitButton.setEnabled(true);
 				}
 			}
 			else{
-				//setAlpha((byte) 50);
+				image = lightImage;
 				if(submitButton != null)
 					submitButton.setEnabled(false);
 			}
@@ -148,19 +154,4 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 		removeMouseListener(this);
 		removeMouseMotionListener(this);
 	}
-/*
-	public void setAlpha(byte alpha) {       
-	    alpha %= 0xff; 
-		for (int cx=0;cx<image.getWidth();cx++) {          
-	        for (int cy=0;cy<image.getHeight();cy++) {
-	            int color = image.getRGB(cx, cy);
-
-	            int mc = (alpha << 24) | 0x00ffffff;
-	            int newcolor = color & mc;
-	            image.setRGB(cx, cy, newcolor);            
-
-	        }
-	    }
-	}
-*/	
 }
