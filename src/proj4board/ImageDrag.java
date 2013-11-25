@@ -159,8 +159,8 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
   
 	public void mouseMoved(MouseEvent e) {
 		if (!clicked) {
-			x = e.getX();
-			y = e.getY();
+			x = e.getX()-(SPACESIZE/2);
+			y = e.getY()-(SPACESIZE/2);
 			repaint();
 		}
 	}

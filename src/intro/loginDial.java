@@ -11,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -21,7 +22,7 @@ public class loginDial extends JDialog
 {
   //public variables
   JTextField username;
-  JTextField password;
+  JPasswordField password;
   JButton okButton;
   JButton createButt;
 
@@ -52,7 +53,7 @@ public class loginDial extends JDialog
     mainPan.add(pass, BorderLayout.NORTH);
 
     //set text field size and add to panel
-    password = new JTextField(15);
+    password = new JPasswordField(15);
     mainPan.add(password, BorderLayout.CENTER);
     
     mainPan.setBackground(Color.BLACK);
@@ -65,7 +66,8 @@ public class loginDial extends JDialog
                                     public void actionPerformed(ActionEvent e)
                                     {
                                       BlokusDB db = new BlokusDB();
-                                      if(!db.userLogin(username.getText(), password.getText()))
+                                      String inputPass = new String(password.getPassword());
+                                      if(!db.userLogin(username.getText(), inputPass))
                                       {
                                     	  username.setText("");
                                     	  password.setText("");
@@ -85,6 +87,7 @@ public class loginDial extends JDialog
                                           //hide window after action
                                           mainFrame.playGame = 'o';
                                           setVisible(false);
+                                          mainFrame.setVisible(false);
                                         }});
                                       setVisible(false);
                                     }});
@@ -95,7 +98,8 @@ public class loginDial extends JDialog
                                     public void actionPerformed(ActionEvent e)
                                     {
                                     	BlokusDB db = new BlokusDB();
-                                        if(!db.createUser(username.getText(), password.getText()))
+                                        String inputPass = new String(password.getPassword());
+                                        if(!db.createUser(username.getText(), inputPass))
                                         {
                                       	  username.setText("");
                                       	  password.setText("");
@@ -114,6 +118,7 @@ public class loginDial extends JDialog
                                             //hide window after action
                                         	  mainFrame.playGame = 'o';
                                               setVisible(false);
+                                              mainFrame.setVisible(false);
                                           }});
                                         setVisible(false);
                                     }});
