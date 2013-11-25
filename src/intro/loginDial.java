@@ -85,6 +85,7 @@ public class loginDial extends JDialog
                                           //hide window after action
                                           mainFrame.playGame = 'o';
                                           setVisible(false);
+                                          mainFrame.setVisible(false);
                                         }});
                                       setVisible(false);
                                     }});
@@ -114,6 +115,7 @@ public class loginDial extends JDialog
                                             //hide window after action
                                         	  mainFrame.playGame = 'o';
                                               setVisible(false);
+                                              mainFrame.setVisible(false);
                                           }});
                                         setVisible(false);
                                     }});
