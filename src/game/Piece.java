@@ -441,6 +441,7 @@ public class Piece {
 	}
 
 	//Sets currentShape to state represented by string
+	//DO NOT DELETE USED BY SERVER!!!!!
 	public void setState(String s){
 		for(int i = 0; i < PIECE_SIZE; ++i){
 			for(int j = 0; j < PIECE_SIZE; ++j){

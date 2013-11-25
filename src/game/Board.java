@@ -127,6 +127,9 @@ public class Board
     
     //Checks if player still has a move available
     //*must check all rotatable positions
+    //This function will actually rotate the persons pieces be aware
+    //Maybe not though if i do it right
+    //I think we did this correctly
     public boolean playerCanPlay(final Player player){
     	Piece piece;
     	if(player.score == 89)
@@ -134,10 +137,24 @@ public class Board
     	for(int i = 0; i < player.NUM_PIECES; ++i){
     		piece = player.pieces[i];
     		if(!piece.placed){
-    			for(int x = 0; x < BOARD_SIZE; ++x){
-    				for(int y = 0; y < BOARD_SIZE; ++y){
-    					if(validPlace(x, y, piece, false))
-    						return true;
+    			for(int state = 0; state < 8; state++){
+    				for(int x = 0; x < BOARD_SIZE; ++x){
+    					for(int y = 0; y < BOARD_SIZE; ++y){
+    						if(validPlace(x, y, piece, false))
+    							return true;
+    					}
+    				}
+    				if(state < 4){
+    					piece.rotateClockwise();
+    				}
+    				if(state == 3){
+    					piece.flipHorizontalAxis();
+    				}
+    				if(state > 3){
+    					piece.rotateClockwise();
+    				}
+    				if(state == 7){
+    					piece.flipHorizontalAxis();
     				}
     			}
     		}
