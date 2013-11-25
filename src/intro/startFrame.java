@@ -72,7 +72,7 @@ public class startFrame extends JFrame
                     
                     //general formatting for Jdialog window
                     how.pack();
-                    how.setSize(how.getWidth()+10, how.getHeight()-280);
+                    how.setSize(how.getWidth()+10, how.getHeight()-220);
                     how.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     how.getContentPane().setBackground(Color.BLACK);
                     how.setVisible(true);

@@ -94,16 +94,25 @@ public class Blokus{
 			out.println("Game over");
 			Scanner scan2 = new Scanner(str);
 			scan2.next();
+			endWin end;
 			if(scan2.next().equals(player.getName())){
 				out.println("YOU WIN!!!!");
+				frame.setVisible(false);
+				end = new endWin(init, 'w');
 			}
 			else{
 				out.println("loser....");
+				frame.setVisible(false);
+				end = new endWin(init, 'l');
+				
 			}
+			end.pack();
+	    	end.setSize(end.getWidth()+50, end.getHeight());
+	        end.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+	    	end.setVisible(true);
 			scan2.close();
 			theClient.closeConnection(0);
 			//System.exit(0);
-			//HAVE TROY MAKE END GAME SCREEN APPEAR HERE!!!
 			playable = false;
     		break;
 		}
@@ -135,7 +144,7 @@ public class Blokus{
 	    
 	    
 	    //Create Client after Start button hit
-	    theClient = new ClientServerSocket("192.168.56.1", 4000);
+	    theClient = new ClientServerSocket("192.168.1.213", 4000);
 	    theClient.startClient();
 	    
 	    
