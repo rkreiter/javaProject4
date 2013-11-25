@@ -170,6 +170,7 @@ public class PiecePanel extends JPanel {
 					if(currentPiece != null){
 						boardPanel.remove(currentPiece);
 						clickables[currentPieceNum].setVisible(true);
+						currentPiece.reset();
 						currentPiece = null;
 					}
 					piece = pieces[i];

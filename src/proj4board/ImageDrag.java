@@ -30,6 +30,16 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 	Piece piece;
 	Color color;
 	JButton submitButton;
+	
+	public void reset(){
+		piece.setOriginalState();
+		lightImage = initLight;
+		darkImage = initDark;
+		image = lightImage;
+		this.width = (piece.getWidth() * size);
+		this.height = (piece.getHeight() * size) + 1;
+		clicked = false;
+	}
   
 	public ImageDrag(Piece piece, int size, Board board, Player player, JButton submit) {
 		this.board = board;
@@ -112,7 +122,8 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 			if(!clicked){
 				xVal = Yloc(e);
 				yVal = Xloc(e);
-				System.out.println("Location: " + xVal + "," + yVal);
+				System.out.println("Location: " + xVal + "," + yVal + "   State: " + piece.getState());
+				piece.printShape();
 				boolean validSpot = false;
 				if(player.isInit()){
 					validSpot = board.validInit(xVal, yVal, piece);
@@ -165,6 +176,7 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 	}
 	
 	public void translatePieceHelper(){
+		System.out.println("Location: " + xVal + "," + yVal + "   State: " + piece.getState());
 		image = lightImage;
 		submitButton.setEnabled(false);
 		boolean validSpot = false;
@@ -179,28 +191,25 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 				submitButton.setEnabled(true);
 		}
 		repaint();
+		piece.printShape();
 	}
 	
 	
 	public void rotateClockwise(){
-		if(piece.getState() == 0){
-			darkImage = initDark;
-			lightImage = initLight;
-		}
 		piece.rotateClockwise();
-		if(piece.getState() == 0){
-			darkImage = initDark;
-			lightImage = initLight;
-		}
-		else{
-			darkImage = rotateImage(darkImage, 90);
-			lightImage = rotateImage(lightImage, 90);
-		}
+		int tmp = width;
+		width = height;
+		height = tmp;
+		darkImage = rotateImage(darkImage, 90);
+		lightImage = rotateImage(lightImage, 90);
 		translatePieceHelper();
 	}
 	
 	public void rotateCounterClockwise(){
 		piece.rotateCounterClockwise();
+		int tmp = width;
+		width = height;
+		height = tmp;
 		darkImage = rotateImage(darkImage, -90);
 		lightImage = rotateImage(lightImage, -90);
 		translatePieceHelper();
@@ -212,7 +221,6 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 		lightImage = flipImage(lightImage);
 		translatePieceHelper();
 	}
-	
 	
 	
     public Image rotateImage(Image img, double angle){

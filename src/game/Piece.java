@@ -11,6 +11,8 @@ public class Piece {
 	protected int val;
 	protected int width;
 	protected int height;
+	protected int defWidth;
+	protected int defHeight;
 	final int PIECE_SIZE = 5;
 	
 	//This is our constructor
@@ -217,6 +219,8 @@ public class Piece {
 				val = 5;
 				break;
 		}
+		defWidth = width;
+		defHeight = height;
 		setOriginalState();
 	}
 	
@@ -266,13 +270,15 @@ public class Piece {
 	}
 	
 	//This function copies defaultShape into currentShape
-	protected void setOriginalState(){
+	public void setOriginalState(){
 		for(int i = 0; i < PIECE_SIZE; ++i){
 			for(int j = 0; j < PIECE_SIZE; ++j){
 				currentShape[i][j] = defaultShape[i][j];
 			}
 		}
 		state = 0;
+		width = defWidth;
+		height = defHeight;
 	}
 
 	//This function removes any empty rows in image
@@ -366,6 +372,7 @@ public class Piece {
 	}
 
 	//This function flips currentShape across vertical axis
+	/*
 	public void flipVerticalAxis(){
 		boolean temp;
 		for(int i = 0; i < PIECE_SIZE; ++i){
@@ -387,6 +394,7 @@ public class Piece {
 			case 7: state = 1; break;
 		}
 	}
+	*/
 	
 	//This function flips currentShape across horizontal axis
 	public void flipHorizontalAxis(){
@@ -414,7 +422,7 @@ public class Piece {
 	
 	
 	//Network stuff on a piece
-	//returns string of color, type, (x,y), currentState
+	//returns string of color, type, (x,y), currentState, stateNum
 	public String toString(final int x, final int y){
 		String s = "";
 		s += color + " ";
