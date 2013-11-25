@@ -2,7 +2,9 @@ package intro;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -15,8 +17,8 @@ public class errorWin extends JDialog
   //constructor
   public errorWin(JFrame mainFrame, String message)
   {
-    super(mainFrame, "ERROR", false);
-    setLayout(new FlowLayout());
+    super(mainFrame, "ERROR", true);
+    setLayout(new GridLayout(2,1));
 
     JPanel textPanel;
     JLabel head;
@@ -32,6 +34,12 @@ public class errorWin extends JDialog
     textPanel.setBackground(Color.BLACK);
     
     close = new JButton("CLOSE");
+    close.addActionListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        setVisible(false);
+      }});
     
     add(textPanel);
     add(close);
