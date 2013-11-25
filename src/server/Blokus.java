@@ -49,7 +49,7 @@ public class Blokus{
     	//SEND MOVE
 		case '2':
 			out.println("Send server move");
-			frame.setPlayerTurn(true);
+			frame.setPlayerTurn(true, playerNum);
     		break;
     	
     	//DO UPDATE
@@ -203,7 +203,7 @@ public class Blokus{
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.pack();
         if(playerNum != 0){
-        	frame.setPlayerTurn(false);
+        	frame.setPlayerTurn(false, playerNum);
         }
         frame.setVisible(true);
         

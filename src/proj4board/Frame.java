@@ -193,8 +193,12 @@ public class Frame extends JFrame {
 		users[num].score.setText(String.valueOf(updatePlayer.getScore()));
 	}
 
-	public void setPlayerTurn(boolean bool){
-		pieces.submitButton.setEnabled(false);
+	public void setPlayerTurn(boolean bool, int playernum){
+		if (bool)
+		  users[playernum].stats.setBackground(users[playernum].color);
+		else
+		  users[playernum].stats.setBackground(Color.WHITE);
+	  pieces.submitButton.setEnabled(false);
 		for(int i = 0; i < 21; ++i){
 			pieces.clickables[i].setEnabled(bool);
 		}

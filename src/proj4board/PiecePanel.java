@@ -200,7 +200,7 @@ public class PiecePanel extends JPanel {
 				board.printBoard();
 				currentPiece = null;
 				if(frame.theClient != null){
-					frame.setPlayerTurn(false);
+					frame.setPlayerTurn(false, frame.playerNum);
 					try {
 						frame.theClient.sendMove(piece.toString(X, Y));
 					} catch (IOException e1) {

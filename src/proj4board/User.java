@@ -16,12 +16,14 @@ public class User extends JPanel {
 	JPanel stats;
 	JLabel name;
 	JLabel score;
+	Color color;
   
 	public User(String name, Image avatar, Color c) {
 		setLayout(new GridLayout(1,2));
     
 		this.name = new JLabel(name, JLabel.CENTER);
 		this.score = new JLabel("89", JLabel.CENTER);
+		this.color = c;
 		stats = new JPanel(new GridLayout(2,1));
 		stats.add(this.name);
 		stats.add(this.score);
