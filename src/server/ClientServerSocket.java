@@ -1,7 +1,6 @@
 package server;
 
 import game.*;
-
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.io.DataOutputStream;
@@ -9,7 +8,6 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
-
 import static java.lang.System.out;
 
 public class ClientServerSocket {
@@ -147,8 +145,15 @@ public class ClientServerSocket {
     //Tells all Clients a move to execute
     public boolean sendUpdate(String move, int client){
     	for(int i = 0; i < numPlayers; ++i){
-    		if(i != client)
-    			sendString("3 " + move, i);
+    		if(i != client){
+    			try{
+    				sendString("3 " + move, i);
+    			}
+    			catch(Exception e){
+    				System.out.println("Player " + i + " left");
+    			}
+    		}
+    			
     	}
     	return true;
     }
@@ -171,7 +176,10 @@ public class ClientServerSocket {
     //Tells all Clients to end game and says winner
     public boolean sendEndGame(String name){
     	for(int i = 0; i < numPlayers; ++i){
-    		sendString("6 " + name, i);
+    		try{
+    			sendString("6 " + name, i);
+    		}
+    		catch(Exception e){}
     		closeConnection(i);
     	}
     	return true;
