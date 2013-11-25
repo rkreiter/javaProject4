@@ -35,6 +35,10 @@ public class PiecePanel extends JPanel {
 	JButton submitButton;
 	Frame frame;
 	Image im[];
+	JButton rcButton;
+	JButton rccButton;
+	JButton flipButton;
+	JPanel buttonPanel;
 	//Game stuff
 	Board board;
 	Player player;
@@ -100,8 +104,8 @@ public class PiecePanel extends JPanel {
 		
 		for (int i = 0; i < 21; ++i) {		  
 			pieces[i] = player.getPiece(i);
-			w = (int) (0.75 * (pieces[i].getWidth() * SPACESIZE));
-			h = (int) (0.75 * (pieces[i].getHeight() * SPACESIZE + 1));
+			w = (int) (0.7 * (pieces[i].getWidth() * SPACESIZE));
+			h = (int) (0.7 * (pieces[i].getHeight() * SPACESIZE + 1));
 			im[i] = im[i].getScaledInstance(w, h, BufferedImage.SCALE_DEFAULT);
 			icon = new ImageIcon(im[i]);
 			clickables[i] = new JRadioButton(icon);
@@ -111,10 +115,51 @@ public class PiecePanel extends JPanel {
 		}
 		this.add(piecesPanel);
 		
+		//Rotate Buttons!
+		rcButton = new JButton("Rotate Right");
+		rccButton = new JButton("Rotate Left");
+		flipButton = new JButton("Flip");
+		buttonPanel = new JPanel();
+		buttonPanel.setBackground(Color.DARK_GRAY.darker());
+		buttonPanel.add(rccButton, BorderLayout.SOUTH);
+		buttonPanel.add(flipButton, BorderLayout.SOUTH);
+		buttonPanel.add(rcButton, BorderLayout.SOUTH);
+		
+		rcButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				if(currentPiece != null){
+					//currentPiece.clockwise();
+				}
+			}
+		});
+		
+		rccButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				if(currentPiece != null){
+					//currentPiece.counterClockwise();
+				}
+			}
+		});
+		
+		flipButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				if(currentPiece != null){
+					//currentPiece.flipPiece();
+				}
+			}
+		});
+		
+		
 		submitButton = new JButton("Submit Move!");
 		submitButton.addActionListener(new SubmitListener());
 		submitButton.setEnabled(false);
-		this.add(submitButton, BorderLayout.SOUTH);
+		
+		JPanel two = new JPanel(new GridLayout(2,1));
+		two.setBackground(Color.DARK_GRAY.darker());
+		two.add(buttonPanel);
+		two.add(submitButton);
+		
+		this.add(two, BorderLayout.SOUTH);
 	}
 	
 	public class ButtonListener implements ActionListener{
