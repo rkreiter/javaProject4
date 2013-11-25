@@ -143,7 +143,7 @@ public class Blokus{
 	    
 	    
 	    //Create Client after Start button hit
-	    theClient = new ClientServerSocket("141.213.57.100", 4000);
+	    theClient = new ClientServerSocket("67.194.3.146", 4000);
 	    theClient.startClient();
 	    
 	    
