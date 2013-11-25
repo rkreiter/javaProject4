@@ -135,7 +135,7 @@ public class Blokus{
 	    init.setVisible(true);
 	    init.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    boolean running = false;
-	    while(!init.getPlay()){
+	    while(init.getPlay() == 'n'){
 	    	if(!running){
 	    		System.out.print("");
 	    		running = true;

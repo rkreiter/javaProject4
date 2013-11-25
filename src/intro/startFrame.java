@@ -19,16 +19,18 @@ public class startFrame extends JFrame
 {
   JPanel mainScreen = new JPanel(new BorderLayout());
 
-  JButton play;
+  JButton login;
+  JButton loc;
   JButton instr;
   JButton tutor;
   JButton about;
-  JFrame main = this;
+  startFrame main = this;
+  loginActionListener lac = new loginActionListener();
 
   JLabel title;
   JPanel buttons = new JPanel(new GridLayout(5,1));
   JPanel buttons2 = new JPanel(new FlowLayout());
-  boolean playGame;
+  char playGame = 'n';
 
   final int INTRO_WIDTH = 600, INTRO_HEIGHT = 600;
   
@@ -50,12 +52,12 @@ public class startFrame extends JFrame
 
     //--------------------PLAY BUTTON---------------------//
 
-    play = new JButton("Play Da Game");
-    play.addActionListener(new ActionListener()
+    loc = new JButton("Play Locally");
+    loc.addActionListener(new ActionListener()
                 {
                   public void actionPerformed(ActionEvent e)
                   {
-                	playGame = true;
+                	playGame = 'l';
                 	//System.out.println("PLAY = " + getPlay());
                     setVisible(false);
                   }
@@ -107,12 +109,17 @@ public class startFrame extends JFrame
                     ab.getContentPane().setBackground(Color.BLACK);
                     ab.setVisible(true);
                   }});
-
+    
+  //-----------------ABOUT BUTTON------------------//
+    login = new JButton("Login For Online");
+    login.addActionListener(lac);
+    
+    
 
     JLabel fill = new JLabel("    ");
     fill.setBackground(Color.BLACK);
-
-    buttons.add(play);
+    buttons.add(login);
+    buttons.add(loc);
     buttons.add(instr);
     buttons.add(tutor);
     buttons.add(about);
@@ -125,7 +132,15 @@ public class startFrame extends JFrame
     add(buttons2, BorderLayout.SOUTH);
   }
   
-  public boolean getPlay(){
+  class loginActionListener implements ActionListener{
+    public void actionPerformed(ActionEvent e){
+      //open login win
+      loginDial log = new loginDial(main,"Login", "   Enter username: ");
+      System.out.println("LOGIN");
+    }
+  }
+  
+  public char getPlay(){
 	  return playGame;
   }
 }
