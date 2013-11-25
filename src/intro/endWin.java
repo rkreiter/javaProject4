@@ -26,7 +26,7 @@ public class endWin extends JDialog
     textPanel = new JPanel(new BorderLayout());
   
     if(lw == 'l'){
-    	head = new JLabel("YOU LOOSE...");
+    	head = new JLabel("YOU LOSE...");
     	head.setForeground(Color.RED);
     }
     else{
