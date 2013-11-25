@@ -1,12 +1,17 @@
 package proj4board;
 import game.*;
+
 import java.io.*;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 public class ImageDrag extends JComponent implements MouseMotionListener, MouseListener {
 	final int GRIDSIZE = Frame.GRIDSIZE;
@@ -154,4 +159,80 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 		removeMouseListener(this);
 		removeMouseMotionListener(this);
 	}
+	
+	public void translatePieceHelper(){
+		image = lightImage;
+		submitButton.setEnabled(false);
+		boolean validSpot = false;
+		if(player.isInit()){
+			validSpot = board.validInit(xVal, yVal, piece);
+		}
+		else
+			validSpot = board.validPlace(xVal, yVal, piece, false);
+		if(validSpot){
+			image = darkImage;
+			if(submitButton != null)
+				submitButton.setEnabled(true);
+		}
+		repaint();
+	}
+	
+	
+	public void rotateClockwise(){
+		piece.rotateClockwise();
+		darkImage = rotateImage(darkImage, 90);
+		lightImage = rotateImage(lightImage, 90);
+		translatePieceHelper();
+	}
+	
+	public void rotateCounterClockwise(){
+		piece.rotateCounterClockwise();
+		darkImage = rotateImage(darkImage, -90);
+		lightImage = rotateImage(lightImage, -90);
+		translatePieceHelper();
+	}
+	
+	public void flip(){
+		piece.flipHorizontalAxis();
+		darkImage = flipImage(darkImage);
+		lightImage = flipImage(lightImage);
+		translatePieceHelper();
+	}
+	
+	
+	
+    public Image rotateImage(Image img, double angle){
+        double sin = Math.abs(Math.sin(Math.toRadians(angle))), cos = Math.abs(Math.cos(Math.toRadians(angle)));
+        int w = img.getWidth(null), h = img.getHeight(null);
+        int neww = (int) Math.floor(w * cos + h * sin), newh = (int) Math.floor(h
+                * cos + w * sin);
+        BufferedImage bimg = new BufferedImage(neww, newh, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bimg.createGraphics();
+        g.translate((neww - w) / 2, (newh - h) / 2);
+        g.rotate(Math.toRadians(angle), w / 2, h / 2);
+        g.drawRenderedImage(toBufferedImage(img), null);
+        g.dispose();
+        return (Image)bimg;
+    }
+    
+    public Image flipImage(Image img){
+        BufferedImage bimg = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bimg.createGraphics();
+        AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
+        tx.translate(0, -img.getHeight(null));
+        g.drawRenderedImage(toBufferedImage(img), tx);
+        g.dispose();
+        return (Image)bimg;
+    }
+
+    public BufferedImage toBufferedImage(Image img){
+        if (img instanceof BufferedImage) {
+            return (BufferedImage) img;
+        }
+        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D bGr = bimage.createGraphics();
+        bGr.drawImage(img, 0, 0, null);
+        bGr.dispose();
+        return bimage;
+    }
 }

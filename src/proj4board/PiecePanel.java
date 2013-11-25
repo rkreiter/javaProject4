@@ -128,7 +128,7 @@ public class PiecePanel extends JPanel {
 		rcButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(currentPiece != null){
-					//currentPiece.clockwise();
+					currentPiece.rotateClockwise();
 				}
 			}
 		});
@@ -136,7 +136,7 @@ public class PiecePanel extends JPanel {
 		rccButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(currentPiece != null){
-					//currentPiece.counterClockwise();
+					currentPiece.rotateCounterClockwise();
 				}
 			}
 		});
@@ -144,7 +144,7 @@ public class PiecePanel extends JPanel {
 		flipButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(currentPiece != null){
-					//currentPiece.flipPiece();
+					currentPiece.flip();
 				}
 			}
 		});
@@ -170,11 +170,13 @@ public class PiecePanel extends JPanel {
 					if(currentPiece != null){
 						boardPanel.remove(currentPiece);
 						clickables[currentPieceNum].setVisible(true);
+						currentPiece = null;
 					}
 					piece = pieces[i];
 				    currentPiece = new ImageDrag(piece, SPACESIZE, board, player, submitButton);
 				    currentPiece.setSize(GRIDSIZE, GRIDSIZE);
 				    boardPanel.add(currentPiece, JLayeredPane.DRAG_LAYER);
+				    boardPanel.moveToFront(currentPiece);
 				    currentPieceNum = i;
 				    clickables[i].setVisible(false);
 				    break;
