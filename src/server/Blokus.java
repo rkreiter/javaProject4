@@ -164,7 +164,7 @@ public class Blokus{
 	    //theClient = new ClientServerSocket("192.168.1.234", 4000);
 	    //theClient = new ClientServerSocket("67.194.3.146", 4000);
 	    //asher
-	    theClient = new ClientServerSocket("192.168.1.66", 4000);
+	    theClient = new ClientServerSocket("67.194.1.85", 4000);
 	    
 	    //troy's
 	    //theClient = new ClientServerSocket("192.168.1.213", 4000);
