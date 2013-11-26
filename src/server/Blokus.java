@@ -22,6 +22,7 @@ public class Blokus{
 	public static int numPlayers;
 	public static ClientServerSocket theClient;
 	public static boolean playable = true;
+	public static char gameType = 'n';
 	
 	public static char interpretResponse(String str) throws IOException{
 		switch (str.charAt(0)){
@@ -98,19 +99,27 @@ public class Blokus{
 			scan2.next();
 			endWin end;
 			if(scan2.next().equals(player.getName())){
-				out.println("YOU WIN!!!!");
-				frame.setVisible(false);
-				end = new endWin(init, 'w');
+				if(init.getPlay() == 'l'){
+					int i = 0;
+					while(players[i].getScore() != 0)
+						i++;
+						out.println(players[i].getName() + " WINS!!!!");
+						end = new endWin(init, 'w', player.getName());
+				}
+				else{
+					out.println("YOU WIN!!!!");
+					end = new endWin(init, 'w');
+				}
 				end.pack();
 		    	end.setSize(end.getWidth()+50, end.getHeight());
 			}
 			else{
 				out.println("loser....");
-				frame.setVisible(false);
 				end = new endWin(init, 'l');
 				end.pack();
 		    	end.setSize(end.getWidth()+50, end.getHeight()+10);
 			}
+			frame.setVisible(false);
 	        end.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	    	end.setVisible(true);
 			scan2.close();
@@ -145,8 +154,10 @@ public class Blokus{
 	    	}
 	    }
 	    if(init.getPlay() == 'l'){
+	    	gameType = 'l';
 	    	return;
 	    }
+	    gameType = 'o';
 	    
 	    
 	    //Create Client after Start button hit

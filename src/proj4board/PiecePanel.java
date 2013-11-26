@@ -2,6 +2,7 @@ package proj4board;
 
 import game.*;
 import intro.endWin;
+import server.Blokus;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,11 +14,14 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
+
+
 
 public class PiecePanel extends JPanel {
 	//Constants
@@ -209,10 +213,17 @@ public class PiecePanel extends JPanel {
 					//Check if winning player
 					if(tempPlayer.getScore() == 0){
 						System.out.println(tempPlayer.getName() + " WINS!!");
-						endWin end = new endWin(frame, 'w');
+						endWin end;
+						if(Blokus.gameType == 'l')
+							  end = new endWin(frame, 'w', player.getName());
+							else
+							  end = new endWin(frame, 'w');
 						end.pack();
 				    	end.setSize(end.getWidth()+50, end.getHeight());
-						System.exit(0);
+				    	frame.setVisible(false);
+				        end.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				    	end.setVisible(true);
+						return;
 					}
 					
 					//Find next player turn
@@ -223,10 +234,17 @@ public class PiecePanel extends JPanel {
 			    		tempPlayer = frame.players[frame.turn];
 			    		if(count > frame.players.length){
 							System.out.println(tempPlayer.getName() + " WINS!!");
-							endWin end = new endWin(frame, 'w');
+							endWin end;
+							if(Blokus.gameType == 'l')
+								  end = new endWin(frame, 'w', player.getName());
+								else
+								  end = new endWin(frame, 'w');
 							end.pack();
 					    	end.setSize(end.getWidth()+50, end.getHeight());
-							System.exit(0);
+					    	frame.setVisible(false);
+					        end.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+					    	end.setVisible(true);
+							return;
 			    		}
 			    		if(tempPlayer.isPlayable()){
 			    			if(!board.playerCanPlay(tempPlayer))
