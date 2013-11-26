@@ -63,7 +63,7 @@ public class BlokusDB {
 		{
 			Statement statement = conn.createStatement();
 			statement.setQueryTimeout(30);
-			ResultSet res = statement.executeQuery("SELECT UserId, Password "
+			ResultSet res = statement.executeQuery("SELECT Password "
 									+ "FROM PlayerInfo "
 									+ "WHERE UserName = '" + userName + "';");
 		
@@ -82,5 +82,73 @@ public class BlokusDB {
 			out.println(sqlEx.getMessage());
 		}
 		return loggedIn;
+	}
+	
+	public void updateStats(String userName, int score, boolean winner)
+	{
+		
+		try
+		{
+			Statement statement = conn.createStatement();
+			statement.setQueryTimeout(30);
+			ResultSet res = statement.executeQuery("SELECT UserId, Wins, Losses, AverageScore "
+									+ "FROM PlayerInfo "
+									+ "WHERE UserName = '" + userName + "';");
+		
+			if(res.next())
+			{	
+				int wins = res.getInt("Wins"), losses = res.getInt("Losses");
+				double oldAvg = res.getInt("AverageScore"), totalScore = (wins+losses)*oldAvg + score;
+				double newAvg = totalScore/(wins+losses+1);
+				
+				if(winner)
+					wins++;
+				else
+					losses++;
+				
+				String update = "UPDATE PlayerInfo SET Wins=" + wins +", Losses=" + losses + 
+								", AverageScore="+ newAvg +" WHERE UserId = "+ res.getInt("UserId") + ";";
+				PreparedStatement ps = conn.prepareStatement(update);
+				
+				if(!ps.execute()) out.println("ERROR: Couldn't update player stats.");
+			}
+			else
+				out.println("ERROR: No such user " + userName);
+		}
+		catch(SQLException sqlEx)
+		{
+			out.println("Got a SQLException");
+			out.println(sqlEx.getMessage());
+		}
+	}
+	
+	/*REQUIRES: stat should be one of the statistics from the db
+				stat can be: Wins, Losses, or AverageScore
+	   RETURNS: value of stat on success
+	  		    -1 on failure
+	*/
+	public double getStat(String userName, String stat)
+	{
+		
+		try
+		{
+			Statement statement = conn.createStatement();
+			statement.setQueryTimeout(30);
+			ResultSet res = statement.executeQuery("SELECT " + stat
+									+ " FROM PlayerInfo "
+									+ "WHERE UserName = '" + userName + "';");
+		
+			if(res.next())
+				return res.getDouble(stat);
+			else
+				out.println("ERROR: No such user " + userName);
+		}
+		catch(SQLException sqlEx)
+		{
+			out.println("Got a SQLException");
+			out.println(sqlEx.getMessage());
+		}
+		
+		return -1;
 	}
 }
