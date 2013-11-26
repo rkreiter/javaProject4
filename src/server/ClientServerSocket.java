@@ -8,6 +8,9 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
+
+import javax.swing.JTextArea;
+
 import static java.lang.System.out;
 
 public class ClientServerSocket {
@@ -41,16 +44,18 @@ public class ClientServerSocket {
     }
     
     //Init for Server **returns num players
-    public int startServer() {
+    public int startServer(JTextArea terminal) {
         numPlayers = 4;
         try {
         	serverSock = new ServerSocket(portNum);
             for(int i = 0; i < numPlayers; ++i){
             	out.println("Waiting for client " + i + " to connect...");
+            	terminal.append("Waiting for client " + i + " to connect...\n");
 	            socket[i] = serverSock.accept();
 	            outData[i] = new DataOutputStream(socket[i].getOutputStream());
 	            inData[i] = new DataInputStream(socket[i].getInputStream());
 	            out.println("Client " + i + " connection accepted");
+	            terminal.append("Client " + i + " connection accepted\n");
 	            
 	            if(i == 0){
 	            	//If first connection ask for number of players
@@ -73,6 +78,7 @@ public class ClientServerSocket {
         }
         catch (IOException ioe) {
             out.println("ERROR: Caught exception starting server");
+            terminal.append("ERROR: Caught exception starting server\n");
             System.exit(7);
         }
         return numPlayers;
@@ -143,7 +149,7 @@ public class ClientServerSocket {
     }
     
     //Tells all Clients a move to execute
-    public boolean sendUpdate(String move, int client){
+    public boolean sendUpdate(String move, int client, JTextArea terminal){
     	for(int i = 0; i < numPlayers; ++i){
     		if(i != client){
     			try{
@@ -151,6 +157,7 @@ public class ClientServerSocket {
     			}
     			catch(Exception e){
     				System.out.println("Player " + i + " left");
+    				terminal.append("Player " + i + " left\n");
     			}
     		}
     			

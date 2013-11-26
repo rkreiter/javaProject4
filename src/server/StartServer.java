@@ -3,9 +3,16 @@ package server;
 import static java.lang.System.out;
 import java.net.*;
 
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
 import game.*;
 
 public class StartServer{
+	static JFrame terminal;
+	static JTextArea textArea;
+	static JScrollPane scroll;
   
 	public static InetAddress initServer(){
 		InetAddress IP = null;
@@ -25,6 +32,15 @@ public class StartServer{
 	}
 	
 	public static void main(String[] args){
+		//Terminal Screen Simulation
+		terminal = new JFrame("Terminal Output");
+		textArea = new JTextArea (600, 800);
+		textArea.setEditable(false);
+		scroll = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		terminal.setSize(600, 800);
+		terminal.add(scroll);
+		terminal.setVisible(true);
 		//Server Stuff
 		ClientServerSocket theServer;
 		InetAddress IP;
@@ -45,10 +61,13 @@ public class StartServer{
 		
 		//Create Server
 		IP = initServer();
+		textArea.append("The server IP address is " + IP.getHostAddress() + '\n');
 	    theServer = new ClientServerSocket(IP.getHostAddress(), 4000);
 	    out.println("Calling start server");
-	    numPlayers = theServer.startServer();
+	    textArea.append("Calling start server\n");
+	    numPlayers = theServer.startServer(textArea);
 	    out.println("Got num players: " + numPlayers);
+	    textArea.append("Got num players: " + numPlayers + '\n');
 	    
 	    
 	    //Initialize Everything
@@ -73,21 +92,25 @@ public class StartServer{
 	    
 	    //send all player info to each client for them to make their boards
 	    out.println("Sending All Player's Information");
+	    textArea.append("Sending All Player's Information\n");
 	    for(int i = 0; i < numPlayers; ++i){
 	    	try{
 	    		theServer.sendAllPlayersToClient(players, i);
 	    	}
 	    	catch(Exception e){
 	    		System.out.println("Player " + i + " left");
+	    		textArea.append("Player " + i + " left\n");
 	    		System.exit(2);
 	    	}
 	    }
 
 	    //Actual game logic will loop until winner
-	    board.printBoard();
+	    board.printBoard(textArea);
 	    int turn = 0;
 	    while(true){
 	    	System.out.println(players[turn].getName() + "'s Move");
+	    	textArea.append(players[turn].getName() + "'s Move\n");
+	    	textArea.setCaretPosition(textArea.getText().length() - 1);
 
 	    	//Get a valid move from current Player
 	    	try{
@@ -111,7 +134,9 @@ public class StartServer{
 		    	//Send Updates
 				theServer.sendAcknowledgement(turn);
 		    	System.out.println("Update:   " + playerMove);
-		    	theServer.sendUpdate(playerMove, turn);
+		    	textArea.append("Update:   " + playerMove + '\n');
+		    	textArea.setCaretPosition(textArea.getText().length() - 1);
+		    	theServer.sendUpdate(playerMove, turn, textArea);
 		    	
 		    	//Check if Player has finished
 		    	if(player.getScore() == 0){
@@ -120,6 +145,8 @@ public class StartServer{
 	    	}
 	    	catch(Exception e){
 		    	System.out.println("Player " + turn + "has quit");
+		    	textArea.append("Player " + turn + "has quit\n");
+		    	textArea.setCaretPosition(textArea.getText().length() - 1);
 		    	droppedConnection[turn] = true;
 		    }
 	    	
@@ -156,9 +183,11 @@ public class StartServer{
 	    	} while(!player.isPlayable());
 	    	
 	    	//Debugging stuff
-	    	board.printBoard();
+	    	board.printBoard(textArea);
 	    }
 	    System.out.println("Server is doing clean up");
+	    textArea.append("Server is doing clean up\n");
+	    textArea.setCaretPosition(textArea.getText().length() - 1);
 	    
 	    //Find winning player
 	    for(int i = 0; i < numPlayers; ++i){

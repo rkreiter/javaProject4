@@ -3,6 +3,8 @@ package game;
 import static java.lang.System.out;
 import java.util.Arrays;
 
+import javax.swing.JTextArea;
+
 public class Board
 {
     //Variables
@@ -193,5 +195,36 @@ public class Board
     		out.print("\n");
     	}
     	out.print("\n");
+    }
+    
+    public void printBoard(JTextArea terminal){
+    	printBoard();
+    	for(int i = 0; i < BOARD_SIZE; ++i){
+    		for(int j = 0; j < BOARD_SIZE; ++j){
+    			switch(map[i][j]){
+    				case 'b':
+    					terminal.append("B ");
+    					break;
+    				case 'g':
+    					terminal.append("G ");
+    					break;
+    				case 'r':
+    					terminal.append("R ");
+    					break;
+    				case 'y':
+    					terminal.append("Y ");
+    					break;
+    				case 'e':
+    					terminal.append(". ");
+    					break;
+    				default:
+    					terminal.append(map[i][j] + " ");
+    					break;
+    			}
+    		}
+    		terminal.append("\n");
+    	}
+    	terminal.append("\n");
+    	terminal.setCaretPosition(terminal.getText().length() - 1);
     }
 }
