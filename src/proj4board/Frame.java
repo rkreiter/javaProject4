@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,8 +27,12 @@ import javax.swing.border.CompoundBorder;
 
 public class Frame extends JFrame { 
 	//Constants
-	final static int GRIDSIZE =  680;
-	final static int PLAYERWIDTH = 300;
+	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	final static int SCREEN_WIDTH = (int) screenSize.getWidth();
+	final static int SCREEN_HEIGHT = (int) screenSize.getHeight();
+	final static int GRIDSIZE =  (int) Math.min(SCREEN_WIDTH/2, 
+										Math.min(SCREEN_HEIGHT-20, 600));
+	final static int PLAYERWIDTH = GRIDSIZE/2;
 	final static int N = 20;
 	final static int SPACESIZE = GRIDSIZE/N;
 	//Display
@@ -98,8 +104,13 @@ public class Frame extends JFrame {
 		//Create Board Panel
 		boardPanel = new JLayeredPane();
 		boardPanel.setPreferredSize(new Dimension(GRIDSIZE, GRIDSIZE));
-		ImageIcon grid = new ImageIcon("src/images/Board/Grid.png");
-	    JLabel gridholder = new JLabel(grid);
+		Image grid = null;
+		try {
+			grid = ImageIO.read(new File("src/images/Board/Grid.png"));
+		}
+		catch (IOException e){ System.exit(10);}
+		grid = grid.getScaledInstance(GRIDSIZE, GRIDSIZE, Image.SCALE_SMOOTH);
+	    JLabel gridholder = new JLabel(new ImageIcon(grid));
 	    gridholder.setSize(GRIDSIZE, GRIDSIZE);
 	    boardPanel.add(gridholder, JLayeredPane.DEFAULT_LAYER);
 	    
@@ -126,7 +137,7 @@ public class Frame extends JFrame {
 		mainPanel.add(pieces);
 		mainPanel.setBackground(Color.DARK_GRAY);
 		add(mainPanel);
-		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	}
 	
 	public void placePieceOnBoard(String move){
