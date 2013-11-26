@@ -131,9 +131,9 @@ public class Blokus{
 			case '7':
 				int temp = Integer.parseInt(str.substring(2));
 				out.println("Player Turn number: " + temp);
-				frame.users[frame.turn].setBorder(null);
+				frame.users[frame.turn].setBorder(new LineBorder(Color.DARK_GRAY, 3));
 				frame.turn = temp;
-				frame.users[frame.turn].setBorder(new LineBorder(Color.WHITE, 5));
+				frame.users[frame.turn].setBorder(new LineBorder(Color.WHITE, 3));
 				break;
 		}
 		return '\0';
@@ -172,8 +172,9 @@ public class Blokus{
 	    //theClient = new ClientServerSocket("192.168.1.234", 4000);
 	    //theClient = new ClientServerSocket("67.194.3.146", 4000);
 	    //theClient = new ClientServerSocket("192.168.1.213", 4000);
-	    theClient = new ClientServerSocket("141.213.55.90", 4000);
-	    //theClient = new ClientServerSocket("67.194.1.85", 4000);
+	    //theClient = new ClientServerSocket("141.213.55.90", 4000);
+	      theClient = new ClientServerSocket("192.168.1.66", 4000);
+	    
 	    
 	    theClient.startClient();
 	    

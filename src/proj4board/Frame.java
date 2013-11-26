@@ -108,8 +108,7 @@ public class Frame extends JFrame {
 	        }
 	        playersPanel.add(users[i]);
 	    }
-		users[turn].setBorder(new LineBorder(Color.WHITE, 5));
-		
+		users[turn].setBorder(new LineBorder(Color.WHITE, 3));
 		
 		
 		//Create Board Panel

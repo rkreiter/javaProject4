@@ -210,7 +210,7 @@ public class PiecePanel extends JPanel {
 					tempPlayer = frame.players[frame.turn];
 					//Update score
 					frame.users[frame.turn].score.setText(String.valueOf(player.getScore()));
-					frame.users[frame.turn].setBorder(null);
+					frame.users[frame.turn].setBorder(new LineBorder(Color.DARK_GRAY, 3));
 			    	
 					
 					//Check if winning player
@@ -254,7 +254,7 @@ public class PiecePanel extends JPanel {
 			    				tempPlayer.setPlayable(false);
 			    		}
 			    	} while(!tempPlayer.isPlayable());
-			    	frame.users[frame.turn].setBorder(new LineBorder(Color.WHITE, 5));
+			    	frame.users[frame.turn].setBorder(new LineBorder(Color.WHITE, 3));
 					
 					//Switch panel
 					frame.mainPanel.remove(frame.pieces);
