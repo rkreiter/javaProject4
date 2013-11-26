@@ -13,10 +13,9 @@ public class Tester2 {
 		players[2] = new Player("Troy", 'y');
 		players[3] = new Player("Asher", 'g');
 		Board board = new Board();
-		int num = 1;
-		Player player = players[num];
+		Player player = players[0];
 	
-		Frame frame = new Frame("Blokus", board, players, player, num, null);
+		Frame frame = new Frame("Blokus", board, players, player, 0, null);
     
 		frame.getContentPane().setBackground(Color.DARK_GRAY);
 		frame.pack();

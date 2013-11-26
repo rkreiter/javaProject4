@@ -216,7 +216,6 @@ public class PiecePanel extends JPanel {
 					}
 					
 					//Find next player turn
-					frame.turn = (frame.turn + 1) % frame.players.length;
 					int count = 0;
 			    	do{
 			    		count++;
