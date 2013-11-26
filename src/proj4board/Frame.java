@@ -1,8 +1,8 @@
 package proj4board;
 
-import game.*;
-import proj4board.PiecePanel;
-import server.ClientServerSocket;
+import game.Board;
+import game.Piece;
+import game.Player;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,7 +12,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -25,13 +24,15 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 
+import server.ClientServerSocket;
+
 public class Frame extends JFrame { 
 	//Constants
 	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	final static int SCREEN_WIDTH = (int) screenSize.getWidth();
 	final static int SCREEN_HEIGHT = (int) screenSize.getHeight();
 	final static int GRIDSIZE =  (int) Math.min(SCREEN_WIDTH/2, 
-										Math.min(SCREEN_HEIGHT-20, 600));
+										Math.min(SCREEN_HEIGHT, 600));
 	final static int PLAYERWIDTH = GRIDSIZE/2;
 	final static int N = 20;
 	final static int SPACESIZE = GRIDSIZE/N;
@@ -88,12 +89,16 @@ public class Frame extends JFrame {
 		Color[] colors = {Color.BLUE,Color.RED,Color.YELLOW, Color.GREEN};
 		users = new User[4];
 		try {
-			p[0] = ImageIO.read(new File("src/images/Board/Avatars/Stephen.png"));
-			p[1] = ImageIO.read(new File("src/images/Board/Avatars/Kyle.png"));
-			p[2] = ImageIO.read(new File("src/images/Board/Avatars/Troy.png"));
-			p[3] = ImageIO.read(new File("src/images/Board/Avatars/Asher.png"));
+			p[0] = ImageIO.read(new File(getClass().getResource(
+							"/images/Board/Avatars/Stephen.png").toURI()));
+			p[1] = ImageIO.read(new File(getClass().getResource(
+							"/images/Board/Avatars/Kyle.png").toURI()));
+			p[2] = ImageIO.read(new File(getClass().getResource(
+							"/images/Board/Avatars/Troy.png").toURI()));
+			p[3] = ImageIO.read(new File(getClass().getResource(
+							"/images/Board/Avatars/Asher.png").toURI()));
 		}
-		catch (IOException e){ System.exit(10);}
+		catch (Exception e){ System.exit(10);}
 		for(int i = 0; i < players.length; ++i){
 	        users[i] = new User(players[i].getName(), p[i], colors[i]);
 	        playersPanel.add(users[i]);
@@ -106,9 +111,10 @@ public class Frame extends JFrame {
 		boardPanel.setPreferredSize(new Dimension(GRIDSIZE, GRIDSIZE));
 		Image grid = null;
 		try {
-			grid = ImageIO.read(new File("src/images/Board/Grid.png"));
+			grid = ImageIO.read(new File(getClass().getResource(
+					"/images/Board/Grid.png").toURI()));
 		}
-		catch (IOException e){ System.exit(10);}
+		catch (Exception e){ System.exit(10);}
 		grid = grid.getScaledInstance(GRIDSIZE, GRIDSIZE, Image.SCALE_SMOOTH);
 	    JLabel gridholder = new JLabel(new ImageIcon(grid));
 	    gridholder.setSize(GRIDSIZE, GRIDSIZE);

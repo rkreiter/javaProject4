@@ -109,31 +109,31 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 		try { 
 			switch(piece.getColor()) {
 				case 'b':
-					darkImage = ImageIO.read(new File("src/images/Blue/"
-							+ piece.getType() + ".png"));
-					lightImage = ImageIO.read(new File("src/images/Blue/"
-							+ piece.getType() + "T.png"));
+					darkImage = ImageIO.read(new File(getClass().getResource(
+							"/images/Blue/" + piece.getType() + ".png").toURI()));
+					lightImage = ImageIO.read(new File(getClass().getResource(
+							"/images/Blue/" + piece.getType() + "T.png").toURI()));
 					color = Color.BLUE;
 					break;
 				case 'r':
-					darkImage = ImageIO.read(new File("src/images/Red/"
-	  			  			+ piece.getType() + ".png"));
-					lightImage = ImageIO.read(new File("src/images/Red/"
-	  			  			+ piece.getType() + "T.png"));
+					darkImage = ImageIO.read(new File(getClass().getResource(
+							"/images/Red/" + piece.getType() + ".png").toURI()));
+					lightImage = ImageIO.read(new File(getClass().getResource(
+							"/images/Red/" + piece.getType() + "T.png").toURI()));
 					color = Color.RED;
 					break;
 				case 'y':
-					darkImage = ImageIO.read(new File("src/images/Yellow/"
-	  			  			+ piece.getType() + ".png"));
-					lightImage = ImageIO.read(new File("src/images/Yellow/"
-	  			  			+ piece.getType() + "T.png"));
+					darkImage = ImageIO.read(new File(getClass().getResource(
+							"/images/Yellow/" + piece.getType() + ".png").toURI()));
+					lightImage = ImageIO.read(new File(getClass().getResource(
+							"/images/Yellow/" + piece.getType() + "T.png").toURI()));
 					color = Color.YELLOW;
 					break;
 				case 'g':
-					darkImage = ImageIO.read(new File("src/images/Green/"
-	  			  			+ piece.getType() + ".png"));
-					lightImage = ImageIO.read(new File("src/images/Green/"
-	  			  			+ piece.getType() + "T.png"));
+					darkImage = ImageIO.read(new File(getClass().getResource(
+							"/images/Green/" + piece.getType() + ".png").toURI()));
+					lightImage = ImageIO.read(new File(getClass().getResource(
+							"/images/Green/" + piece.getType() + "T.png").toURI()));
 					color = Color.GREEN;
 					break;
 			}
@@ -141,7 +141,7 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 				submitButton.setEnabled(false);
 			}
 		}
-		catch(IOException ioe) { ioe.printStackTrace(); }
+		catch(Exception ioe) { ioe.printStackTrace(); }
 		initDark = darkImage;
 		initLight = lightImage;
 		lightImage = lightImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);

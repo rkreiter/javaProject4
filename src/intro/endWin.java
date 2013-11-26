@@ -39,10 +39,10 @@ public class endWin extends JDialog
     
     if(lw == 'l')
     	imagepanel = new JLabel(
-    			new ImageIcon("src/images/StartScreen/lose.gif"));
+    			new ImageIcon(getClass().getResource("/images/StartScreen/lose.gif")));
     else
     	imagepanel = new JLabel(
-    			new ImageIcon("src/images/StartScreen/win.gif"));
+    			new ImageIcon(getClass().getResource("/images/StartScreen/win.gif")));
     
     textPanel.add(imagepanel, BorderLayout.SOUTH);
     textPanel.setBackground(Color.BLACK);

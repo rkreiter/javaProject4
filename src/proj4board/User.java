@@ -29,8 +29,8 @@ public class User extends JPanel {
 		stats.add(this.score);
 		stats.setBackground(c);
     
-		this.avatar = avatar.getScaledInstance(680/4, 
-				680/4, BufferedImage.SCALE_DEFAULT);
+		this.avatar = avatar.getScaledInstance(Frame.PLAYERWIDTH/2, 
+				Frame.PLAYERWIDTH/2, BufferedImage.SCALE_DEFAULT);
 
 		new JPanel(new FlowLayout());
 		add(new JLabel( new ImageIcon(this.avatar)));

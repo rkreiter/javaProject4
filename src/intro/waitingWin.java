@@ -32,7 +32,7 @@ public class waitingWin extends JDialog
     
     
     imagepanel = new JLabel(
-    		new ImageIcon("src/images/StartScreen/waiting.gif"));
+    		new ImageIcon(getClass().getResource("/images/StartScreen/waiting.gif")));
     
     textPanel.add(imagepanel, BorderLayout.SOUTH);
     textPanel.setBackground(Color.BLACK);
