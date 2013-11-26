@@ -215,7 +215,7 @@ public class Board
     					terminal.append("Y ");
     					break;
     				case 'e':
-    					terminal.append(". ");
+    					terminal.append("_ ");
     					break;
     				default:
     					terminal.append(map[i][j] + " ");

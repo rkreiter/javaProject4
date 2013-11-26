@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
+import javax.swing.border.LineBorder;
 
 public class Blokus{
 	static startFrame init;
@@ -26,107 +27,114 @@ public class Blokus{
 	
 	public static char interpretResponse(String str) throws IOException{
 		switch (str.charAt(0)){
-    	//OK
-		case '0':
-			out.println("OK");
-    		break;
-
-    	//SEND NUMBER
-		case '1':
-			out.println("Sending Num Players");
-			String num;
-			textDial numplayers;
-			do{
-				numplayers = new textDial(init, "Number Of Players",
-						"   Enter the number of players (1-4): ");
-				num = numplayers.getText();
-			}while(!(num).matches("[1-4]"));
-			theClient.sendString(num, 0);
+	    	//OK
+			case '0':
+				out.println("OK");
+	    		break;
+	
+	    	//SEND NUMBER
+			case '1':
+				out.println("Sending Num Players");
+				String num;
+				textDial numplayers;
+				do{
+					numplayers = new textDial(init, "Number Of Players",
+							"   Enter the number of players (1-4): ");
+					num = numplayers.getText();
+				}while(!(num).matches("[1-4]"));
+				theClient.sendString(num, 0);
+		    	
+				String recvdStr = theClient.getResponse();
+		    	interpretResponse(recvdStr);
+	    		break;
 	    	
-			String recvdStr = theClient.getResponse();
-	    	interpretResponse(recvdStr);
-    		break;
-    	
-    	//SEND MOVE
-		case '2':
-			out.println("Send server move");
-			frame.setPlayerTurn(true, playerNum);
-    		break;
-    	
-    	//DO UPDATE
-		case '3':
-			out.println("Update board");
-			frame.placePieceOnBoard(str.substring(2));
-    		break;
-    	
-    	//GIVEN PLAYER INFO
-		case '4':
-			out.println("Got Color!: " + str.charAt(2));
-			switch (str.charAt(2)){
-				case 'b':
-					playerNum = 0;
-					break;
-				case 'r':
-					playerNum = 1;
-					break;
-				case 'y':
-					playerNum = 2;
-					break;
-				case 'g':
-					playerNum = 3;
-					break;
-			}
-			System.out.println(playerNum);
-			break;
-    	
-		//INITIALIZE PLAYER ARRAY
-		case '5':
-			out.println("Get all Players");
-			Scanner scan1 = new Scanner(str);
-			scan1.next();
-			numPlayers = scan1.nextInt();
-			players = new Player[numPlayers];
-			for(int i = 0; i < numPlayers; ++i){
-				players[i] = new Player(scan1.next(), scan1.next().charAt(0));
-			}
-			scan1.close();
-			break;
-						
-    	//END GAME
-		case '6':
-			out.println("Game over");
-			Scanner scan2 = new Scanner(str);
-			scan2.next();
-			endWin end;
-			if(scan2.next().equals(player.getName())){
-				if(init.getPlay() == 'l'){
-					int i = 0;
-					while(players[i].getScore() != 0)
-						i++;
-						out.println(players[i].getName() + " WINS!!!!");
-						end = new endWin(init, 'w', player.getName());
+	    	//SEND MOVE
+			case '2':
+				out.println("Send server move");
+				frame.setPlayerTurn(true, playerNum);
+	    		break;
+	    	
+	    	//DO UPDATE
+			case '3':
+				out.println("Update board");
+				frame.placePieceOnBoard(str.substring(2));
+	    		break;
+	    	
+	    	//GIVEN PLAYER INFO
+			case '4':
+				out.println("Got Color!: " + str.charAt(2));
+				switch (str.charAt(2)){
+					case 'b':
+						playerNum = 0;
+						break;
+					case 'r':
+						playerNum = 1;
+						break;
+					case 'y':
+						playerNum = 2;
+						break;
+					case 'g':
+						playerNum = 3;
+						break;
+				}
+				System.out.println(playerNum);
+				break;
+	    	
+			//INITIALIZE PLAYER ARRAY
+			case '5':
+				out.println("Get all Players");
+				Scanner scan1 = new Scanner(str);
+				scan1.next();
+				numPlayers = scan1.nextInt();
+				players = new Player[numPlayers];
+				for(int i = 0; i < numPlayers; ++i){
+					players[i] = new Player(scan1.next(), scan1.next().charAt(0));
+				}
+				scan1.close();
+				break;
+							
+	    	//END GAME
+			case '6':
+				out.println("Game over");
+				Scanner scan2 = new Scanner(str);
+				scan2.next();
+				endWin end;
+				if(scan2.next().equals(player.getName())){
+					if(init.getPlay() == 'l'){
+						int i = 0;
+						while(players[i].getScore() != 0)
+							i++;
+							out.println(players[i].getName() + " WINS!!!!");
+							end = new endWin(init, 'w', player.getName());
+					}
+					else{
+						out.println("YOU WIN!!!!");
+						end = new endWin(init, 'w');
+					}
+					end.pack();
+			    	end.setSize(end.getWidth()+50, end.getHeight());
 				}
 				else{
-					out.println("YOU WIN!!!!");
-					end = new endWin(init, 'w');
+					out.println("loser....");
+					end = new endWin(init, 'l');
+					end.pack();
+			    	end.setSize(end.getWidth()+50, end.getHeight()+10);
 				}
-				end.pack();
-		    	end.setSize(end.getWidth()+50, end.getHeight());
-			}
-			else{
-				out.println("loser....");
-				end = new endWin(init, 'l');
-				end.pack();
-		    	end.setSize(end.getWidth()+50, end.getHeight()+10);
-			}
-			frame.setVisible(false);
-	        end.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-	    	end.setVisible(true);
-			scan2.close();
-			theClient.closeConnection(0);
-			//System.exit(0);
-			playable = false;
-    		break;
+				frame.setVisible(false);
+		        end.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		    	end.setVisible(true);
+				scan2.close();
+				theClient.closeConnection(0);
+				//System.exit(0);
+				playable = false;
+	    		break;
+			case '7':
+				int temp = Integer.parseInt(str.substring(2));
+				out.println("Player Turn number: " + temp);
+				frame.users[frame.turn].setBorder(null);
+				frame.turn = temp;
+				frame.users[frame.turn].setBorder(new LineBorder(Color.WHITE, 5));
+				break;
 		}
 		return '\0';
 	}

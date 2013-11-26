@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
 
 
 
@@ -209,6 +210,8 @@ public class PiecePanel extends JPanel {
 					tempPlayer = frame.players[frame.turn];
 					//Update score
 					frame.users[frame.turn].score.setText(String.valueOf(player.getScore()));
+					frame.users[frame.turn].setBorder(null);
+			    	
 					
 					//Check if winning player
 					if(tempPlayer.getScore() == 0){
@@ -251,6 +254,7 @@ public class PiecePanel extends JPanel {
 			    				tempPlayer.setPlayable(false);
 			    		}
 			    	} while(!tempPlayer.isPlayable());
+			    	frame.users[frame.turn].setBorder(new LineBorder(Color.WHITE, 5));
 					
 					//Switch panel
 					frame.mainPanel.remove(frame.pieces);

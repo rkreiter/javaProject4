@@ -112,8 +112,11 @@ public class StartServer{
 	    	textArea.append(players[turn].getName() + "'s Move\n");
 	    	textArea.setCaretPosition(textArea.getText().length() - 1);
 
-	    	//Get a valid move from current Player
 	    	try{
+	    		//Tell everyone who's move it is
+	    		theServer.announceTurn(turn);
+	    		
+		    	//Get a valid move from current Player
 	    		theServer.askForMove(turn);
 	    		playerMove = theServer.getMove(turn);
 	    		

@@ -148,6 +148,22 @@ public class ClientServerSocket {
     	return sendString("2", client);
     }
     
+    //Tells all Clients who's turn it is
+    public boolean announceTurn(int turn){
+    	boolean good = true;
+    	for(int i = 0; i < numPlayers; ++i){
+    		try{
+	    		if(!sendString("7 " + turn, i)){
+	    			good = false;
+	    		}
+    		}
+    		catch(Exception e){
+    			System.out.println("Someone isn't listening :" + i);
+    		}
+    	}
+    	return good;
+    }
+    
     //Tells all Clients a move to execute
     public boolean sendUpdate(String move, int client, JTextArea terminal){
     	for(int i = 0; i < numPlayers; ++i){

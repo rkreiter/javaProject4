@@ -23,6 +23,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
 
 import server.ClientServerSocket;
 
@@ -42,7 +43,8 @@ public class Frame extends JFrame {
 	JPanel mainPanel;
 	PiecePanel pieces;
 	PiecePanel piecePanelArray[];
-	User[] users;
+//MAY CHANGE THIS TO GETTER AND SETTER	
+	public User[] users;
 	//Game Variables
 	Board board;
 	Player[] players;
@@ -50,7 +52,8 @@ public class Frame extends JFrame {
 	int playerNum;
 	ClientServerSocket theClient;
 	boolean local;
-	int turn;
+//MAY CHANGE THIS TO GETTER AND SETTER
+	public int turn;
 	
 	public Frame(String title, Board board, Player[] players, Player player, 
 			int playerNum, ClientServerSocket theClient){
@@ -101,8 +104,11 @@ public class Frame extends JFrame {
 		catch (Exception e){ System.exit(10);}
 		for(int i = 0; i < players.length; ++i){
 	        users[i] = new User(players[i].getName(), p[i], colors[i]);
+	        if(i == 0){
+	        }
 	        playersPanel.add(users[i]);
 	    }
+		users[turn].setBorder(new LineBorder(Color.WHITE, 5));
 		
 		
 		
@@ -161,7 +167,7 @@ public class Frame extends JFrame {
 		int Y = Integer.parseInt(moveArray[3]);
 		//curPiece.setState(moveArray[4]);
 		int state = Integer.parseInt(moveArray[5]);
-
+		
 		//Local Player
 		Player updatePlayer;
 		int num = 0;
@@ -180,7 +186,6 @@ public class Frame extends JFrame {
 				break;
 		}
 		updatePlayer = players[num];
-		
 		
 		
 		ImageDrag currentPiece = new ImageDrag(curPiece, SPACESIZE, board, null, null);
