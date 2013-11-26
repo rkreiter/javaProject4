@@ -1,5 +1,8 @@
 package intro;
 
+import game.Board;
+import game.Player;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -13,6 +16,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import proj4board.Frame;
 
 
 public class startFrame extends JFrame
@@ -60,7 +65,43 @@ public class startFrame extends JFrame
                   {
                 	playGame = 'l';
                 	//System.out.println("PLAY = " + getPlay());
-                    setVisible(false);
+                	
+                	//Figure out number of players for local play
+                	String number;
+        			textDial numplayers;
+        			do{
+        				numplayers = new textDial(main, "Number Of Players",
+        						"   Enter the number of players (1-4): ");
+        				number = numplayers.getText();
+        			}while(!(number).matches("[1-4]"));
+        			int num = Integer.parseInt(number);
+                    numplayers.setVisible(false);
+
+
+                    //Get Names of Players
+                    Player players[] = new Player[num];
+                    char colors[] = new char[] {'b', 'r', 'y', 'g'};
+                    for(int i = 0; i < num; ++i){
+                    	textDial nameplayer;
+                    	String name;
+                		do{
+                	    	nameplayer = new textDial(main, "Name",
+                					"   Enter your name (no spaces allowed):  ");
+                	    	name = nameplayer.getText();
+                		}while(name.contains(" ") || name.isEmpty());
+                		nameplayer.setVisible(false);
+                		players[i] = new Player(name, colors[i]);
+                    }
+                    
+                    //Create info
+            		Board board = new Board();
+            		Player player = players[0];
+            	
+            		Frame frame = new Frame("Blokus", board, players, player, 0, null);
+            		frame.getContentPane().setBackground(Color.DARK_GRAY);
+            		frame.pack();
+            		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            		frame.setVisible(true);   
                   }
                 });
 
@@ -111,7 +152,7 @@ public class startFrame extends JFrame
                     ab.setVisible(true);
                   }});
     
-  //-----------------ABOUT BUTTON------------------//
+  //-----------------LOGIN BUTTON------------------//
     login = new JButton("Login For Online");
     login.addActionListener(lac);
     

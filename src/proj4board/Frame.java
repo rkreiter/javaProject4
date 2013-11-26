@@ -32,7 +32,9 @@ public class Frame extends JFrame {
 	//Display
 	JPanel playersPanel;
 	JLayeredPane boardPanel;
+	JPanel mainPanel;
 	PiecePanel pieces;
+	PiecePanel piecePanelArray[];
 	User[] users;
 	//Game Variables
 	Board board;
@@ -40,6 +42,8 @@ public class Frame extends JFrame {
 	Player player;
 	int playerNum;
 	ClientServerSocket theClient;
+	boolean local;
+	int turn;
 	
 	public Frame(String title, Board board, Player[] players, Player player, 
 			int playerNum, ClientServerSocket theClient){
@@ -51,23 +55,28 @@ public class Frame extends JFrame {
 		this.player = player;
 		this.playerNum = playerNum;
 		this.theClient = theClient;
+		turn = 0;
+		if(theClient == null)
+			local = true;
+		else
+			local = false;
 		
 		
 		//Create Player Panel
 		playersPanel = new JPanel(new GridLayout(4,1));
 		playersPanel.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
 		
-    Border bord1, bord2, finalborder;
-    bord1 = new CompoundBorder(
-        BorderFactory.createMatteBorder(0, 5, 0, 0, Color.BLUE),
-        BorderFactory.createMatteBorder(5, 0, 0, 0, Color.RED));
-    bord2 = new CompoundBorder(
-        BorderFactory.createMatteBorder(0, 0, 0, 5, Color.YELLOW),
-        BorderFactory.createMatteBorder(0, 0, 5, 0, Color.GREEN));
-    finalborder = new CompoundBorder(bord1, bord2);
+	    Border bord1, bord2, finalborder;
+	    bord1 = new CompoundBorder(
+	    		BorderFactory.createMatteBorder(0, 5, 0, 0, Color.BLUE),
+	    		BorderFactory.createMatteBorder(5, 0, 0, 0, Color.RED));
+	    bord2 = new CompoundBorder(
+	    		BorderFactory.createMatteBorder(0, 0, 0, 5, Color.YELLOW),
+	    		BorderFactory.createMatteBorder(0, 0, 5, 0, Color.GREEN));
+	    finalborder = new CompoundBorder(bord1, bord2);
 		
-    playersPanel.setBorder(finalborder);
-    playersPanel.setBackground(Color.DARK_GRAY.darker());
+	    playersPanel.setBorder(finalborder);
+	    playersPanel.setBackground(Color.DARK_GRAY.darker());
     
 		BufferedImage p[] = new BufferedImage[4];
 		Color[] colors = {Color.BLUE,Color.RED,Color.YELLOW, Color.GREEN};
@@ -97,12 +106,21 @@ public class Frame extends JFrame {
 	    
 	    
 		//Create Pieces Panel
-		pieces = new PiecePanel(this);
-    
+	    if(local){
+	    	piecePanelArray = new PiecePanel[players.length];
+	    	for(int i = 0; i < players.length; ++i){
+	    		piecePanelArray[i] = new PiecePanel(this, i);
+	    	}
+	    	pieces = piecePanelArray[0];
+	    }
+	    else{
+	    	pieces = new PiecePanel(this, playerNum);
+	    }
+		
 		
 		
 		//Merge panels together
-		JPanel mainPanel = new JPanel(new FlowLayout());        
+		mainPanel = new JPanel(new FlowLayout());        
 		mainPanel.add(playersPanel);
 		mainPanel.add(boardPanel);
 		mainPanel.add(pieces);

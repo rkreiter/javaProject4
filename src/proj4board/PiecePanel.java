@@ -1,6 +1,7 @@
 package proj4board;
 
 import game.*;
+import intro.endWin;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -44,7 +45,7 @@ public class PiecePanel extends JPanel {
 	Player player;
 	Piece piece;
 	
-	public PiecePanel(Frame frame) {
+	public PiecePanel(Frame frame, int x) {
 		this.setLayout(new BorderLayout());
 		this.setPreferredSize(new Dimension(PLAYERWIDTH, GRIDSIZE));
 		this.setBackground(Color.DARK_GRAY.darker());
@@ -52,7 +53,7 @@ public class PiecePanel extends JPanel {
 		//Initialize variables
 		boardPanel = frame.boardPanel;
 		this.board = frame.board;
-		this.player = frame.player;
+		this.player = frame.players[x];
 		this.frame = frame;
 		currentPiece = null;
 	  
@@ -199,7 +200,48 @@ public class PiecePanel extends JPanel {
 				frame.users[frame.playerNum].score.setText(String.valueOf(player.getScore()));
 				board.printBoard();
 				currentPiece = null;
-				if(frame.theClient != null){
+				if(frame.local){
+					Player tempPlayer;
+					tempPlayer = frame.players[frame.turn];
+					//Update score
+					frame.users[frame.turn].score.setText(String.valueOf(player.getScore()));
+					
+					//Check if winning player
+					if(tempPlayer.getScore() == 0){
+						System.out.println(tempPlayer.getName() + " WINS!!");
+						endWin end = new endWin(frame, 'w');
+						end.pack();
+				    	end.setSize(end.getWidth()+50, end.getHeight());
+						System.exit(0);
+					}
+					
+					//Find next player turn
+					frame.turn = (frame.turn + 1) % frame.players.length;
+					int count = 0;
+			    	do{
+			    		count++;
+			    		frame.turn = (frame.turn + 1) % frame.players.length;
+			    		tempPlayer = frame.players[frame.turn];
+			    		if(count > frame.players.length){
+							System.out.println(tempPlayer.getName() + " WINS!!");
+							endWin end = new endWin(frame, 'w');
+							end.pack();
+					    	end.setSize(end.getWidth()+50, end.getHeight());
+							System.exit(0);
+			    		}
+			    		if(tempPlayer.isPlayable()){
+			    			if(!board.playerCanPlay(tempPlayer))
+			    				tempPlayer.setPlayable(false);
+			    		}
+			    	} while(!tempPlayer.isPlayable());
+					
+					//Switch panel
+					frame.mainPanel.remove(frame.pieces);
+					frame.pieces = frame.piecePanelArray[frame.turn];
+					frame.mainPanel.add(frame.pieces);
+					frame.setContentPane(frame.mainPanel);
+				}
+				else{
 					frame.setPlayerTurn(false, frame.playerNum);
 					try {
 						frame.theClient.sendMove(piece.toString(X, Y));
