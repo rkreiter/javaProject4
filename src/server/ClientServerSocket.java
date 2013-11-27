@@ -72,6 +72,7 @@ public class ClientServerSocket {
 	            		catch(NumberFormatException e){}
 	            	} while(true);
 	            }
+	            
 	            //Send acknowledgment of join
             	sendAcknowledgement(i);
         	}
@@ -206,6 +207,11 @@ public class ClientServerSocket {
     		closeConnection(i);
     	}
     	return true;
+    }
+    
+    //Asks a Client to send them a login
+    public boolean askForLogin(int client) throws IOException{
+    	return sendString("8", client);
     }
     
     //Gets player login information from client

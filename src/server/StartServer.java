@@ -1,11 +1,19 @@
 package server;
 
 import static java.lang.System.out;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.net.*;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 
 import game.*;
 
@@ -41,6 +49,17 @@ public class StartServer{
 		terminal.setSize(600, 800);
 		terminal.add(scroll);
 		terminal.setVisible(true);
+		
+		//Put in an override shut down on server
+		ActionMap actionMap = scroll.getActionMap();
+        InputMap inputMap = scroll.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), "QUIT");
+        actionMap.put("QUIT", new AbstractAction() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		System.exit(0);
+        	}
+        });
+		
 		//Server Stuff
 		ClientServerSocket theServer;
 		InetAddress IP;
@@ -79,7 +98,20 @@ public class StartServer{
 	    //Wait for players to join
 	    for(int i = 0; i < numPlayers; ++i){
 	    	try{
+	    		//Will remove this line soon
 	    		playerName = theServer.getPlayerName(i);
+	            
+	    		//Ask users for login info
+	    		/*
+	            boolean validLogin = false;
+	            do{
+	            	theServer.askForLogin(i);
+	            	playerName = theServer.getPlayerName(i);
+	            	//if valid login
+	            		validLogin = true;
+	            } while(!validLogin);
+	            */
+	    		
 	    		players[i] = new Player(playerName, colors[i]);
 	    		theServer.sendPlayerInfoToClient(players[i], i);
 	    	}

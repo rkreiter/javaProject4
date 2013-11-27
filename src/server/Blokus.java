@@ -128,12 +128,18 @@ public class Blokus{
 				//System.exit(0);
 				playable = false;
 	    		break;
+	    	
+	    	//GIVEN WHICH PLAYERS TURN IT IS
 			case '7':
 				int temp = Integer.parseInt(str.substring(2));
 				out.println("Player Turn number: " + temp);
 				frame.users[frame.turn].setBorder(new LineBorder(Color.DARK_GRAY, 3));
 				frame.turn = temp;
 				frame.users[frame.turn].setBorder(new LineBorder(Color.WHITE, 3));
+				break;
+				
+			//ASKED TO SEND A VALID LOGIN
+			case '8':
 				break;
 		}
 		return '\0';
@@ -180,10 +186,13 @@ public class Blokus{
 	    theClient.startClient();
 	    
 	    
-	    
     	//0: Get response from server to get name
     	recvdStr = theClient.getResponse();
     	interpretResponse(recvdStr);  
+    	
+    	
+    	//THIS WILL BE WHERE THE USER SHOULD SEND LOGIN INFORMATION!!!
+    	//TROY I NEED YOU TO CHANGE THE LOGIN TO HAPPEN RIGHT HERE PLEASE :D
     	
 		if(init.getPlay() == 'o')
 			theClient.sendName(init.getUsername());
