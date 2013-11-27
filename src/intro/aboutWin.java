@@ -59,6 +59,7 @@ public class aboutWin extends JDialog
     add(textPanel);
 
     close = new JButton("Close");
+    close.setFocusPainted(false);
     close.addActionListener(new ActionListener()
               {
                 public void actionPerformed(ActionEvent e)

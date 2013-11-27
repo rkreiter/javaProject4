@@ -60,12 +60,14 @@ public class startFrame extends JFrame
     
     //-----------------LOGIN BUTTON/PLAY ONLINE------------------//
     login = new JButton("Login For Online");
+    login.setFocusPainted(false);
     login.addActionListener(lac);
     
 
     //--------------------LOCAL BUTTON---------------------//
 
     loc = new JButton("Play Locally");
+    loc.setFocusPainted(false);
     loc.addActionListener(new ActionListener()
                 {
                   public void actionPerformed(ActionEvent e)
@@ -117,6 +119,7 @@ public class startFrame extends JFrame
     //-----------------How to play button------------------//
 
     instr = new JButton("Rules");
+    instr.setFocusPainted(false);
     instr.addActionListener(new ActionListener()
                 {
                   public void actionPerformed(ActionEvent e)
@@ -135,6 +138,7 @@ public class startFrame extends JFrame
     //-----------------tutorial button------------------//
 
     tutor = new JButton("Tutorial");
+    tutor.setFocusPainted(false);
     tutor.addActionListener(new ActionListener()
                 {
                   public void actionPerformed(ActionEvent e)
@@ -145,6 +149,7 @@ public class startFrame extends JFrame
 
     //-----------------ABOUT BUTTON------------------//
     about = new JButton("About");
+    about.setFocusPainted(false);
     about.addActionListener(new ActionListener()
                 {
                   public void actionPerformed(ActionEvent e)
