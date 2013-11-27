@@ -2,8 +2,11 @@ package intro;
 
 import java.awt.event.ActionEvent; 
 import java.awt.event.ActionListener; 
+import java.awt.Color;
 import java.awt.FlowLayout;
+
 import javax.swing.*;
+
 import java.awt.*;
 
 
@@ -18,13 +21,12 @@ public class textDial extends JDialog
   {
     super(mainFrame, title, true);
 
-    JPanel southPan = new JPanel(new FlowLayout()); 
+    JPanel panel = new JPanel(new FlowLayout()); 
     setLayout(new BorderLayout());
     
+    //insert provided text
     JLabel question = new JLabel(q);
     question.setForeground(Color.WHITE);
-    
-    //set question in labelpanel
     add(question, BorderLayout.NORTH);
 
     //set text field size and add to panel
@@ -41,14 +43,17 @@ public class textDial extends JDialog
                                       setVisible(false);
                                     }});
     //add button to panel
-    southPan.add(okButton);
-    southPan.setBackground(Color.BLACK);
+    panel.add(okButton);
+    panel.setBackground(Color.BLACK);
 
     //add panel to JDialog
-    add(southPan, BorderLayout.SOUTH);
+    add(panel, BorderLayout.SOUTH);
     getContentPane().setBackground(Color.BLACK);
 
     pack();
+    setSize(getWidth()+20, getHeight());
+    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    setBackground(Color.BLACK);
     setVisible(true);
   }
   

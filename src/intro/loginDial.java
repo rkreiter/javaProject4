@@ -23,22 +23,22 @@ public class loginDial extends JDialog
   //public variables
   JTextField username;
   JPasswordField password;
-  JButton okButton;
+  JButton loginButt;
   JButton createButt;
 
   //constructor
   public loginDial(final startFrame mainFrame, String title, String q)
   {
     super(mainFrame, title, true);
-
+    
     JPanel mainPan = new JPanel(new GridLayout(2,2)); 
     JPanel buttons = new JPanel(new GridLayout(1,2)); 
     setLayout(new BorderLayout());
     
+    //username
     JLabel question = new JLabel(q, SwingConstants.RIGHT);
     question.setForeground(Color.WHITE);
     
-    //set question in labelpanel
     mainPan.add(question);
 
     //set text field size and add to panel
@@ -49,7 +49,6 @@ public class loginDial extends JDialog
     JLabel pass = new JLabel("   Password: ", SwingConstants.RIGHT);
     pass.setForeground(Color.WHITE);
     
-    //set question in labelpanel
     mainPan.add(pass, BorderLayout.NORTH);
 
     //set text field size and add to panel
@@ -59,38 +58,47 @@ public class loginDial extends JDialog
     mainPan.setBackground(Color.BLACK);
     
 
-    //create Jbutton for OK with action listener
-    okButton = new JButton(" Login ");
-    okButton.addActionListener(new ActionListener()
+    loginButt = new JButton(" Login ");
+    loginButt.addActionListener(new ActionListener()
                                   {
                                     public void actionPerformed(ActionEvent e)
                                     {
                                       BlokusDB db = new BlokusDB();
                                       String inputPass = new String(password.getPassword());
+                                      
+                                      //Check username and password
                                       if(!db.userLogin(username.getText(), inputPass))
                                       {
                                     	  username.setText("");
                                     	  password.setText("");
                                     	  errorWin err = new errorWin(mainFrame, "Invalid Username/Password!");
+                                    	  err.pack();
+                                          err.setSize(err.getWidth()+100, err.getHeight()+10);
                                     	  err.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                    	  setVisible(true);
                                     	  return;
                                       }
-                                    	
-                                      //hide window after action
+                                      
+                                      //changes login button to play online
                                       mainFrame.login.removeActionListener(mainFrame.lac);
                                       mainFrame.login.setText("     Play Online    ");
-                                   
+                                      
+                                      //play online actlist
                                       mainFrame.login.addActionListener(new ActionListener()
                                       {
                                         public void actionPerformed(ActionEvent e)
                                         {
-                                          //hide window after action
+                                          //closes intro screen
                                           mainFrame.playGame = 'o';
                                           setVisible(false);
                                           mainFrame.setVisible(false);
-                                        }});
+                                        }
+                                      });
+                                      //closes login dial
                                       setVisible(false);
-                                    }});
+                                    }
+                                  }
+    						   );
     
     createButt = new JButton(" Create New User ");
     createButt.addActionListener(new ActionListener()
@@ -99,31 +107,42 @@ public class loginDial extends JDialog
                                     {
                                     	BlokusDB db = new BlokusDB();
                                         String inputPass = new String(password.getPassword());
+                                        
+                                        //checks if username exists
                                         if(!db.createUser(username.getText(), inputPass))
                                         {
                                       	  username.setText("");
                                       	  password.setText("");
                                       	  errorWin err = new errorWin(mainFrame, "Username Taken");
+                                      	  err.pack();
+                                          err.setSize(err.getWidth()+100, err.getHeight()+10);
                                       	  err.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                      	  err.setVisible(true);
                                       	  return;
                                         }
                                     	
-                                    	mainFrame.login.removeActionListener(mainFrame.lac);
+                                        //changes login button to play online
+                                        mainFrame.login.removeActionListener(mainFrame.lac);
                                         mainFrame.login.setText("     Play Online    ");
-                                     
+                                        
+                                        //play online actlist
                                         mainFrame.login.addActionListener(new ActionListener()
                                         {
                                           public void actionPerformed(ActionEvent e)
                                           {
-                                            //hide window after action
-                                        	  mainFrame.playGame = 'o';
-                                              setVisible(false);
-                                              mainFrame.setVisible(false);
-                                          }});
+                                            //closes intro screen
+                                            mainFrame.playGame = 'o';
+                                            setVisible(false);
+                                            mainFrame.setVisible(false);
+                                          }
+                                        });
+                                        //closes login dial
                                         setVisible(false);
-                                    }});
+                                    }
+                                  }
+    							);
     //add button to panel
-    buttons.add(okButton);
+    buttons.add(loginButt);
     buttons.add(createButt);
     buttons.setBackground(Color.BLACK);
 
@@ -135,7 +154,7 @@ public class loginDial extends JDialog
     pack();
   }
   
-  //returns what the user entered in the text field
+  //returns the username
   public String getName()
   {
     return (username.getText());

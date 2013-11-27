@@ -65,6 +65,7 @@ public class aboutWin extends JDialog
                 {
                   setVisible(false);
                 }});
+    
     textPanel.add(close, BorderLayout.SOUTH);
     getContentPane().setBackground(Color.BLACK);
   }

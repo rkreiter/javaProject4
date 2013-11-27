@@ -46,17 +46,24 @@ public class startFrame extends JFrame
     //set title
     super(init);
     setLayout(new BorderLayout());
-    ImageIcon icon = new ImageIcon(getClass().getResource("/images/StartScreen/introbackground.png")); 
+    ImageIcon icon = new ImageIcon(getClass().getResource(
+    					"/images/StartScreen/introbackground.png")); 
     Image img = icon.getImage();
     icon = new ImageIcon(img);
     setContentPane(new JLabel(icon));
     setLayout(new BorderLayout());
     getContentPane().setBackground(Color.BLACK);
 
-    title = new JLabel(new ImageIcon(getClass().getResource("/images/StartScreen/title.png")));
+    title = new JLabel(new ImageIcon(getClass().getResource(
+    								"/images/StartScreen/title.png")));
+    
+    
+    //-----------------LOGIN BUTTON/PLAY ONLINE------------------//
+    login = new JButton("Login For Online");
+    login.addActionListener(lac);
     
 
-    //--------------------PLAY BUTTON---------------------//
+    //--------------------LOCAL BUTTON---------------------//
 
     loc = new JButton("Play Locally");
     loc.addActionListener(new ActionListener()
@@ -86,7 +93,8 @@ public class startFrame extends JFrame
                     	String name;
                 		do{
                 	    	nameplayer = new textDial(main, "Name",
-                					"   Enter your name (no spaces allowed):  ");
+                					"   Player " + (i+1) + 
+                					", enter your name (no spaces allowed):  ");
                 	    	name = nameplayer.getText();
                 		}while(name.contains(" ") || name.isEmpty());
                 		nameplayer.setVisible(false);
@@ -108,7 +116,7 @@ public class startFrame extends JFrame
 
     //-----------------How to play button------------------//
 
-    instr = new JButton("Dem Rulz");
+    instr = new JButton("Rules");
     instr.addActionListener(new ActionListener()
                 {
                   public void actionPerformed(ActionEvent e)
@@ -145,7 +153,6 @@ public class startFrame extends JFrame
                     ab = new aboutWin(main);
                                        
                     //general formatting for Jdialog window
-                    
                     ab.pack();
                     ab.setSize(ab.getWidth()+100, ab.getHeight()+10);
                     ab.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -153,12 +160,10 @@ public class startFrame extends JFrame
                     ab.setVisible(true);
                   }});
     
-  //-----------------LOGIN BUTTON------------------//
-    login = new JButton("Login For Online");
-    login.addActionListener(lac);
     
     
-
+    
+    //---------------FILL MAINFRAME------------------//
     JLabel fill = new JLabel("    ");
     fill.setBackground(Color.BLACK);
     buttons.add(login);

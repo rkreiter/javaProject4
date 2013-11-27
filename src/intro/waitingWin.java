@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class waitingWin extends JDialog
 {
@@ -25,14 +26,15 @@ public class waitingWin extends JDialog
     //base layout fields
     textPanel = new JPanel(new BorderLayout());
   
-    head = new JLabel("\nWaiting for other players to join game...");
+    head = new JLabel("Waiting for other players to join game...", 
+    					SwingConstants.CENTER);
     head.setForeground(Color.GREEN);
 
     textPanel.add(head, BorderLayout.NORTH);
     
-    
     imagepanel = new JLabel(
-    		new ImageIcon(getClass().getResource("/images/StartScreen/waiting.gif")));
+    		new ImageIcon(getClass().getResource(
+    				"/images/StartScreen/waiting.gif")));
     
     textPanel.add(imagepanel, BorderLayout.SOUTH);
     textPanel.setBackground(Color.BLACK);

@@ -54,6 +54,7 @@ public class howtoWin extends JDialog
     rulzArea.setForeground(Color.WHITE);
     rulzArea.setColumns(50);
     
+    //colorful borders start
     JPanel blue = new JPanel(new FlowLayout());
     blue.add(rulzArea);
     blue.setBorder(BorderFactory.createLineBorder(Color.blue));
@@ -73,6 +74,7 @@ public class howtoWin extends JDialog
     green.add(red);
     green.setBorder(BorderFactory.createLineBorder(Color.green));
     green.setOpaque(false);
+    //colorful borders end
     
     main.add(green);
 

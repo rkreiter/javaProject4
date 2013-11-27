@@ -160,6 +160,8 @@ public class Blokus{
 	    init.setSize(600,600);
 	    init.setVisible(true);
 	    init.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    
+	    //wait for either game type to be ran
 	    boolean running = false;
 	    while(init.getPlay() == 'n'){
 	    	if(!running){
@@ -167,6 +169,8 @@ public class Blokus{
 	    		running = true;
 	    	}
 	    }
+	    
+	    //set global gametype
 	    if(init.getPlay() == 'l'){
 	    	gameType = 'l';
 	    	return;
@@ -177,10 +181,10 @@ public class Blokus{
 	    //Create Client after Start button hit
 	    //theClient = new ClientServerSocket("192.168.1.234", 4000);
 	    //theClient = new ClientServerSocket("67.194.3.146", 4000);
-	    //theClient = new ClientServerSocket("192.168.1.213", 4000);
+	    theClient = new ClientServerSocket("192.168.1.213", 4000);
 	    //theClient = new ClientServerSocket("141.213.55.90", 4000);
 	    //theClient = new ClientServerSocket("192.168.1.66", 4000);
-	    theClient = new ClientServerSocket("192.168.56.1", 4040);
+	    //theClient = new ClientServerSocket("192.168.56.1", 4040);
 	    
 	    
 	    theClient.startClient();
@@ -194,7 +198,7 @@ public class Blokus{
     	//THIS WILL BE WHERE THE USER SHOULD SEND LOGIN INFORMATION!!!
     	//TROY I NEED YOU TO CHANGE THE LOGIN TO HAPPEN RIGHT HERE PLEASE :D
     	
-		if(init.getPlay() == 'o')
+		if(gameType == 'o')
 			theClient.sendName(init.getUsername());
 		
 		//Put up waiting prompt

@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 
 public class endWin extends JDialog
 {
-  //constructor
+  //-----------------ENDWIN FOR ONLINE GAME----------------------//
   public endWin(JFrame mainFrame, char lw)
   {
     super(mainFrame, "GAME OVER", false);
@@ -39,16 +39,19 @@ public class endWin extends JDialog
     
     if(lw == 'l')
     	imagepanel = new JLabel(
-    			new ImageIcon(getClass().getResource("/images/StartScreen/lose.gif")));
+    		new ImageIcon(getClass().getResource("/images/StartScreen/lose.gif")));
     else
     	imagepanel = new JLabel(
-    			new ImageIcon(getClass().getResource("/images/StartScreen/win.gif")));
+    		new ImageIcon(getClass().getResource("/images/StartScreen/win.gif")));
     
     textPanel.add(imagepanel, BorderLayout.SOUTH);
     textPanel.setBackground(Color.BLACK);
     add(textPanel);
     getContentPane().setBackground(Color.BLACK);
   }
+  
+  
+  //-----------------ENDWIN FOR LOCAL GAME----------------------//
   public endWin(JFrame mainFrame, char lw, String name)
   {
     super(mainFrame, "GAME OVER", false);
