@@ -94,9 +94,11 @@ public class PiecePanel extends JPanel {
 		for (int i = 0; i < 21; ++i) {
 			try {
 				im[i] = ImageIO.read(new File(getClass().getResource("/images/" + color 
-						+ "/" + String.valueOf(i) + ".png").toURI()));
+						+ "/" + String.valueOf(i) + "S.png").toURI()));
 			}
-			catch (Exception e){ System.exit(10); }
+			catch (Exception e){ 
+			  System.out.println("Stuff");
+			  System.exit(10); }
 		}
 		
 		//Add all the images to the panel
