@@ -3,7 +3,6 @@ package proj4board;
 import game.Board;
 import game.Piece;
 import game.Player;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,7 +12,6 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Scanner;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -147,8 +145,17 @@ public class Frame extends JFrame {
 		mainPanel.add(boardPanel);
 		mainPanel.add(pieces);
 		mainPanel.setBackground(Color.DARK_GRAY);
-		add(mainPanel);
+		this.setContentPane(mainPanel);
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+		//Trying to get key listener to work
+		KeyEar listen = new KeyEar();
+		mainPanel.addKeyListener(listen);
+		this.addKeyListener(listen);
+		playersPanel.addKeyListener(listen);
+		boardPanel.addKeyListener(listen);
+		pieces.addKeyListener(listen);
+		
 	}
 	
 	public void placePieceOnBoard(String move){
