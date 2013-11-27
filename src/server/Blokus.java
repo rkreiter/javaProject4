@@ -173,7 +173,8 @@ public class Blokus{
 	    //theClient = new ClientServerSocket("67.194.3.146", 4000);
 	    //theClient = new ClientServerSocket("192.168.1.213", 4000);
 	    //theClient = new ClientServerSocket("141.213.55.90", 4000);
-	      theClient = new ClientServerSocket("192.168.1.66", 4000);
+	    //theClient = new ClientServerSocket("192.168.1.66", 4000);
+	    theClient = new ClientServerSocket("192.168.56.1", 4040);
 	    
 	    
 	    theClient.startClient();
@@ -184,16 +185,6 @@ public class Blokus{
     	recvdStr = theClient.getResponse();
     	interpretResponse(recvdStr);  
     	
-    	//Send Init Player request and wait for response
-    	/*if(init.getPlay() == 'l'){+-
-    	textDial nameplayer;
-    	String name;
-		do{
-	    	nameplayer = new textDial(init, "Name",
-					"   Enter your name (no spaces allowed):  ");
-	    	name = nameplayer.getText();
-		}while(name.contains(" ") || name.isEmpty());
-		*/
 		if(init.getPlay() == 'o')
 			theClient.sendName(init.getUsername());
 		

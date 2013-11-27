@@ -22,7 +22,7 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 	Image initLight;
 	boolean clicked;
 	int x=300, y=300, width, height, size;
-	int xVal = 0, yVal = 0;
+	int xVal = -5, yVal = -5;
 	Board board;
 	Player player;
 	Piece piece;

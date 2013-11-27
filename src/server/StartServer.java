@@ -62,7 +62,7 @@ public class StartServer{
 		//Create Server
 		IP = initServer();
 		textArea.append("The server IP address is " + IP.getHostAddress() + '\n');
-	    theServer = new ClientServerSocket(IP.getHostAddress(), 4000);
+	    theServer = new ClientServerSocket(IP.getHostAddress(), 4040);
 	    out.println("Calling start server");
 	    textArea.append("Calling start server\n");
 	    numPlayers = theServer.startServer(textArea);
@@ -202,9 +202,6 @@ public class StartServer{
 	    
 	    //Send end game
 	    theServer.sendEndGame(name);
-	    
-	    while(true){
-	    }
 	    
 	    //UPDATE DATABASE STUFF
 	    //RYAN WE NEED TO DO YOUR STUFF HERE!!!!!!
