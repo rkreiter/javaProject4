@@ -1,12 +1,9 @@
 package server;
 
 import static java.lang.System.out;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.net.*;
-import java.util.Scanner;
-
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -15,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
-
 import database.BlokusDB;
 import game.*;
 
@@ -72,9 +68,8 @@ public class StartServer{
 		//Game Information
 		Board board;
 		Player players[];
-		String playerName, playerMove = null;
+		String playerMove = null;
 		int numPlayers = -1;
-		char colors[] = new char[] {'b', 'r', 'y', 'g'};
 		BlokusDB db = new BlokusDB();
 		int type, x, y;
 		Player player = null;
@@ -88,61 +83,17 @@ public class StartServer{
 	    out.println("Calling start server");
 	    textArea.append("Calling start server\n");
 	    
-	    //Number of players
-	    numPlayers = theServer.startServer(textArea);
+	    //Init Server lets all players join and sign in
+	    players = theServer.startServer(textArea, db);
+	    numPlayers = players.length;
 	    out.println("Got num players: " + numPlayers);
 	    textArea.append("Got num players: " + numPlayers + '\n');
 	    
 	    
 	    //Initialize Everything
 	    board = new Board();
-	    players = new Player[numPlayers];
 	    droppedConnection = new boolean[numPlayers];
 
-	    //Wait for players to join
-	    for(int i = 0; i < numPlayers; ++i){
-	    	try{
-	    		//Ask users for login info
-	            boolean validLogin = false;
-	            int error = 0;
-	            do{
-	            	theServer.askForLogin(i, error);
-	            	playerName = theServer.getPlayerName(i);
-	            	Scanner scan = new Scanner(playerName);
-	            	String login = scan.next();
-                    String username = scan.next();
-                    String password = scan.next();
-                    scan.close();
-                    System.out.println(login + " " + username + " " + password);
-                    textArea.append(playerName + '\n');
-                    playerName = username;
-                    if(password == null || username == null){
-                    	error = 1;
-                    }
-                    else if(login.equals("Login")){
-	                    if(db.userLogin(username, password)) {
-	                    	textArea.append("Login Worked\n");
-	                    	validLogin = true;
-	                    }
-	                    else { error = 1; }
-	            	}
-	            	else if(login.equals("Create")){
-	    	    		if(db.createUser(username, password)) {
-	    	    			textArea.append("Create Worked\n");
-	    	    			validLogin = true;
-	    	    		}
-	    	    		else { error = 2; }
-	            	}
-	            } while(!validLogin);
-	    		players[i] = new Player(playerName, colors[i]);
-	    		theServer.sendPlayerInfoToClient(players[i], i);
-	    	}
-	    	catch(Exception e){
-	    		System.out.println("Problem getting clients");
-	    		textArea.append("Problem getting clients\n");
-	    		System.exit(2);
-	    	}
-	    }
 	    
 	    //send all player info to each client for them to make their boards
 	    out.println("Sending All Player's Information");

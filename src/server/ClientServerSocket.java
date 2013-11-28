@@ -46,8 +46,9 @@ public class ClientServerSocket {
     }
     
     //Init for Server **returns num players
-    public int startServer(JTextArea terminal) {
+    public Player[] startServer(JTextArea terminal, BlokusDB db) {
         numPlayers = 4;
+        Player players[] = null;
         try {
         	serverSock = new ServerSocket(portNum);
             for(int i = 0; i < numPlayers; ++i){
@@ -73,10 +74,55 @@ public class ClientServerSocket {
 	            		}
 	            		catch(NumberFormatException e){}
 	            	} while(true);
+	            	players = new Player[numPlayers];
 	            }
 	            
 	            //Send acknowledgment of join
-            	sendAcknowledgement(i);
+            	//sendAcknowledgement(i);
+	            
+	            try{
+		    		//Ask users for login info
+		            boolean validLogin = false;
+		            String playerName;
+		            char colors[] = new char[] {'b', 'r', 'y', 'g'};
+		            int error = 0;
+		            do{
+		            	askForLogin(i, error);
+		            	playerName = getPlayerName(i);
+		            	Scanner scan = new Scanner(playerName);
+		            	String login = scan.next();
+	                    String username = scan.next();
+	                    String password = scan.next();
+	                    scan.close();
+	                    System.out.println(login + " " + username + " " + password);
+	                    terminal.append(playerName + '\n');
+	                    playerName = username;
+	                    if(password == null || username == null){
+	                    	error = 1;
+	                    }
+	                    else if(login.equals("Login")){
+		                    if(db.userLogin(username, password)) {
+		                    	terminal.append("Login Worked\n");
+		                    	validLogin = true;
+		                    }
+		                    else { error = 1; }
+		            	}
+		            	else if(login.equals("Create")){
+		    	    		if(db.createUser(username, password)) {
+		    	    			terminal.append("Create Worked\n");
+		    	    			validLogin = true;
+		    	    		}
+		    	    		else { error = 2; }
+		            	}
+		            } while(!validLogin);
+		    		players[i] = new Player(playerName, colors[i]);
+		    		sendPlayerInfoToClient(players[i], i);
+		    	}
+		    	catch(Exception e){
+		    		System.out.println("Problem getting clients");
+		    		terminal.append("Problem getting clients\n");
+		    		System.exit(2);
+		    	}
         	}
         }
         catch (IOException ioe) {
@@ -84,7 +130,7 @@ public class ClientServerSocket {
             terminal.append("ERROR: Caught exception starting server\n");
             System.exit(7);
         }
-        return numPlayers;
+        return players;
     }
     
     //Sends a string to specific client
