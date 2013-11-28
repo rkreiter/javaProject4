@@ -45,12 +45,14 @@ public class User extends JPanel {
 		stats.add(this.loses);
 		stats.add(this.avg);
 		stats.setBackground(c);
-    
-		this.avatar = avatar.getScaledInstance(Frame.PLAYERWIDTH/2, 
-				Frame.PLAYERWIDTH/2, BufferedImage.SCALE_DEFAULT);
+		
+		if(avatar != null)
+			this.avatar = avatar.getScaledInstance(Frame.PLAYERWIDTH/2, 
+					Frame.PLAYERWIDTH/2, BufferedImage.SCALE_DEFAULT);
 
 		new JPanel(new FlowLayout());
-		add(new JLabel( new ImageIcon(this.avatar)));
+		if(avatar != null)
+			add(new JLabel( new ImageIcon(this.avatar)));
 		setBorder((BorderFactory.createLineBorder(Color.DARK_GRAY, 3)));
 		add(stats);
 	}

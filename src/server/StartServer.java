@@ -48,6 +48,7 @@ public class StartServer{
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		terminal.setSize(600, 800);
 		terminal.add(scroll);
+		terminal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		terminal.setVisible(true);
 		
 		//Put in an override shut down on server
