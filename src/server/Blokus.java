@@ -16,6 +16,8 @@ import javax.swing.border.LineBorder;
 public class Blokus{
 	static startFrame init;
 	static Frame frame;
+	static WaitingWindow waiting;
+	static LoginDialog login;
 	public static Board board;
 	public static Player players[] = null;
 	public static Player player;
@@ -23,8 +25,46 @@ public class Blokus{
 	public static int numPlayers;
 	public static ClientServerSocket theClient;
 	public static boolean playable = true;
-	public static char gameType = 'n';
+
+	public static void main(String[] args) throws IOException{
+		//Game Variables
+		board = new Board();
+		player = null;
+	    playerNum = 0;
+	    String recvdStr;
+	    
+	    //Make Welcome Screen
+	    init = new startFrame("Welcome To Blokus");
+	    init.setVisible(true);
+	    //wait for either game type to be ran
+	    boolean running = false;
+	    while(init.getPlay() == 'n'){
+	    	if(!running){
+	    		System.out.print("");
+	    		running = true;
+	    	}
+	    }
+	    
+	    //Create Client after Start button hit
+	    theClient = new ClientServerSocket(init.getIP(), 4000);
+	    theClient.startClient();
+	    login = new LoginDialog(init, "Login", "   Enter username: ", theClient);
+	    
+        //Start actual game
+      	try{
+	        while(playable){
+	      		recvdStr = theClient.getResponse();
+	      		interpretResponse(recvdStr);
+      		}
+      	}
+      	catch(Exception e){
+      		System.out.println("Server has given client some sort of problem");
+      		System.out.println(e);
+      	}
+	}
 	
+	
+	//Helper Function
 	public static char interpretResponse(String str) throws IOException{
 		switch (str.charAt(0)){
 	    	//OK
@@ -36,16 +76,13 @@ public class Blokus{
 			case '1':
 				out.println("Sending Num Players");
 				String num;
-				textDial numplayers;
+				TextDialog numplayers;
 				do{
-					numplayers = new textDial(init, "Number Of Players",
+					numplayers = new TextDialog(init, "Number Of Players",
 							"   Enter the number of players (1-4): ");
 					num = numplayers.getText();
 				}while(!(num).matches("[1-4]"));
 				theClient.sendString(num, 0);
-		    	
-				String recvdStr = theClient.getResponse();
-		    	interpretResponse(recvdStr);
 	    		break;
 	    	
 	    	//SEND MOVE
@@ -78,6 +115,11 @@ public class Blokus{
 						break;
 				}
 				System.out.println(playerNum);
+				waiting = new WaitingWindow(init);
+		    	waiting.pack();
+		    	waiting.setSize(waiting.getWidth()+50, waiting.getHeight()-30);
+		        waiting.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		    	waiting.setVisible(true);				
 				break;
 	    	
 			//INITIALIZE PLAYER ARRAY
@@ -91,6 +133,21 @@ public class Blokus{
 					players[i] = new Player(scan1.next(), scan1.next().charAt(0));
 				}
 				scan1.close();
+				player = players[playerNum];
+		    	board.printBoard();
+		    	
+		    	//Start game for each player
+		    	frame = new Frame("Blokus", board, players, player, playerNum, theClient);
+		    	frame.getContentPane().setBackground(Color.DARK_GRAY);
+		        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		        frame.pack();
+		        if(playerNum != 0){
+		        	frame.setPlayerTurn(false, playerNum);
+		        }
+		        
+		        waiting.setVisible(false);
+		        frame.setVisible(true);
 				break;
 							
 	    	//END GAME
@@ -125,7 +182,6 @@ public class Blokus{
 		    	end.setVisible(true);
 				scan2.close();
 				theClient.closeConnection(0);
-				//System.exit(0);
 				playable = false;
 	    		break;
 	    	
@@ -140,10 +196,24 @@ public class Blokus{
 				
 			//ASKED TO SEND A VALID LOGIN
 			case '8':
+				System.out.println(str);
+				switch(str.charAt(2)){
+					case '0':
+						break;
+					case '1':
+						new errorWin(init, "Invalid Username/Password!");
+						break;
+					case '2':
+						new errorWin(init, "Username Taken");
+						break;
+				}
+				out.println("Login Prompt");
+				login.setVisible(true);
 				break;
 		}
 		return '\0';
 	}
+<<<<<<< HEAD
 	
 	public static void main(String[] args) throws IOException{
 		//Game Variables
@@ -248,4 +318,6 @@ public class Blokus{
       		System.out.println(e);
       	}
 	}
+=======
+>>>>>>> asher
 }

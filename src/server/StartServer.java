@@ -5,6 +5,7 @@ import static java.lang.System.out;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.net.*;
+import java.util.Scanner;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -15,18 +16,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 
+import database.BlokusDB;
 import game.*;
 
 public class StartServer{
 	static JFrame terminal;
 	static JTextArea textArea;
 	static JScrollPane scroll;
+	static int portNum = 4000;
   
 	public static InetAddress initServer(){
 		InetAddress IP = null;
 		try{
 	        IP = InetAddress.getLocalHost();
-	        out.println("The server IP address is " + IP.getHostAddress());
+	        out.println("The server IP address is " + IP.getHostAddress() +
+	        		"   Port: " + portNum);
 	    }
 	    catch(SecurityException s){
 	        out.println("Security Exception Thrown");
@@ -71,6 +75,7 @@ public class StartServer{
 		String playerName, playerMove = null;
 		int numPlayers = -1;
 		char colors[] = new char[] {'b', 'r', 'y', 'g'};
+		BlokusDB db = new BlokusDB();
 		
 		//Instant variables
 		int type, x, y;
@@ -80,8 +85,9 @@ public class StartServer{
 		
 		//Create Server
 		IP = initServer();
-		textArea.append("The server IP address is " + IP.getHostAddress() + '\n');
-	    theServer = new ClientServerSocket(IP.getHostAddress(), 4040);
+		textArea.append("The server IP address is " + IP.getHostAddress() + 
+				"   Port: " + portNum + '\n');
+	    theServer = new ClientServerSocket(IP.getHostAddress(), portNum);
 	    out.println("Calling start server");
 	    textArea.append("Calling start server\n");
 	    numPlayers = theServer.startServer(textArea);
@@ -98,25 +104,44 @@ public class StartServer{
 	    //Wait for players to join
 	    for(int i = 0; i < numPlayers; ++i){
 	    	try{
-	    		//Will remove this line soon
-	    		playerName = theServer.getPlayerName(i);
-	            
 	    		//Ask users for login info
-	    		/*
 	            boolean validLogin = false;
+	            int error = 0;
 	            do{
-	            	theServer.askForLogin(i);
+	            	theServer.askForLogin(i, error);
 	            	playerName = theServer.getPlayerName(i);
-	            	//if valid login
-	            		validLogin = true;
+	            	System.out.println(playerName);
+	            	textArea.append(playerName + '\n');
+	            	
+	            	//Check if its a valid login
+	            	Scanner scan = new Scanner(playerName);
+	            	String login = scan.next();
+                    String username = scan.next();
+                    String password = scan.next();
+                    scan.close();
+                    System.out.println(login + " " + username + " " + password);
+                    playerName = username;
+                    if(password == null){
+                    	error = 1;
+                    }
+                    else if(login.equals("Login")){
+	                    if(db.userLogin(username, password)) {
+	                    	validLogin = true;
+	                    }
+	                    else { error = 1; }
+	            	}
+	            	else if(login.equals("Create")){
+	    	    		if(db.createUser(username, password)) {
+	    	    			validLogin = true;
+	    	    		}
+	    	    		else { error = 2; }
+	            	}
 	            } while(!validLogin);
-	            */
 	    		
 	    		players[i] = new Player(playerName, colors[i]);
 	    		theServer.sendPlayerInfoToClient(players[i], i);
 	    	}
 	    	catch(Exception e){
-	    		//Should debug
 	    		System.exit(2);
 	    	}
 	    }
@@ -237,5 +262,6 @@ public class StartServer{
 	    
 	    //UPDATE DATABASE STUFF
 	    //RYAN WE NEED TO DO YOUR STUFF HERE!!!!!!
+	    System.exit(0);
 	}
 }
