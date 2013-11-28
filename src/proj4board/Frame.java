@@ -3,6 +3,7 @@ package proj4board;
 import game.Board;
 import game.Piece;
 import game.Player;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -14,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Scanner;
+
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -28,6 +30,8 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
+
 import server.ClientServerSocket;
 
 public class Frame extends JFrame { 
@@ -134,6 +138,7 @@ public class Frame extends JFrame {
 	    		piecePanelArray[i] = new PiecePanel(this, i);
 	    	}
 	    	pieces = piecePanelArray[0];
+	    	users[turn].setBorder(new LineBorder(Color.WHITE, 3));
 	    }
 	    else{
 	    	pieces = new PiecePanel(this, playerNum);
