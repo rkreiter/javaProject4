@@ -25,12 +25,14 @@ public class loginDial extends JDialog
   JPasswordField password;
   JButton loginButt;
   JButton createButt;
+  startFrame main;
 
   //constructor
   public loginDial(final startFrame mainFrame, String title, String q)
   {
     super(mainFrame, title, true);
     
+    main = mainFrame;
     JPanel mainPan = new JPanel(new GridLayout(2,2)); 
     JPanel buttons = new JPanel(new GridLayout(1,2)); 
     setLayout(new BorderLayout());
@@ -65,13 +67,14 @@ public class loginDial extends JDialog
                                     {
                                       BlokusDB db = new BlokusDB();
                                       String inputPass = new String(password.getPassword());
+                                      onlineListener ol = new onlineListener();
                                       
                                       //Check username and password
                                       if(!db.userLogin(username.getText(), inputPass))
                                       {
                                     	  username.setText("");
                                     	  password.setText("");
-                                    	  errorWin err = new errorWin(mainFrame, "Invalid Username/Password!");
+                                    	  errorWin err = new errorWin(main, "Invalid Username/Password!");
                                     	  err.pack();
                                           err.setSize(err.getWidth()+100, err.getHeight()+10);
                                     	  err.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -80,20 +83,11 @@ public class loginDial extends JDialog
                                       }
                                       
                                       //changes login button to play online
-                                      mainFrame.login.removeActionListener(mainFrame.lac);
-                                      mainFrame.login.setText("     Play Online    ");
+                                      main.login.removeActionListener(main.lac);
+                                      main.login.setText("     Play Online    ");
                                       
                                       //play online actlist
-                                      mainFrame.login.addActionListener(new ActionListener()
-                                      {
-                                        public void actionPerformed(ActionEvent e)
-                                        {
-                                          //closes intro screen
-                                          mainFrame.playGame = 'o';
-                                          setVisible(false);
-                                          mainFrame.setVisible(false);
-                                        }
-                                      });
+                                      main.login.addActionListener(ol);
                                       //closes login dial
                                       setVisible(false);
                                     }
@@ -107,13 +101,14 @@ public class loginDial extends JDialog
                                     {
                                     	BlokusDB db = new BlokusDB();
                                         String inputPass = new String(password.getPassword());
+                                        onlineListener ol = new onlineListener();
                                         
                                         //checks if username exists
                                         if(!db.createUser(username.getText(), inputPass))
                                         {
                                       	  username.setText("");
                                       	  password.setText("");
-                                      	  errorWin err = new errorWin(mainFrame, "Username Taken");
+                                      	  errorWin err = new errorWin(main, "Username Taken");
                                       	  err.pack();
                                           err.setSize(err.getWidth()+100, err.getHeight()+10);
                                       	  err.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -122,20 +117,11 @@ public class loginDial extends JDialog
                                         }
                                     	
                                         //changes login button to play online
-                                        mainFrame.login.removeActionListener(mainFrame.lac);
-                                        mainFrame.login.setText("     Play Online    ");
+                                        main.login.removeActionListener(main.lac);
+                                        main.login.setText("     Play Online    ");
                                         
                                         //play online actlist
-                                        mainFrame.login.addActionListener(new ActionListener()
-                                        {
-                                          public void actionPerformed(ActionEvent e)
-                                          {
-                                            //closes intro screen
-                                            mainFrame.playGame = 'o';
-                                            setVisible(false);
-                                            mainFrame.setVisible(false);
-                                          }
-                                        });
+                                        main.login.addActionListener(ol);
                                         //closes login dial
                                         setVisible(false);
                                     }
@@ -152,6 +138,20 @@ public class loginDial extends JDialog
     getContentPane().setBackground(Color.BLACK);
 
     pack();
+  }
+  
+  public class onlineListener implements ActionListener{
+    public void actionPerformed(ActionEvent e){
+      //ask for server IP address
+      textDial ipDial = new textDial(main, "Server IP Address",
+				"   Enter the IP Address of the running server: ");
+	  main.serverIP = ipDial.getText();
+    	
+      //closes intro screen
+      main.playGame = 'o';
+      setVisible(false);
+      main.setVisible(false);
+    }
   }
   
   //returns the username

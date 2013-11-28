@@ -181,7 +181,7 @@ public class Blokus{
 	    //Create Client after Start button hit
 	    //theClient = new ClientServerSocket("192.168.1.234", 4000);
 	    //theClient = new ClientServerSocket("67.194.3.146", 4000);
-	    theClient = new ClientServerSocket("192.168.1.213", 4000);
+	    theClient = new ClientServerSocket(init.getServerIP(), 4000);
 	    //theClient = new ClientServerSocket("141.213.55.90", 4000);
 	    //theClient = new ClientServerSocket("192.168.1.66", 4000);
 	    //theClient = new ClientServerSocket("192.168.56.1", 4040);

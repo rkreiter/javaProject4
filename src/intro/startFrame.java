@@ -37,6 +37,7 @@ public class startFrame extends JFrame
   JPanel buttons = new JPanel(new GridLayout(5,1));
   JPanel buttons2 = new JPanel(new FlowLayout());
   char playGame = 'n';
+  String serverIP;
 
   final int INTRO_WIDTH = 600, INTRO_HEIGHT = 600;
   
@@ -202,5 +203,8 @@ public class startFrame extends JFrame
   }
   public String getUsername(){
 	  return log.getName();
+  }
+  public String getServerIP(){
+	  return serverIP;
   }
 }
