@@ -115,6 +115,7 @@ public class startFrame extends JFrame {
 		tutor.setFocusPainted(false);
 		tutor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new startTutWin(main);
 				System.out.println("TUTORIAL");
 			}
 		});
