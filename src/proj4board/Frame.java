@@ -36,7 +36,7 @@ public class Frame extends JFrame {
 	final static int SCREEN_WIDTH = (int) screenSize.getWidth();
 	final static int SCREEN_HEIGHT = (int) screenSize.getHeight();
 	final static int GRIDSIZE =  (int) Math.min(SCREEN_WIDTH/2, 
-										Math.min(SCREEN_HEIGHT, 600));
+										Math.min(SCREEN_HEIGHT, 500));
 	final static int PLAYERWIDTH = GRIDSIZE/2;
 	final static int N = 20;
 	final static int SPACESIZE = GRIDSIZE/N;
