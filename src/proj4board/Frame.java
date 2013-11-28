@@ -70,7 +70,7 @@ public class Frame extends JFrame {
 		this.playerNum = playerNum;
 		this.theClient = theClient;
 		turn = 0;		
-		
+
 		//Create Player Panel
 		playersPanel = new JPanel(new GridLayout(4,1));
 		playersPanel.setPreferredSize(new Dimension(PLAYERWIDTH,GRIDSIZE));
@@ -92,6 +92,8 @@ public class Frame extends JFrame {
 		users = new User[4];
 		for(int i = 0; i < 4; ++i){
 			try {
+			//	ImageIcon icon = new ImageIcon(getClass().getResource(
+//						"/images/Board/Avatars/" + players[i].getName() + ".png"));
 			p[i] = ImageIO.read(new File(getClass().getResource(
 					"/images/Board/Avatars/" + 
 					players[i].getName() + ".png").toURI()));
@@ -129,7 +131,6 @@ public class Frame extends JFrame {
 	    gridholder.setSize(GRIDSIZE, GRIDSIZE);
 	    boardPanel.add(gridholder, JLayeredPane.DEFAULT_LAYER);
 	    
-	    
 		//Create Pieces Panel
 	    if(theClient == null){
 	    	piecePanelArray = new PiecePanel[players.length];
@@ -143,7 +144,6 @@ public class Frame extends JFrame {
 	    	pieces = new PiecePanel(this, playerNum);
 	    }
 		
-		
 		//Merge panels together
 		mainPanel = new JPanel(new FlowLayout());        
 		mainPanel.add(playersPanel);
@@ -153,7 +153,6 @@ public class Frame extends JFrame {
 		this.setContentPane(mainPanel);
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-		
 		//Adding Key Stroke Listeners
 		ActionMap actionMap = mainPanel.getActionMap();
         InputMap inputMap = mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -187,7 +186,7 @@ public class Frame extends JFrame {
         		}
         	}
         });
-	}
+}
 	
 	public void placePieceOnBoard(String move){
 		String moveArray[] = new String[6];
@@ -266,6 +265,7 @@ public class Frame extends JFrame {
 		board.printBoard();
 		updatePlayer.updateScore(curPiece.getValue());
 		users[num].score.setText(String.valueOf(updatePlayer.getScore()));
+
 	}
 
 	public void setPlayerTurn(boolean bool, int playernum){
