@@ -100,13 +100,13 @@ public class Frame extends JFrame {
 		users = new User[4];
 		try {
 			p[0] = ImageIO.read(new File(getClass().getResource(
-							"/images/Board/Avatars/Stephen.png").toURI()));
+							"/images/Board/Avatars/Asher.png").toURI()));
 			p[1] = ImageIO.read(new File(getClass().getResource(
 							"/images/Board/Avatars/Kyle.png").toURI()));
 			p[2] = ImageIO.read(new File(getClass().getResource(
 							"/images/Board/Avatars/Troy.png").toURI()));
 			p[3] = ImageIO.read(new File(getClass().getResource(
-							"/images/Board/Avatars/Asher.png").toURI()));
+							"/images/Board/Avatars/Stephen.png").toURI()));
 		}
 		catch (Exception e){ System.exit(10);}
 		for(int i = 0; i < players.length; ++i){
