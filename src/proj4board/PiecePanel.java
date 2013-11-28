@@ -2,14 +2,11 @@ package proj4board;
 
 import game.*;
 import intro.endWin;
-import server.Blokus;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -21,8 +18,6 @@ import javax.swing.JRadioButton;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
-
-
 
 public class PiecePanel extends JPanel {
 	//Constants
@@ -219,7 +214,7 @@ public class PiecePanel extends JPanel {
 					if(tempPlayer.getScore() == 0){
 						System.out.println(tempPlayer.getName() + " WINS!!");
 						endWin end;
-						if(Blokus.gameType == 'l')
+						if(frame.theClient == null)
 							  end = new endWin(frame, 'w', player.getName());
 							else
 							  end = new endWin(frame, 'w');
@@ -240,7 +235,7 @@ public class PiecePanel extends JPanel {
 			    		if(count > frame.players.length){
 							System.out.println(tempPlayer.getName() + " WINS!!");
 							endWin end;
-							if(Blokus.gameType == 'l')
+							if(frame.theClient == null)
 								  end = new endWin(frame, 'w', player.getName());
 								else
 								  end = new endWin(frame, 'w');

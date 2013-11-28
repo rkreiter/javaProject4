@@ -210,8 +210,8 @@ public class ClientServerSocket {
     }
     
     //Asks a Client to send them a login
-    public boolean askForLogin(int client) throws IOException{
-    	return sendString("8", client);
+    public boolean askForLogin(int client, int error) throws IOException{
+    	return sendString("8 " + error, client);
     }
     
     //Gets player login information from client
