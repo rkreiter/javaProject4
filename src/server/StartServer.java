@@ -108,28 +108,27 @@ public class StartServer{
 	            do{
 	            	theServer.askForLogin(i, error);
 	            	playerName = theServer.getPlayerName(i);
-	            	System.out.println(playerName);
-	            	textArea.append(playerName + '\n');
-	            	
-	            	//Check if its a valid login
 	            	Scanner scan = new Scanner(playerName);
 	            	String login = scan.next();
                     String username = scan.next();
                     String password = scan.next();
                     scan.close();
                     System.out.println(login + " " + username + " " + password);
+                    textArea.append(playerName + '\n');
                     playerName = username;
                     if(password == null || username == null){
                     	error = 1;
                     }
                     else if(login.equals("Login")){
 	                    if(db.userLogin(username, password)) {
+	                    	textArea.append("Login Worked\n");
 	                    	validLogin = true;
 	                    }
 	                    else { error = 1; }
 	            	}
 	            	else if(login.equals("Create")){
 	    	    		if(db.createUser(username, password)) {
+	    	    			textArea.append("Create Worked\n");
 	    	    			validLogin = true;
 	    	    		}
 	    	    		else { error = 2; }
@@ -145,14 +144,12 @@ public class StartServer{
 	    	}
 	    }
 	    
-	    
 	    //send all player info to each client for them to make their boards
-	    //Will eventually put RYANS DATA HERE**********************************************
 	    out.println("Sending All Player's Information");
 	    textArea.append("Sending All Player's Information\n");
 	    for(int i = 0; i < numPlayers; ++i){
 	    	try{
-	    		theServer.sendAllPlayersToClient(players, i);
+	    		theServer.sendAllPlayersToClient(players, i, db);
 	    	}
 	    	catch(Exception e){
 	    		System.out.println("Player " + i + " left");
@@ -254,7 +251,15 @@ public class StartServer{
 	    theServer.sendEndGame(name);
 	    
 	    //UPDATE DATABASE STUFF
-	    //RYAN WE NEED TO DO YOUR STUFF HERE!!!!!!
+	    for(int i = 0; i < numPlayers; ++i){
+	    	player = players[i];
+	    	boolean win = false;
+	    	if(player.getName().equals(name)){
+	    		win = true;
+	    	}
+	    	out.println(player.getName() + " " + win + " " + player.getScore());
+	    	db.updateStats(player.getName(), player.getScore(), win);
+	    }
 	    System.exit(0);
 	}
 }

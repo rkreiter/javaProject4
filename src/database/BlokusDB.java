@@ -109,8 +109,12 @@ public class BlokusDB {
 				String update = "UPDATE PlayerInfo SET Wins=" + wins +", Losses=" + losses + 
 								", AverageScore="+ newAvg +" WHERE UserId = "+ res.getInt("UserId") + ";";
 				PreparedStatement ps = conn.prepareStatement(update);
-				
-				if(!ps.execute()) out.println("ERROR: Couldn't update player stats.");
+				boolean good = ps.execute();
+				//RYAN ps.execute() ALWAYS RETURNS FALSE THIS IS BAD... 
+				//BUT IT WORKS SO I DONT UNDERSTAND
+				if(!good){ 
+					//out.println("ERROR: Couldn't update player stats.");
+				}
 			}
 			else
 				out.println("ERROR: No such user " + userName);

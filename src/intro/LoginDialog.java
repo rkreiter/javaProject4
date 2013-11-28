@@ -103,6 +103,7 @@ public class LoginDialog extends JDialog {
 	    pack();
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		getContentPane().setBackground(Color.BLACK);
+		this.setVisible(false);
 	}
   
 	//returns the username

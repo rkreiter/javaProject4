@@ -62,8 +62,10 @@ public class Blokus{
     	waiting.setVisible(true);
 	    
         //Start actual game
+    	int count = 0;
       	try{
 	        while(playable){
+	        	count++;
 	      		recvdStr = theClient.getResponse();
 	      		interpretResponse(recvdStr);
       		}
@@ -71,6 +73,9 @@ public class Blokus{
       	catch(Exception e){
       		System.out.println("Server has given client some sort of problem");
       		System.out.println(e);
+      		System.out.println("Request number: " + count);
+      		new ErrorWindow(frame, "Server has broken");
+      		System.exit(0);
       	}
 	}
 	
@@ -130,12 +135,19 @@ public class Blokus{
 			//INITIALIZE PLAYER ARRAY
 			case '5':
 				out.println("Get all Players");
+				out.println(str);
 				Scanner scan1 = new Scanner(str);
 				scan1.next();
 				numPlayers = scan1.nextInt();
 				players = new Player[numPlayers];
+				int winArray[] = new int[numPlayers];
+				int loseArray[] = new int[numPlayers];
+				double avgArray[] = new double[numPlayers];
 				for(int i = 0; i < numPlayers; ++i){
 					players[i] = new Player(scan1.next(), scan1.next().charAt(0));
+					winArray[i] = (int) scan1.nextDouble();
+					loseArray[i] = (int) scan1.nextDouble();
+					avgArray[i] = scan1.nextDouble();
 				}
 				scan1.close();
 				player = players[playerNum];
@@ -147,6 +159,14 @@ public class Blokus{
 		        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		        frame.pack();
+
+		        //Display all players stats
+		        for(int i = 0; i < numPlayers; ++i){
+		        	frame.users[i].wins.setText("Wins: " + winArray[i]);
+					frame.users[i].loses.setText("Loses: " + loseArray[i]);
+					frame.users[i].avg.setText("Average Score: " + avgArray[i]);	
+		        }
+		        
 		        if(playerNum != 0){
 		        	frame.setPlayerTurn(false, playerNum);
 		        }

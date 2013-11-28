@@ -1,6 +1,7 @@
 package server;
 
 import game.*;
+
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.io.DataOutputStream;
@@ -11,6 +12,7 @@ import java.util.Vector;
 
 import javax.swing.JTextArea;
 
+import database.BlokusDB;
 import static java.lang.System.out;
 
 public class ClientServerSocket {
@@ -188,11 +190,17 @@ public class ClientServerSocket {
     	return sendString(s, client);
     }
     
-    public boolean sendAllPlayersToClient(Player p[], int client) throws IOException{
+    public boolean sendAllPlayersToClient(Player p[], int client, BlokusDB db) throws IOException{
     	String s = "5 " + numPlayers + " ";
+    	String name;
     	for(int i = 0; i < numPlayers; i++){
-    		s += p[i].getName() + " ";
+    		name = p[i].getName();
+    		s += name + " ";
     		s += p[i].getColor() + " ";
+    		//Get Wins, Loses, Average Score
+    		s += db.getStat(name, "Wins") + " ";
+    		s += db.getStat(name, "Losses") + " ";
+    		s += db.getStat(name, "AverageScore") + " ";
     	}
     	return sendString(s, client);
     }
