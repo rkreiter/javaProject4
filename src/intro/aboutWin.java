@@ -55,12 +55,23 @@ public class aboutWin extends JDialog {
 	    textPanel.setBackground(Color.BLACK);
 	    add(textPanel);
 
+<<<<<<< HEAD
 	    close = new JButton("Close");
 	    close.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		setVisible(false);
 	    	}
 	    });
+=======
+    close = new JButton("Close");
+    close.setFocusPainted(false);
+    close.addActionListener(new ActionListener()
+              {
+                public void actionPerformed(ActionEvent e)
+                {
+                  setVisible(false);
+                }});
+>>>>>>> bfa34b8bd047b46e90ec30143ce6e39041159078
     
 	    textPanel.add(close, BorderLayout.SOUTH);
 	    getContentPane().setBackground(Color.BLACK);

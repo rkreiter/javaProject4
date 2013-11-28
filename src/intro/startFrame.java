@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 
 import proj4board.Frame;
 
+<<<<<<< HEAD
 public class startFrame extends JFrame {
 	JPanel mainScreen = new JPanel(new BorderLayout());
 	JButton login;
@@ -35,6 +36,29 @@ public class startFrame extends JFrame {
 	char playGame = 'n';
 	String ipString;
 	final int INTRO_WIDTH = 600, INTRO_HEIGHT = 600;
+=======
+
+public class startFrame extends JFrame
+{
+  JPanel mainScreen = new JPanel(new BorderLayout());
+
+  JButton login;
+  JButton loc;
+  JButton instr;
+  JButton tutor;
+  JButton about;
+  startFrame main = this;
+  loginActionListener lac = new loginActionListener();
+  loginDial log;
+
+  JLabel title;
+  JPanel buttons = new JPanel(new GridLayout(5,1));
+  JPanel buttons2 = new JPanel(new FlowLayout());
+  char playGame = 'n';
+  String serverIP;
+
+  final int INTRO_WIDTH = 600, INTRO_HEIGHT = 600;
+>>>>>>> bfa34b8bd047b46e90ec30143ce6e39041159078
   
  
 	public startFrame(String init) {
@@ -52,6 +76,7 @@ public class startFrame extends JFrame {
 				"/images/StartScreen/title.png")));
     
     
+<<<<<<< HEAD
 		//-----------------LOGIN BUTTON/PLAY ONLINE------------------//
 		login = new JButton("Login For Online");
 		login.addActionListener(lac);
@@ -130,6 +155,115 @@ public class startFrame extends JFrame {
 				System.out.println("ABOUT");
 			}
 		});
+=======
+    //-----------------LOGIN BUTTON/PLAY ONLINE------------------//
+    login = new JButton("Login For Online");
+    login.setFocusPainted(false);
+    login.addActionListener(lac);
+    
+
+    //--------------------LOCAL BUTTON---------------------//
+
+    loc = new JButton("Play Locally");
+    loc.setFocusPainted(false);
+    loc.addActionListener(new ActionListener()
+                {
+                  public void actionPerformed(ActionEvent e)
+                  {
+                	playGame = 'l';
+                	//System.out.println("PLAY = " + getPlay());
+                	
+                	//Figure out number of players for local play
+                	String number;
+        			textDial numplayers;
+        			do{
+        				numplayers = new textDial(main, "Number Of Players",
+        						"   Enter the number of players (1-4): ");
+        				number = numplayers.getText();
+        			}while(!(number).matches("[1-4]"));
+        			int num = Integer.parseInt(number);
+                    numplayers.setVisible(false);
+
+
+                    //Get Names of Players
+                    Player players[] = new Player[num];
+                    char colors[] = new char[] {'b', 'r', 'y', 'g'};
+                    for(int i = 0; i < num; ++i){
+                    	textDial nameplayer;
+                    	String name;
+                		do{
+                	    	nameplayer = new textDial(main, "Name",
+                					"   Player " + (i+1) + 
+                					", enter your name (no spaces allowed):  ");
+                	    	name = nameplayer.getText();
+                		}while(name.contains(" ") || name.isEmpty());
+                		nameplayer.setVisible(false);
+                		players[i] = new Player(name, colors[i]);
+                    }
+                    
+                    //Create info
+            		Board board = new Board();
+            		Player player = players[0];
+            	
+            		Frame frame = new Frame("Blokus", board, players, player, 0, null);
+            		frame.getContentPane().setBackground(Color.DARK_GRAY);
+            		frame.pack();
+            		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            		frame.setVisible(true);   
+            		setVisible(false);
+                  }
+                });
+
+    //-----------------How to play button------------------//
+
+    instr = new JButton("Rules");
+    instr.setFocusPainted(false);
+    instr.addActionListener(new ActionListener()
+                {
+                  public void actionPerformed(ActionEvent e)
+                  {
+                    howtoWin how = new howtoWin(main);
+                    
+                    //general formatting for Jdialog window
+                    how.pack();
+                    how.setSize(how.getWidth()+10, how.getHeight()-220);
+                    how.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    how.getContentPane().setBackground(Color.BLACK);
+                    how.setVisible(true);
+                    System.out.println("HOW TO PLAY");
+                  }});
+
+    //-----------------tutorial button------------------//
+
+    tutor = new JButton("Tutorial");
+    tutor.setFocusPainted(false);
+    tutor.addActionListener(new ActionListener()
+                {
+                  public void actionPerformed(ActionEvent e)
+                  {
+                    System.out.println("TUTORIAL");
+                  }});
+
+
+    //-----------------ABOUT BUTTON------------------//
+    about = new JButton("About");
+    about.setFocusPainted(false);
+    about.addActionListener(new ActionListener()
+                {
+                  public void actionPerformed(ActionEvent e)
+                  {
+                    aboutWin ab;
+                    ab = new aboutWin(main);
+                                       
+                    //general formatting for Jdialog window
+                    ab.pack();
+                    ab.setSize(ab.getWidth()+100, ab.getHeight()+10);
+                    ab.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    ab.getContentPane().setBackground(Color.BLACK);
+                    ab.setVisible(true);
+                  }});
+    
+>>>>>>> bfa34b8bd047b46e90ec30143ce6e39041159078
     
 		//---------------FILL MAINFRAME------------------//
 		JLabel fill = new JLabel("    ");
@@ -167,6 +301,7 @@ public class startFrame extends JFrame {
 		return playGame;
 	}
   
+<<<<<<< HEAD
 	public String getUsername(){
 		return log.getName();
 	}
@@ -174,4 +309,15 @@ public class startFrame extends JFrame {
 	public String getIP(){
 		return ipString;
 	}
+=======
+  public char getPlay(){
+	  return playGame;
+  }
+  public String getUsername(){
+	  return log.getName();
+  }
+  public String getServerIP(){
+	  return serverIP;
+  }
+>>>>>>> bfa34b8bd047b46e90ec30143ce6e39041159078
 }
