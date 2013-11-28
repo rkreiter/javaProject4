@@ -55,6 +55,12 @@ public class Blokus{
 	    //Create login but don't use yet
 	    login = new LoginDialog(init, "Login", "   Enter username: ", theClient);
 	    
+	    waiting = new WaitingWindow(init);
+    	waiting.pack();
+    	waiting.setSize(waiting.getWidth()+50, waiting.getHeight()-30);
+        waiting.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	waiting.setVisible(true);
+	    
         //Start actual game
       	try{
 	        while(playable){
@@ -119,11 +125,6 @@ public class Blokus{
 						break;
 				}
 				System.out.println(playerNum);
-				waiting = new WaitingWindow(init);
-		    	waiting.pack();
-		    	waiting.setSize(waiting.getWidth()+50, waiting.getHeight()-30);
-		        waiting.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		    	waiting.setVisible(true);				
 				break;
 	    	
 			//INITIALIZE PLAYER ARRAY
