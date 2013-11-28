@@ -109,12 +109,11 @@ public class Frame extends JFrame {
 		}
 		
 		for(int i = 0; i < players.length; ++i){
-	        users[i] = new User(players[i].getName(), p[i], colors[i]);
+			boolean local = false;
+			if(theClient == null) local = true;
+	        users[i] = new User(players[i].getName(), p[i], colors[i], local);
 	        playersPanel.add(users[i]);
-	    }
-		//********THIS LINE SHOULDN'T BE HERE
-		//users[turn].setBorder(new LineBorder(Color.WHITE, 3));
-		
+	    }		
 		
 		//Create Board Panel
 		boardPanel = new JLayeredPane();

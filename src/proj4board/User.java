@@ -19,7 +19,7 @@ public class User extends JPanel {
 	public JLabel wins, loses, avg;
 	Color color;
   
-	public User(String name, Image avatar, Color c) {
+	public User(String name, Image avatar, Color c, boolean local) {
 		setLayout(new GridLayout(1,2));
     
 		this.name = new JLabel(name, JLabel.CENTER);
@@ -27,7 +27,7 @@ public class User extends JPanel {
 		this.color = c;
 		this.wins = new JLabel("Wins: N/A", JLabel.CENTER);
 		this.loses= new JLabel("Loses: N/A", JLabel.CENTER);
-		this.avg = new JLabel("Average Score: N/A", JLabel.CENTER);
+		this.avg = new JLabel("Avg Score: N/A", JLabel.CENTER);
 		stats = new JPanel(new GridLayout(5,1));
 		
 		Color col = Color.WHITE.brighter();
@@ -41,9 +41,11 @@ public class User extends JPanel {
 			
 		stats.add(this.name);
 		stats.add(this.score);
-		stats.add(this.wins);
-		stats.add(this.loses);
-		stats.add(this.avg);
+		if(!local){
+			stats.add(this.wins);
+			stats.add(this.loses);
+			stats.add(this.avg);
+		}
 		stats.setBackground(c);
 		
 		if(avatar != null)

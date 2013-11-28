@@ -210,8 +210,8 @@ public class StartServer{
 	    		win = true;
 	    	}
 	    	out.println(player.getName() + " " + win + " " + player.getScore());
+	    	textArea.append(player.getName() + " " + win + " " + player.getScore() + '\n');
 	    	db.updateStats(player.getName(), player.getScore(), win);
 	    }
-	    System.exit(0);
 	}
 }

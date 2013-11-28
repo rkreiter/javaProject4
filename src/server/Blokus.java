@@ -164,7 +164,7 @@ public class Blokus{
 		        for(int i = 0; i < numPlayers; ++i){
 		        	frame.users[i].wins.setText("Wins: " + winArray[i]);
 					frame.users[i].loses.setText("Loses: " + loseArray[i]);
-					frame.users[i].avg.setText("Average Score: " + avgArray[i]);	
+					frame.users[i].avg.setText("Avg Score: " + avgArray[i]);	
 		        }
 		        
 		        if(playerNum != 0){
