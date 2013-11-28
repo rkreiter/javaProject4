@@ -55,20 +55,6 @@ public class aboutWin extends JDialog {
 	    textPanel.setBackground(Color.BLACK);
 	    add(textPanel);
 
-<<<<<<< HEAD
-    close = new JButton("Close");
-    close.setFocusPainted(false);
-    close.addActionListener(new ActionListener()
-              {
-                public void actionPerformed(ActionEvent e)
-                {
-                  setVisible(false);
-                }});
-    
-    textPanel.add(close, BorderLayout.SOUTH);
-    getContentPane().setBackground(Color.BLACK);
-  }
-=======
 	    close = new JButton("Close");
 	    close.setFocusPainted(false);
 	    close.addActionListener(new ActionListener() {
@@ -84,5 +70,4 @@ public class aboutWin extends JDialog {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 	}
->>>>>>> asher
 }
