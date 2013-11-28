@@ -43,6 +43,7 @@ public class PiecePanel extends JPanel {
 	Board board;
 	Player player;
 	Piece piece;
+	int playerNum;
 	
 	public PiecePanel(Frame frame, int x) {
 		this.setLayout(new BorderLayout());
@@ -53,6 +54,7 @@ public class PiecePanel extends JPanel {
 		boardPanel = frame.boardPanel;
 		this.board = frame.board;
 		this.player = frame.players[x];
+		playerNum = x;
 		this.frame = frame;
 		currentPiece = null;
 	  
@@ -198,19 +200,18 @@ public class PiecePanel extends JPanel {
 				board.placePiece(X, Y, piece);
 				piece.setPlaced();
 				player.updateScore(piece.getValue());
-				frame.users[frame.playerNum].score.setText(String.valueOf(player.getScore()));
+				frame.users[playerNum].score.setText(String.valueOf(player.getScore()));
 				board.printBoard();
 				currentPiece = null;
+				
+				//Local Stuff
 				if(frame.theClient == null){
-					Player tempPlayer;
-					tempPlayer = frame.players[frame.turn];
 					//Update score
-					frame.users[frame.turn].score.setText(String.valueOf(player.getScore()));
-					frame.users[frame.turn].setBorder(new LineBorder(Color.DARK_GRAY, 3));
+					frame.users[playerNum].setBorder(new LineBorder(Color.DARK_GRAY, 3));
 			    	
 					//Check if winning player
-					if(tempPlayer.getScore() == 0){
-						System.out.println(tempPlayer.getName() + " WINS!!");
+					if(player.getScore() == 0){
+						System.out.println(player.getName() + " WINS!!");
 						EndWindow end = new EndWindow(frame, 'w', player.getName());
 						end.pack();
 				    	end.setSize(end.getWidth()+50, end.getHeight());
@@ -220,6 +221,7 @@ public class PiecePanel extends JPanel {
 					}
 					
 					//Find next player turn
+					Player tempPlayer = null;
 					int count = 0;
 			    	do{
 			    		count++;
@@ -231,7 +233,7 @@ public class PiecePanel extends JPanel {
 			    					tempPlayer = frame.players[i];
 			    			}
 							System.out.println(tempPlayer.getName() + " WINS!!");
-							EndWindow end = new EndWindow(frame, 'w', player.getName());
+							EndWindow end = new EndWindow(frame, 'w', tempPlayer.getName());
 							end.pack();
 					    	end.setSize(end.getWidth()+50, end.getHeight());
 					    	end.setVisible(true);
@@ -251,6 +253,8 @@ public class PiecePanel extends JPanel {
 					frame.mainPanel.add(frame.pieces);
 					frame.setContentPane(frame.mainPanel);
 				}
+				
+				//Server Stuff
 				else{
 					frame.setPlayerTurn(false, frame.playerNum);
 					try {
