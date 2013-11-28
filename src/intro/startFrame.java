@@ -319,5 +319,8 @@ public class startFrame extends JFrame
   public String getServerIP(){
 	  return serverIP;
   }
+<<<<<<< HEAD
+>>>>>>> bfa34b8bd047b46e90ec30143ce6e39041159078
+=======
 >>>>>>> bfa34b8bd047b46e90ec30143ce6e39041159078
 }
