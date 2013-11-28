@@ -8,10 +8,10 @@ import javax.swing.JFrame;
 public class Tester2 {
 	public static void main(String[] args) {
 		Player players[] = new Player[4];
-		players[0] = new Player("Stephen", 'b');
+		players[0] = new Player("Asher", 'b');
 		players[1] = new Player("Kyle", 'r');
 		players[2] = new Player("Troy", 'y');
-		players[3] = new Player("Asher", 'g');
+		players[3] = new Player("Stephen", 'g');
 		Board board = new Board();
 		Player player = players[0];
 	

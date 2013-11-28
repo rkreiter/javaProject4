@@ -25,6 +25,10 @@ public class User extends JPanel {
 		this.score = new JLabel("89", JLabel.CENTER);
 		this.color = c;
 		stats = new JPanel(new GridLayout(2,1));
+		if(c == Color.BLUE) {
+			this.name.setForeground(Color.WHITE);
+			this.score.setForeground(Color.WHITE);
+		}
 		stats.add(this.name);
 		stats.add(this.score);
 		stats.setBackground(c);

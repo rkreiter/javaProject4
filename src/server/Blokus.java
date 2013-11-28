@@ -121,7 +121,7 @@ public class Blokus{
 			    	end.setSize(end.getWidth()+50, end.getHeight()+10);
 				}
 				frame.setVisible(false);
-		        end.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		        end.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		    	end.setVisible(true);
 				scan2.close();
 				theClient.closeConnection(0);
