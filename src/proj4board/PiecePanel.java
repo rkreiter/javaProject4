@@ -1,7 +1,7 @@
 package proj4board;
 
 import game.*;
-import intro.endWin;
+import intro.EndWindow;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -202,28 +201,22 @@ public class PiecePanel extends JPanel {
 				frame.users[frame.playerNum].score.setText(String.valueOf(player.getScore()));
 				board.printBoard();
 				currentPiece = null;
-				if(frame.local){
+				if(frame.theClient == null){
 					Player tempPlayer;
 					tempPlayer = frame.players[frame.turn];
 					//Update score
 					frame.users[frame.turn].score.setText(String.valueOf(player.getScore()));
 					frame.users[frame.turn].setBorder(new LineBorder(Color.DARK_GRAY, 3));
 			    	
-					
 					//Check if winning player
 					if(tempPlayer.getScore() == 0){
 						System.out.println(tempPlayer.getName() + " WINS!!");
-						endWin end;
-						if(frame.theClient == null)
-							  end = new endWin(frame, 'w', player.getName());
-							else
-							  end = new endWin(frame, 'w');
+						EndWindow end = new EndWindow(frame, 'w', player.getName());
 						end.pack();
 				    	end.setSize(end.getWidth()+50, end.getHeight());
-				    	frame.setVisible(false);
-				        end.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 				    	end.setVisible(true);
-						return;
+				    	frame.setVisible(false);
+						System.exit(0);
 					}
 					
 					//Find next player turn
@@ -233,18 +226,17 @@ public class PiecePanel extends JPanel {
 			    		frame.turn = (frame.turn + 1) % frame.players.length;
 			    		tempPlayer = frame.players[frame.turn];
 			    		if(count > frame.players.length){
+			    			for(int i = 0; i < frame.players.length; ++i){
+			    				if(frame.players[i].getScore() < tempPlayer.getScore())
+			    					tempPlayer = frame.players[i];
+			    			}
 							System.out.println(tempPlayer.getName() + " WINS!!");
-							endWin end;
-							if(frame.theClient == null)
-								  end = new endWin(frame, 'w', player.getName());
-								else
-								  end = new endWin(frame, 'w');
+							EndWindow end = new EndWindow(frame, 'w', player.getName());
 							end.pack();
 					    	end.setSize(end.getWidth()+50, end.getHeight());
-					    	frame.setVisible(false);
-					        end.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 					    	end.setVisible(true);
-							return;
+					    	frame.setVisible(false);
+							System.exit(0);
 			    		}
 			    		if(tempPlayer.isPlayable()){
 			    			if(!board.playerCanPlay(tempPlayer))
@@ -263,7 +255,8 @@ public class PiecePanel extends JPanel {
 					frame.setPlayerTurn(false, frame.playerNum);
 					try {
 						frame.theClient.sendMove(piece.toString(X, Y));
-					} catch (IOException e1) {
+					} 
+					catch (IOException e1) {
 						System.out.println("Server is not listening to our move");
 						System.exit(0);
 					}

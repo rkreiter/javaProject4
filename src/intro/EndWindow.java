@@ -10,10 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class endWin extends JDialog {
+public class EndWindow extends JDialog {
 	//-----------------ENDWIN FOR ONLINE GAME----------------------//
-	public endWin(JFrame mainFrame, char lw) {
-		super(mainFrame, "GAME OVER", false);
+	public EndWindow(JFrame mainFrame, char lw) {
+		super(mainFrame, "GAME OVER", true);
 		setLayout(new FlowLayout());
 
 		JPanel textPanel;
@@ -49,8 +49,8 @@ public class endWin extends JDialog {
   
   
 	//-----------------ENDWIN FOR LOCAL GAME----------------------//
-	public endWin(JFrame mainFrame, char lw, String name) {
-		super(mainFrame, "GAME OVER", false);
+	public EndWindow(JFrame mainFrame, char lw, String name) {
+		super(mainFrame, "GAME OVER", true);
 		setLayout(new FlowLayout());
 
 		JPanel textPanel;

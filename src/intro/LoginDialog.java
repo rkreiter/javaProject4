@@ -64,7 +64,6 @@ public class LoginDialog extends JDialog {
 						System.out.println("Server quit on us... in login");
 						System.exit(20);
 					}
-					
 		    		setVisible(false);
 		    		username.setText("");
 	            	password.setText("");
@@ -85,7 +84,6 @@ public class LoginDialog extends JDialog {
 						System.out.println("Server quit on us... in login");
 						System.exit(20);
 					}
-					
 		    		setVisible(false);
 		    		username.setText("");
 	            	password.setText("");

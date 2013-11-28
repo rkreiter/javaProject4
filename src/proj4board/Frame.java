@@ -3,7 +3,6 @@ package proj4board;
 import game.Board;
 import game.Piece;
 import game.Player;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -15,7 +14,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Scanner;
-
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -30,8 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
-import javax.swing.border.LineBorder;
-
 import server.ClientServerSocket;
 
 public class Frame extends JFrame { 
@@ -49,8 +45,7 @@ public class Frame extends JFrame {
 	JLayeredPane boardPanel;
 	JPanel mainPanel;
 	PiecePanel pieces;
-	PiecePanel piecePanelArray[];
-//MAY CHANGE THIS TO GETTER AND SETTER	
+	PiecePanel piecePanelArray[];	
 	public User[] users;
 	//Game Variables
 	Board board;
@@ -58,8 +53,6 @@ public class Frame extends JFrame {
 	Player player;
 	int playerNum;
 	ClientServerSocket theClient;
-	boolean local;
-//MAY CHANGE THIS TO GETTER AND SETTER
 	public int turn;
 	
 	public Frame(String title, Board board, Player[] players, Player player, 
@@ -72,12 +65,7 @@ public class Frame extends JFrame {
 		this.player = player;
 		this.playerNum = playerNum;
 		this.theClient = theClient;
-		turn = 0;
-		if(theClient == null)
-			local = true;
-		else
-			local = false;
-		
+		turn = 0;		
 		
 		//Create Player Panel
 		playersPanel = new JPanel(new GridLayout(4,1));
@@ -98,24 +86,30 @@ public class Frame extends JFrame {
 		BufferedImage p[] = new BufferedImage[4];
 		Color[] colors = {Color.BLUE,Color.RED,Color.YELLOW, Color.GREEN};
 		users = new User[4];
-		try {
-			p[0] = ImageIO.read(new File(getClass().getResource(
-							"/images/Board/Avatars/Asher.png").toURI()));
-			p[1] = ImageIO.read(new File(getClass().getResource(
-							"/images/Board/Avatars/Kyle.png").toURI()));
-			p[2] = ImageIO.read(new File(getClass().getResource(
-							"/images/Board/Avatars/Troy.png").toURI()));
-			p[3] = ImageIO.read(new File(getClass().getResource(
-							"/images/Board/Avatars/Stephen.png").toURI()));
+		for(int i = 0; i < 4; ++i){
+			try {
+			p[i] = ImageIO.read(new File(getClass().getResource(
+					"/images/Board/Avatars/" + 
+					players[i].getName() + ".png").toURI()));
+			}
+			catch (Exception e) { 
+				try{
+					p[i] = ImageIO.read(new File(getClass().getResource(
+						"/images/Board/Avatars/blank.png").toURI()));
+				}
+				catch (Exception ee) {
+					System.out.println("Problem finding avatar");
+					p[i] = null;
+				}
+			}
 		}
-		catch (Exception e){ System.exit(10);}
+		
 		for(int i = 0; i < players.length; ++i){
 	        users[i] = new User(players[i].getName(), p[i], colors[i]);
-	        if(i == 0){
-	        }
 	        playersPanel.add(users[i]);
 	    }
-		users[turn].setBorder(new LineBorder(Color.WHITE, 3));
+		//********THIS LINE SHOULDN'T BE HERE
+		//users[turn].setBorder(new LineBorder(Color.WHITE, 3));
 		
 		
 		//Create Board Panel
@@ -133,9 +127,8 @@ public class Frame extends JFrame {
 	    boardPanel.add(gridholder, JLayeredPane.DEFAULT_LAYER);
 	    
 	    
-	    
 		//Create Pieces Panel
-	    if(local){
+	    if(theClient == null){
 	    	piecePanelArray = new PiecePanel[players.length];
 	    	for(int i = 0; i < players.length; ++i){
 	    		piecePanelArray[i] = new PiecePanel(this, i);
@@ -145,7 +138,6 @@ public class Frame extends JFrame {
 	    else{
 	    	pieces = new PiecePanel(this, playerNum);
 	    }
-		
 		
 		
 		//Merge panels together
@@ -158,7 +150,7 @@ public class Frame extends JFrame {
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		
-		//Trying to get key listener to work
+		//Adding Key Stroke Listeners
 		ActionMap actionMap = mainPanel.getActionMap();
         InputMap inputMap = mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         //Rotate Counter
@@ -228,7 +220,6 @@ public class Frame extends JFrame {
 		}
 		updatePlayer = players[num];
 		
-		
 		ImageDrag currentPiece = new ImageDrag(curPiece, SPACESIZE, board, null, null);
 	    currentPiece.setSize(GRIDSIZE, GRIDSIZE);
 	    boardPanel.add(currentPiece, JLayeredPane.DRAG_LAYER);
@@ -267,9 +258,8 @@ public class Frame extends JFrame {
 	    currentPiece.updatePieceHelper();
 	    currentPiece.finalize();
 		
-		board.placePiece(X, Y, curPiece);
+	    board.placePiece(X, Y, curPiece);
 		board.printBoard();
-		
 		updatePlayer.updateScore(curPiece.getValue());
 		users[num].score.setText(String.valueOf(updatePlayer.getScore()));
 	}

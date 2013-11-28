@@ -13,9 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class errorWin extends JDialog {
+public class ErrorWindow extends JDialog {
 	//constructor
-	public errorWin(JFrame mainFrame, String message) {
+	public ErrorWindow(JFrame mainFrame, String message) {
 		super(mainFrame, "ERROR", true);
 		setLayout(new BorderLayout());
 

@@ -55,12 +55,12 @@ public class startFrame extends JFrame {
     
 		//--------------------LOCAL BUTTON---------------------//
 		loc = new JButton("Play Locally");
+		loc.setFocusPainted(false);
 		loc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				playGame = 'l';
-				//System.out.println("PLAY = " + getPlay());
-				
-                //Figure out number of players for local play
+			
+				//Figure out number of players for local play
                 String number;
         		TextDialog numplayers;
         		do{
@@ -90,7 +90,6 @@ public class startFrame extends JFrame {
                 //Create info
             	Board board = new Board();
             	Player player = players[0];
-            	
         		Frame frame = new Frame("Blokus", board, players, player, 0, null);
         		frame.getContentPane().setBackground(Color.DARK_GRAY);
         		frame.pack();
@@ -103,27 +102,29 @@ public class startFrame extends JFrame {
    
 		//-----------------How to play button------------------//
 		instr = new JButton("Rules");
+		instr.setFocusPainted(false);
 		instr.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new howtoWin(main);
+				new HowToWindow(main);
                 System.out.println("HOW TO PLAY");
 			}
 		});
 
 		//-----------------tutorial button------------------//
 		tutor = new JButton("Tutorial");
+		tutor.setFocusPainted(false);
 		tutor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("TUTORIAL");
 			}
 		});
 
-
 		//-----------------ABOUT BUTTON------------------//
 		about = new JButton("About");
+		about.setFocusPainted(false);
 		about.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { 
-				new aboutWin(main);
+				new AboutWindow(main);
 				System.out.println("ABOUT");
 			}
 		});

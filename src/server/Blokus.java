@@ -43,13 +43,16 @@ public class Blokus{
 	    		running = true;
 	    	}
 	    }
+	    //If local play can stop here
 	    if(init.getPlay() == 'l'){
 	    	return;
 	    }
 	    
 	    //Create Client after Start button hit
+	    //*********MAY ALSO HAVE USER GIVE PORT NUM AT SOME POINT**************
 	    theClient = new ClientServerSocket(init.getIP(), 4000);
 	    theClient.startClient();
+	    //Create login but don't use yet
 	    login = new LoginDialog(init, "Login", "   Enter username: ", theClient);
 	    
         //Start actual game
@@ -65,7 +68,6 @@ public class Blokus{
       	}
 	}
 	
-	
 	//Helper Function
 	public static char interpretResponse(String str) throws IOException{
 		switch (str.charAt(0)){
@@ -73,16 +75,16 @@ public class Blokus{
 			case '0':
 				out.println("OK");
 	    		break;
-	
+
 	    	//SEND NUMBER
 			case '1':
 				out.println("Sending Num Players");
 				String num;
-				TextDialog numplayers;
+				TextDialog numPlayersDialog;
 				do{
-					numplayers = new TextDialog(init, "Number Of Players",
+					numPlayersDialog = new TextDialog(init, "Number Of Players",
 							"   Enter the number of players (1-4): ");
-					num = numplayers.getText();
+					num = numPlayersDialog.getText();
 				}while(!(num).matches("[1-4]"));
 				theClient.sendString(num, 0);
 	    		break;
@@ -147,7 +149,6 @@ public class Blokus{
 		        if(playerNum != 0){
 		        	frame.setPlayerTurn(false, playerNum);
 		        }
-		        
 		        waiting.setVisible(false);
 		        frame.setVisible(true);
 				break;
@@ -157,35 +158,25 @@ public class Blokus{
 				out.println("Game over");
 				Scanner scan2 = new Scanner(str);
 				scan2.next();
-				endWin end;
+				EndWindow end;
 				if(scan2.next().equals(player.getName())){
-					if(init.getPlay() == 'l'){
-						int i = 0;
-						while(players[i].getScore() != 0)
-							i++;
-							out.println(players[i].getName() + " WINS!!!!");
-							end = new endWin(init, 'w', player.getName());
-					}
-					else{
-						out.println("YOU WIN!!!!");
-						end = new endWin(init, 'w');
-					}
+					out.println("YOU WIN!!!!");
+					end = new EndWindow(frame, 'w');
 					end.pack();
 			    	end.setSize(end.getWidth()+50, end.getHeight());
 				}
 				else{
 					out.println("loser....");
-					end = new endWin(init, 'l');
+					end = new EndWindow(frame, 'l');
 					end.pack();
 			    	end.setSize(end.getWidth()+50, end.getHeight()+10);
 				}
-				frame.setVisible(false);
-		        end.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		    	end.setVisible(true);
+		    	frame.setVisible(false);
 				scan2.close();
 				theClient.closeConnection(0);
 				playable = false;
-	    		break;
+	    		System.exit(0);
 	    	
 	    	//GIVEN WHICH PLAYERS TURN IT IS
 			case '7':
@@ -203,10 +194,10 @@ public class Blokus{
 					case '0':
 						break;
 					case '1':
-						new errorWin(init, "Invalid Username/Password!");
+						new ErrorWindow(init, "Invalid Username/Password!");
 						break;
 					case '2':
-						new errorWin(init, "Username Taken");
+						new ErrorWindow(init, "Username Taken");
 						break;
 				}
 				out.println("Login Prompt");

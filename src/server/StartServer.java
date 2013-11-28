@@ -76,13 +76,10 @@ public class StartServer{
 		int numPlayers = -1;
 		char colors[] = new char[] {'b', 'r', 'y', 'g'};
 		BlokusDB db = new BlokusDB();
-		
-		//Instant variables
 		int type, x, y;
 		Player player = null;
 		Piece piece = null;
 
-		
 		//Create Server
 		IP = initServer();
 		textArea.append("The server IP address is " + IP.getHostAddress() + 
@@ -90,6 +87,8 @@ public class StartServer{
 	    theServer = new ClientServerSocket(IP.getHostAddress(), portNum);
 	    out.println("Calling start server");
 	    textArea.append("Calling start server\n");
+	    
+	    //Number of players
 	    numPlayers = theServer.startServer(textArea);
 	    out.println("Got num players: " + numPlayers);
 	    textArea.append("Got num players: " + numPlayers + '\n');
@@ -100,7 +99,6 @@ public class StartServer{
 	    players = new Player[numPlayers];
 	    droppedConnection = new boolean[numPlayers];
 
-	    
 	    //Wait for players to join
 	    for(int i = 0; i < numPlayers; ++i){
 	    	try{
@@ -121,7 +119,7 @@ public class StartServer{
                     scan.close();
                     System.out.println(login + " " + username + " " + password);
                     playerName = username;
-                    if(password == null){
+                    if(password == null || username == null){
                     	error = 1;
                     }
                     else if(login.equals("Login")){
@@ -137,17 +135,19 @@ public class StartServer{
 	    	    		else { error = 2; }
 	            	}
 	            } while(!validLogin);
-	    		
 	    		players[i] = new Player(playerName, colors[i]);
 	    		theServer.sendPlayerInfoToClient(players[i], i);
 	    	}
 	    	catch(Exception e){
+	    		System.out.println("Problem getting clients");
+	    		textArea.append("Problem getting clients\n");
 	    		System.exit(2);
 	    	}
 	    }
 	    
 	    
 	    //send all player info to each client for them to make their boards
+	    //Will eventually put RYANS DATA HERE**********************************************
 	    out.println("Sending All Player's Information");
 	    textArea.append("Sending All Player's Information\n");
 	    for(int i = 0; i < numPlayers; ++i){
@@ -209,9 +209,7 @@ public class StartServer{
 		    	textArea.setCaretPosition(textArea.getText().length() - 1);
 		    	droppedConnection[turn] = true;
 		    }
-	    	
 
-	    	
 	    	boolean dropped = true;
 	    	for(int i = 0; i < numPlayers; ++i){
 	    		if(!droppedConnection[i]){
@@ -223,8 +221,6 @@ public class StartServer{
 	    		break;
 	    	}
 	    	
-	    	
-	    	
 	    	//Find next player
 	    	int count = 0;
 	    	do{
@@ -232,7 +228,6 @@ public class StartServer{
 	    		turn = (turn + 1) % numPlayers;
 	    		player = players[turn];
 	    		if(count > numPlayers){
-	    			//Its an end game so close the server
 	    			break;
 	    		}
 	    		if(droppedConnection[turn]) continue;
@@ -241,8 +236,6 @@ public class StartServer{
 	    				player.setPlayable(false);
 	    		}
 	    	} while(!player.isPlayable());
-	    	
-	    	//Debugging stuff
 	    	board.printBoard(textArea);
 	    }
 	    System.out.println("Server is doing clean up");
@@ -250,12 +243,12 @@ public class StartServer{
 	    textArea.setCaretPosition(textArea.getText().length() - 1);
 	    
 	    //Find winning player
-	    for(int i = 0; i < numPlayers; ++i){
+	    player = players[0];
+	    for(int i = 1; i < numPlayers; ++i){
 			if(players[i].getScore() < player.getScore())
 				player = players[i];
 		}
 	    String name = player.getName();
-	    
 	    
 	    //Send end game
 	    theServer.sendEndGame(name);

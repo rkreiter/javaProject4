@@ -8,9 +8,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class howtoWin extends JDialog {
+public class HowToWindow extends JDialog {
 	//constructor
-	public howtoWin(JFrame mainFrame) {
+	public HowToWindow(JFrame mainFrame) {
 		super(mainFrame, "Rules", true);
 		setLayout(new FlowLayout());
 

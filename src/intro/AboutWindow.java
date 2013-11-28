@@ -13,9 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class aboutWin extends JDialog {
+public class AboutWindow extends JDialog {
 	//constructor
-	public aboutWin(JFrame mainFrame) {
+	public AboutWindow(JFrame mainFrame) {
 		super(mainFrame, "About", true);
 		setLayout(new FlowLayout());
 
