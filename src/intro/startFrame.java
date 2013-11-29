@@ -2,13 +2,14 @@ package intro;
 
 import game.Board;
 import game.Player;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -39,9 +40,7 @@ public class startFrame extends JFrame {
 		super(init);
 		setLayout(new BorderLayout());
 		ImageIcon icon = new ImageIcon(getClass().getResource(
-				"/images/StartScreen/introbackground.png")); 
-		Image img = icon.getImage();
-		icon = new ImageIcon(img);
+				"/images/StartScreen/introbackground.png"));
 		setContentPane(new JLabel(icon));
 		setLayout(new BorderLayout());
 		getContentPane().setBackground(Color.BLACK);

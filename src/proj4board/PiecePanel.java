@@ -1,13 +1,21 @@
 package proj4board;
 
-import game.*;
+import game.Board;
+import game.Piece;
+import game.Player;
 import intro.EndWindow;
-import java.awt.*;
-import java.awt.event.*;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -87,10 +95,12 @@ public class PiecePanel extends JPanel {
 		
 		//Grab all the images for that player based on color
 		im = new Image[21];
+		ImageIcon temp;
 		for (int i = 0; i < 21; ++i) {
 			try {
-				im[i] = ImageIO.read(new File(getClass().getResource("/images/" + color 
-						+ "/" + String.valueOf(i) + "S.png").toURI()));
+				temp = new ImageIcon(getClass().getResource("/images/" + color 
+						+ "/" + String.valueOf(i) + "S.png"));
+				im[i] = temp.getImage();
 			}
 			catch (Exception e){ 
 			  System.out.println("Stuff");
