@@ -5,13 +5,20 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import server.ClientServerSocket;
 
@@ -19,8 +26,8 @@ public class LoginDialog extends JDialog {
 	//Global Variables
 	JTextField username;
 	JPasswordField password;
-	JButton loginButt;
-	JButton createButt;
+	JButton loginButton;
+	JButton createButton;
 
 	//constructor
 	public LoginDialog(final startFrame mainFrame, String title, String q, 
@@ -51,8 +58,8 @@ public class LoginDialog extends JDialog {
 	    mainPan.setBackground(Color.BLACK);
     
 
-	    loginButt = new JButton(" Login ");
-	    loginButt.addActionListener(new ActionListener() {
+	    loginButton = new JButton(" Login ");
+	    loginButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		if(username.getText() != "" && password.getPassword().length != 0){
 		    		String str = "Login " + username.getText() 
@@ -70,9 +77,20 @@ public class LoginDialog extends JDialog {
 	    		}
             }
 	    });
+	    
+	  //Adding Key Stroke Listeners
+  		ActionMap actionMap = buttons.getActionMap();
+        InputMap inputMap = buttons.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        //Login
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "LOGIN");
+        actionMap.put("LOGIN", new AbstractAction() {
+      	  public void actionPerformed(ActionEvent arg0) {
+      		  loginButton.doClick();
+      	  }
+        });
     
-	    createButt = new JButton(" Create New User ");
-	    createButt.addActionListener(new ActionListener() {
+	    createButton = new JButton(" Create New User ");
+	    createButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		if(username.getText() != "" && password.getPassword().length != 0){
 		    		String str = "Create " + username.getText() + 
@@ -92,8 +110,8 @@ public class LoginDialog extends JDialog {
 	    });
 
 	    //add button to panel
-	    buttons.add(loginButt);
-	    buttons.add(createButt);
+	    buttons.add(loginButton);
+	    buttons.add(createButton);
 	    buttons.setBackground(Color.BLACK);
 
 	    //add panel to JDialog
