@@ -16,12 +16,12 @@ public class BlokusDB {
 		}
 		catch(SQLException sqlEx)
 		{
-			out.println("Got a SQLException");
+			out.println("Got a SQLException 0");
 			out.println(sqlEx.getMessage());
 		}
 		catch(ClassNotFoundException cnfEx)
 		{
-			out.println("Got a ClassNotFoundException!");
+			out.println("Got a ClassNotFoundException! 1");
 		}
 	}
 	
@@ -49,7 +49,7 @@ public class BlokusDB {
 		}
 		catch(SQLException sqlEx)
 		{
-			out.println("Got a SQLException");
+			out.println("Got a SQLException 2");
 			out.println(sqlEx.getMessage());
 		}
 		
@@ -78,7 +78,7 @@ public class BlokusDB {
 		}
 		catch(SQLException sqlEx)
 		{
-			out.println("Got a SQLException");
+			out.println("Got a SQLException 3");
 			out.println(sqlEx.getMessage());
 		}
 		return loggedIn;
@@ -121,7 +121,7 @@ public class BlokusDB {
 		}
 		catch(SQLException sqlEx)
 		{
-			out.println("Got a SQLException");
+			out.println("Got a SQLException 4");
 			out.println(sqlEx.getMessage());
 		}
 	}
@@ -149,7 +149,7 @@ public class BlokusDB {
 		}
 		catch(SQLException sqlEx)
 		{
-			out.println("Got a SQLException");
+			out.println("Got a SQLException 5");
 			out.println(sqlEx.getMessage());
 		}
 		

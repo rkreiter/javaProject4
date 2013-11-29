@@ -23,8 +23,8 @@ public class Tester2 {
 		
 		Frame frame = new Frame("Blokus", board, players, player, 0, null);
 		frame.getContentPane().setBackground(Color.DARK_GRAY);
-		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
 		frame.setVisible(true); 
 	}
 }
