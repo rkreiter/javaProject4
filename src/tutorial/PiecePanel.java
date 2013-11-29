@@ -1,13 +1,9 @@
 package tutorial;
 
-<<<<<<< HEAD
-import game.*;
-=======
+
 import game.Board;
 import game.Piece;
 import game.Player;
-import intro.EndWindow;
->>>>>>> 533dbe0cd5696805d0e954265636e99d71dcbc30
 
 import java.awt.BorderLayout;
 import java.awt.Color;
