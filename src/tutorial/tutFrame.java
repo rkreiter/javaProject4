@@ -1,9 +1,9 @@
 package tutorial;
 
-
 import game.Board;
 import game.Piece;
 import game.Player;
+import server.ClientServerSocket;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -37,9 +37,6 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 
-import server.ClientServerSocket;
-
-
 
 public class tutFrame extends JFrame { 
 	//Constants
@@ -56,19 +53,20 @@ public class tutFrame extends JFrame {
 	JLayeredPane boardPanel;
 	JPanel mainPanel;
 	JPanel outter;
-	JButton next; 
+	static JButton next; 
 	static JTextArea text;
 	PiecePanel pieces;
 	PiecePanel piecePanelArray[];	
 	public User[] users;
 	//Game Variables
-	Board board;
+	public Board board;
 	Player[] players;
 	Player player;
 	int playerNum;
 	ClientServerSocket theClient;
 	public int turn;
-	public static int count = -1;
+	public static int tutcount = -1;
+	tutFrame main = this;
 	
 	public tutFrame(String title, Board board, Player[] players, Player player, 
 			int playerNum, ClientServerSocket theClient){
@@ -158,6 +156,7 @@ public class tutFrame extends JFrame {
 		
 		//Merge panels together
 	    text = new JTextArea("start");
+	    setPlayerTurn(false, 0);
 	    text.setLineWrap(true);
 	    text.setWrapStyleWord(true);
 	    text.setEditable(false);
@@ -166,12 +165,8 @@ public class tutFrame extends JFrame {
 	    text.setColumns(50);
 	    text.setBackground(Color.DARK_GRAY);
 	    next = new JButton("Next");
-	    gotoNext();
-	    next.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	    		gotoNext();
-	    	}
-	    });
+	    gotoNext(main);
+	    next.addActionListener(new nextList());
 	    JPanel butt = new JPanel(new FlowLayout());
 	    butt.add(next);
 	    butt.setSize(40, 10);
@@ -226,6 +221,47 @@ public class tutFrame extends JFrame {
         });
 	}
 	
+	public class nextList implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			switch(tutcount){
+    		case 0:
+    			placePieceOnBoard("b 10 0 0 0 0");
+    			setPlayerTurn(false, 0);
+    			break;
+    		case 2:
+    			placePieceOnBoard("b 9 0 4 0 0");
+    			setPlayerTurn(false, 0);
+    			break;
+    		default:
+    			System.out.println("OOPS");
+    			break;
+    		}
+			Player tempPlayer;
+			tempPlayer = main.players[main.turn];
+			main.users[main.turn].score.setText(String.valueOf(player.getScore()));
+			main.users[main.turn].setBorder(new LineBorder(Color.DARK_GRAY, 3));
+    		//Find next player turn
+	    	do{
+	    		main.turn = (main.turn + 1) % main.players.length;
+	    		tempPlayer = main.players[main.turn];
+	    		if(tempPlayer.isPlayable()){
+	    			if(!board.playerCanPlay(tempPlayer))
+	    				tempPlayer.setPlayable(false);
+	    		}
+	    	} while(!tempPlayer.isPlayable());
+	    	main.users[main.turn].setBorder(new LineBorder(Color.WHITE, 3));
+			
+			//Switch panel
+	    	tutFrame.gotoNext(main);
+	    	main.mainPanel.remove(main.pieces);
+			main.pieces = main.piecePanelArray[main.turn];
+			main.mainPanel.add(main.pieces);
+			main.outter.add(tutFrame.text, BorderLayout.NORTH);
+			main.outter.add(main.mainPanel, BorderLayout.CENTER);
+			main.setContentPane(main.outter);
+		}
+	}
+	
 	public void placePieceOnBoard(String move){
 		String moveArray[] = new String[6];
 		Scanner scan = new Scanner(move);
@@ -233,7 +269,6 @@ public class tutFrame extends JFrame {
 			moveArray[i] = scan.next();
 		}
 		scan.close();
-		
 		char color = moveArray[0].charAt(0);
 		int type = Integer.parseInt(moveArray[1]);
 		Piece curPiece = new Piece(type, color);
@@ -260,9 +295,8 @@ public class tutFrame extends JFrame {
 				break;
 		}
 		updatePlayer = players[num];
-		
 		ImageDrag currentPiece = new ImageDrag(curPiece, SPACESIZE, board, null, null);
-	    currentPiece.setSize(GRIDSIZE, GRIDSIZE);
+		currentPiece.setSize(GRIDSIZE, GRIDSIZE);
 	    boardPanel.add(currentPiece, JLayeredPane.DRAG_LAYER);
 	    currentPiece.setLocation(Y * SPACESIZE, X * SPACESIZE);
 	    switch (state){
@@ -311,38 +345,69 @@ public class tutFrame extends JFrame {
 		}
 		pieces.currentPiece = null;
 	}
-	public static void gotoNext(){
-		count++;
-		switch(count){
+	public static void gotoNext(tutFrame frame){
+		tutcount++;
+		switch(tutcount){
 		case 0:
 			System.out.println("case 0");
-			text.setText("The blue player always goes first, the first move " +
-						"for each player must start in that players corner" + 
+			text.setText("The blue player always goes first, the first move\n" +
+						"for each player must start in that players corner\n" + 
 						"(marked by a translucent square of their color)");
-			
+			next.setEnabled(true);
 			break;
 		case 1:
 			System.out.println("case 1");
-			text.setText("Now it is your turn (notice the white border around"+
-						" your panel on the left), click any piece from the " +
-						"panel on the right and place it one the board, when " +
-						"your move is valid the piece will turn from " +
-						"translucent to opaque, Press the Enter button or the"+
-						" 'Enter' key to sumbit your move");
+			text.setText("Now it is your turn (notice the white border around\n"+
+						" your panel on the left), click any piece from the\n" +
+						"panel on the right and place it one the board, when\n" +
+						"your move is valid the piece will turn from \n" +
+						"translucent to opaque, Press the Enter button or the\n"+
+						" 'Enter' key to sumbit your move\n" +
+						"(Notice how blue's score was decremented by 5 since\n"+
+						"the piece played had 5 units)");
+			next.setEnabled(false);
 			break;
 		case 2:
 			System.out.println("case 2");
-			text.setText("In this case you can see how your pieces can " + 
-						"interact with the opponents pieces, where your " +
-						"pieces can only touch by the corners to your " +
-						"other pieces, your pieces can touch opponent " +
-						"pieces on the flat edges too\nTry to place " +
+			text.setText("Turns will always go blue, red, yellow, then green,\n"+
+						" since there is only two players right now the order\n"+
+						" goes blue, red, blue, red...\n" +
+						"Each piece a player plays must touch one of their\n" +
+						"existing piece's corners but not an existing piece\n"+
+						"of the same color's edge");
+			next.setEnabled(true);
+			break;
+		case 3:
+			System.out.println("case 3");
+			text.setText("Now it's your turn again! Try to place another one\n"+
+						"of your pieces on the board, the piece will become\n" +
+						"opaque when it is in a valid spot");
+			next.setEnabled(false);
+			break;
+		case 4:
+			System.out.println("case 4");
+			frame.setPlayerTurn(false, 0);
+			text.setText("In this case you can see how your pieces can\n" + 
+						"interact with the opponents pieces, where your\n" +
+						"pieces can only touch by the corners to your \n" +
+						"other pieces, your pieces can touch opponent \n" +
+						"pieces on any side/edge\nTry to place " +
 						"another piece given this board");
+			next.setEnabled(false);
+			break;
+		case 5:
+			System.out.println("case 5");
+			text.setText("When a player is out of moves the game will \n" + 
+						"automatically skip you until all other players\n" +
+						"also run of of moves");
+			next.setEnabled(true);
 			break;
 		default:
 			System.out.println("case D");
-			text.setText("Not imp yet");
+			text.setText("This is awkward....");
+			next.setEnabled(true);
 			break;
 		}
+		text.setBorder(new LineBorder(Color.WHITE, 3));
 	}
 }

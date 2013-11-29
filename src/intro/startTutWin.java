@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class startTutWin extends JDialog {
+	public static tutFrame tut;
 	//constructor
 	public startTutWin(JFrame mainFrame) {
 		super(mainFrame, "Tutorial", true);
@@ -27,9 +28,9 @@ public class startTutWin extends JDialog {
 
 	    rulzArea = new JTextArea(
 	    	"Tutorial:\n  This tutorial will go over the basics of how to run " +
-	    	"this version of Blokus. It will go over the basics of how to place " +
+	    	"this version of Blokus. This will show you how to place " +
 	    	"your pieces on the board and orient them in valid ways. Click the " +
-	    	"button below to begin!"
+	    	"button below to start!"
 	    );
 
     
@@ -70,7 +71,7 @@ public class startTutWin extends JDialog {
 	    		Player p1 = new Player("Com", 'b');
 	    		Player p2 = new Player("YOU", 'r');
 	    		Player players[] = {p1, p2};
-	    		tutFrame tut = new tutFrame("Tutorial", board, players, p1, 
+	    		tut = new tutFrame("Tutorial", board, players, p1, 
 	    				0, null);
 	    		tut.getContentPane().setBackground(Color.DARK_GRAY);
 		        tut.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

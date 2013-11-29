@@ -105,7 +105,7 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 		this.size = size;
 		this.clicked = false;
 		try { 
-			switch(piece.getColor()) {
+			switch(piece.getColor()){
 				case 'b':
 					darkImage = ImageIO.read(new File(getClass().getResource(
 							"/images/Blue/" + piece.getType() + ".png").toURI()));
@@ -140,6 +140,7 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 			}
 		}
 		catch(Exception ioe) { ioe.printStackTrace(); }
+		
 		initDark = darkImage;
 		initLight = lightImage;
 		lightImage = lightImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);

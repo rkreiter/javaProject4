@@ -1,7 +1,6 @@
 package tutorial;
 
 import game.*;
-import intro.EndWindow;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -191,10 +190,30 @@ public class PiecePanel extends JPanel {
 	
   	public class SubmitListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			if(currentPiece != null){
-				tutFrame.gotoNext();
-    			System.out.println(tutFrame.count);
-				submitButton.setEnabled(false);
+			tutFrame.gotoNext(frame);
+			
+			System.out.println(tutFrame.tutcount);
+			switch(tutFrame.tutcount){
+    		case 1:
+    			break;
+    		case 3:
+    			break;
+    		case 4:
+    			System.out.println("doing stuffs");
+    			frame.board = new Board();
+	    		Player p1 = new Player("Com", 'b');
+	    		Player p2 = new Player("YOU", 'r');
+	    		frame.players[0] = p1;
+	    		frame.players[1] = p2;
+	    		frame.placePieceOnBoard("b 10 0 0 0 0");
+	    		//frame.setPlayerTurn(false, 0);
+    			break;
+    		default:
+    			System.out.println("sOOPS");
+    			break;
+    		}
+    		if(currentPiece != null){
+    			submitButton.setEnabled(false);
 				int X = currentPiece.xVal;
 				int Y = currentPiece.yVal;
 				currentPiece.finalize();
@@ -212,24 +231,9 @@ public class PiecePanel extends JPanel {
 				frame.users[frame.turn].setBorder(new LineBorder(Color.DARK_GRAY, 3));
 		    	
 				//Find next player turn
-				int count = 0;
 		    	do{
-		    		count++;
 		    		frame.turn = (frame.turn + 1) % frame.players.length;
 		    		tempPlayer = frame.players[frame.turn];
-		    		if(count > frame.players.length){
-		    			for(int i = 0; i < frame.players.length; ++i){
-		    				if(frame.players[i].getScore() < tempPlayer.getScore())
-		    					tempPlayer = frame.players[i];
-		    			}
-						System.out.println(tempPlayer.getName() + " WINS!!");
-						EndWindow end = new EndWindow(frame, 'w', player.getName());
-						end.pack();
-				    	end.setSize(end.getWidth()+50, end.getHeight());
-				    	end.setVisible(true);
-				    	frame.setVisible(false);
-						System.exit(0);
-		    		}
 		    		if(tempPlayer.isPlayable()){
 		    			if(!board.playerCanPlay(tempPlayer))
 		    				tempPlayer.setPlayable(false);
@@ -238,7 +242,6 @@ public class PiecePanel extends JPanel {
 		    	frame.users[frame.turn].setBorder(new LineBorder(Color.WHITE, 3));
 				
 				//Switch panel
-				tutFrame.gotoNext();
 		    	frame.mainPanel.remove(frame.pieces);
 				frame.pieces = frame.piecePanelArray[frame.turn];
 				frame.mainPanel.add(frame.pieces);
