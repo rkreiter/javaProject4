@@ -143,10 +143,10 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 					break;
 				case 'g':
 					temp = new ImageIcon(getClass().getResource(
-							"/images/Yellow/" + piece.getType() + ".png"));
+							"/images/Green/" + piece.getType() + ".png"));
 					darkImage = temp.getImage();
 					temp = new ImageIcon(getClass().getResource(
-							"/images/Yellow/" + piece.getType() + "T.png"));
+							"/images/Green/" + piece.getType() + "T.png"));
 					lightImage = temp.getImage();
 					color = Color.GREEN;
 					break;

@@ -86,7 +86,7 @@ public class Frame extends JFrame {
 	    playersPanel.setBackground(Color.DARK_GRAY.darker());
     
 		BufferedImage p[] = new BufferedImage[4];
-		Color[] colors = {Color.BLUE,Color.RED,Color.YELLOW, Color.GREEN};
+		Color[] colors = {Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN};
 		users = new User[4];
 		ImageIcon icon;
 		Image img;
@@ -99,8 +99,7 @@ public class Frame extends JFrame {
 			}
 			catch (Exception e) { 
 				try{
-					icon = new ImageIcon(getClass().getResource(
-							"/images/Board/Avatars/blank.png"));
+					icon = new ImageIcon(getClass().getResource("/images/Board/Avatars/blank.png"));
 					img = icon.getImage();
 					p[i] = (BufferedImage) img;
 				}
