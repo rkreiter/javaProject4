@@ -12,11 +12,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.Scanner;
 
-import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
@@ -97,8 +94,7 @@ public class Frame extends JFrame {
 			try {
 				String file = "/images/Board/Avatars/" + players[i].getName() + ".png";
 				System.out.println(file);
-				icon = new ImageIcon(file);
-				icon = new ImageIcon(getClass().getResource("/images/Board/Avatars/blank.png"));
+				icon = new ImageIcon(getClass().getResource(file));
 				img = icon.getImage();
 				p[i] = img;
 			}
