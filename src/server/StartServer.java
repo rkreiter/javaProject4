@@ -158,8 +158,8 @@ public class StartServer{
 		    	}
 	    	}
 	    	catch(Exception e){
-		    	System.out.println("Player " + turn + "has quit");
-		    	textArea.append("Player " + turn + "has quit\n");
+		    	System.out.println("Player " + turn + " has quit");
+		    	textArea.append("Player " + turn + " has quit\n");
 		    	textArea.setCaretPosition(textArea.getText().length() - 1);
 		    	droppedConnection[turn] = true;
 		    }
