@@ -100,6 +100,7 @@ public class ClientServerSocket {
 	                    if(password == null || username == null){
 	                    	error = 1;
 	                    }
+	                    /*
 	                    else if(login.equals("Login")){
 		                    if(db.userLogin(username, password)) {
 		                    	terminal.append("Login Worked\n");
@@ -114,6 +115,8 @@ public class ClientServerSocket {
 		    	    		}
 		    	    		else { error = 2; }
 		            	}
+		            	*/
+	                    validLogin = true;
 		            } while(!validLogin);
 		    		players[i] = new Player(playerName, colors[i]);
 		    		sendPlayerInfoToClient(players[i], i);
