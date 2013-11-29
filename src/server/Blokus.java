@@ -50,7 +50,7 @@ public class Blokus{
 	    
 	    //Create Client after Start button hit
 	    //*********MAY ALSO HAVE USER GIVE PORT NUM AT SOME POINT**************
-	    theClient = new ClientServerSocket(init.getIP(), 4000);
+	    theClient = new ClientServerSocket(init.getIP(), 4040);
 	    theClient.startClient();
 	    //Create login but don't use yet
 	    login = new LoginDialog(init, "Login", "   Enter username: ", theClient);
@@ -142,12 +142,12 @@ public class Blokus{
 				players = new Player[numPlayers];
 				int winArray[] = new int[numPlayers];
 				int loseArray[] = new int[numPlayers];
-				double avgArray[] = new double[numPlayers];
+				int avgArray[] = new int[numPlayers];
 				for(int i = 0; i < numPlayers; ++i){
 					players[i] = new Player(scan1.next(), scan1.next().charAt(0));
 					winArray[i] = (int) scan1.nextDouble();
 					loseArray[i] = (int) scan1.nextDouble();
-					avgArray[i] = scan1.nextDouble();
+					avgArray[i] = (int) scan1.nextDouble();
 				}
 				scan1.close();
 				player = players[playerNum];

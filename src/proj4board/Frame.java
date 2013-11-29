@@ -13,8 +13,10 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Scanner;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
@@ -92,16 +94,23 @@ public class Frame extends JFrame {
 		Image img;
 		for(int i = 0; i < 4; ++i){
 			try {
-			icon = new ImageIcon(getClass().getResource(
-						"/images/Board/Avatars/" + players[i].getName() + ".png"));
-			img = icon.getImage();
-			p[i] = (BufferedImage) img;
+				//String file = "/images/Board/Avatars/" + players[i].getName() + ".png";
+				//System.out.println(file);
+				//icon = new ImageIcon(file);
+				icon = new ImageIcon(getClass().getResource("/images/StartScreen/introbackground.png"));
+				p[i] = ImageIO.read(new File(getClass().getResource(
+                        "/images/Board/Avatars/" + players[i].getName() + ".png").toURI()));
+				//Image im = new Image(file);
+			//icon = new ImageIcon(getClass().getResource(
+					//"/images/Board/Avatars/" + players[i].getName() + ".png"));
+			//img = icon.getImage();
+			//p[i] = (BufferedImage) img;
 			}
 			catch (Exception e) { 
 				try{
-					icon = new ImageIcon(getClass().getResource("/images/Board/Avatars/blank.png"));
-					img = icon.getImage();
-					p[i] = (BufferedImage) img;
+					//icon = new ImageIcon(getClass().getResource("/images/Board/Avatars/blank.png"));
+					//img = icon.getImage();
+					//p[i] = (BufferedImage) img;
 				}
 				catch (Exception ee) {
 					System.out.println("Problem finding avatar");
