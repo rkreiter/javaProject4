@@ -9,6 +9,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
@@ -20,7 +21,7 @@ public class startTutWin extends JDialog {
 
 	    JPanel main;
 	    JTextArea rulzArea;
-	    JButton close;
+	    final JButton begin;
 
 	    //base layout fields
 	    main = new JPanel(new GridLayout(2,1));
@@ -63,8 +64,8 @@ public class startTutWin extends JDialog {
 	    main.setBackground(Color.BLACK);
     
 	    JPanel buttonPan = new JPanel(new FlowLayout());
-	    close = new JButton("Begin!");
-	    close.addActionListener(new ActionListener() {
+	    begin = new JButton("Begin!");
+	    begin.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		Board board = new Board();
 	    		Player p1 = new Player("Com", 'b');
@@ -80,7 +81,19 @@ public class startTutWin extends JDialog {
 		        tut.setVisible(true);
 	    	}
 	    });
-	    buttonPan.add(close);
+	    
+	    //Adding Key Stroke Listeners
+  		ActionMap actionMap = buttonPan.getActionMap();
+        InputMap inputMap = buttonPan.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        //Begin
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "BEGIN");
+        actionMap.put("BEGIN", new AbstractAction() {
+      	  public void actionPerformed(ActionEvent arg0) {
+      		  begin.doClick();
+      	  }
+        });
+	    
+	    buttonPan.add(begin);
 	    buttonPan.setBackground(Color.BLACK);
 	    main.add(buttonPan);
 	    getContentPane().setBackground(Color.BLACK);

@@ -2,9 +2,11 @@ package intro;
 
 import java.awt.event.ActionEvent; 
 import java.awt.event.ActionListener; 
+import java.awt.event.KeyEvent;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.*;
+
 import java.awt.*;
 
 
@@ -37,6 +39,17 @@ public class TextDialog extends JDialog {
 	    	}
 	    });
     
+	    //Adding Key Stroke Listeners
+  		ActionMap actionMap = panel.getActionMap();
+        InputMap inputMap = panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        //OK
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "OK");
+        actionMap.put("OK", new AbstractAction() {
+      	  public void actionPerformed(ActionEvent arg0) {
+      		  okButton.doClick();
+      	  }
+        });
+	    
 	    //add button to panel
 	    panel.add(okButton);
 	    panel.setBackground(Color.BLACK);

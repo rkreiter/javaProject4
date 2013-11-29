@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
@@ -16,7 +17,7 @@ public class HowToWindow extends JDialog {
 
 	    JPanel main;
 	    JTextArea rulzArea;
-	    JButton close;
+	    final JButton close;
 
 	    //base layout fields
 	    main = new JPanel(new GridLayout(2,1));
@@ -81,6 +82,18 @@ public class HowToWindow extends JDialog {
 	    		setVisible(false);
 	    	}
 	    });
+	    
+	    //Adding Key Stroke Listeners
+  		ActionMap actionMap = buttonPan.getActionMap();
+        InputMap inputMap = buttonPan.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        //Close
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "CLOSE");
+        actionMap.put("CLOSE", new AbstractAction() {
+      	  public void actionPerformed(ActionEvent arg0) {
+      		  close.doClick();
+      	  }
+        });
+	    
 	    buttonPan.add(close);
 	    buttonPan.setBackground(Color.BLACK);
 	    main.add(buttonPan);
