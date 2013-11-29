@@ -8,7 +8,8 @@ public class BlokusDB {
 	Connection conn;
 	
 	public BlokusDB() {
-		String connInfo = "jdbc:sqlite:src/database/GameDB";
+		//String connInfo = "jdbc:sqlite:src/database/GameDB";
+		String connInfo = "jdbc:sqlite::resource:database/GameDB";
 		try
 		{
 			Class.forName("org.sqlite.JDBC");
