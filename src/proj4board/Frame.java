@@ -87,30 +87,27 @@ public class Frame extends JFrame {
 	    playersPanel.setBorder(finalborder);
 	    playersPanel.setBackground(Color.DARK_GRAY.darker());
     
-		BufferedImage p[] = new BufferedImage[4];
+		Image p[] = new Image[4];
+	    //ImageIcon p[] = new ImageIcon[4];
 		Color[] colors = {Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN};
 		users = new User[4];
 		ImageIcon icon;
-		Image img;
+		Image img = null;
 		for(int i = 0; i < 4; ++i){
 			try {
-				//String file = "/images/Board/Avatars/" + players[i].getName() + ".png";
-				//System.out.println(file);
-				//icon = new ImageIcon(file);
-				icon = new ImageIcon(getClass().getResource("/images/StartScreen/introbackground.png"));
-				p[i] = ImageIO.read(new File(getClass().getResource(
-                        "/images/Board/Avatars/" + players[i].getName() + ".png").toURI()));
-				//Image im = new Image(file);
-			//icon = new ImageIcon(getClass().getResource(
-					//"/images/Board/Avatars/" + players[i].getName() + ".png"));
-			//img = icon.getImage();
-			//p[i] = (BufferedImage) img;
+				String file = "/images/Board/Avatars/" + players[i].getName() + ".png";
+				System.out.println(file);
+				icon = new ImageIcon(file);
+				icon = new ImageIcon(getClass().getResource("/images/Board/Avatars/blank.png"));
+				img = icon.getImage();
+				p[i] = img;
 			}
 			catch (Exception e) { 
 				try{
-					//icon = new ImageIcon(getClass().getResource("/images/Board/Avatars/blank.png"));
-					//img = icon.getImage();
-					//p[i] = (BufferedImage) img;
+					System.out.println("Problem");
+					icon = new ImageIcon(getClass().getResource("/images/Board/Avatars/blank.png"));
+					img = icon.getImage();
+					p[i] = img;
 				}
 				catch (Exception ee) {
 					System.out.println("Problem finding avatar");
