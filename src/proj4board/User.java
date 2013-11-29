@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -49,8 +47,9 @@ public class User extends JPanel {
 		stats.setBackground(c);
 		
 		if(avatar != null)
-			this.avatar = avatar.getScaledInstance(Frame.PLAYERWIDTH/2, 
-					Frame.PLAYERWIDTH/2, BufferedImage.SCALE_DEFAULT);
+			//this.avatar = avatar.getScaledInstance(Frame.PLAYERWIDTH/2, 
+					//Frame.PLAYERWIDTH/2, BufferedImage.SCALE_DEFAULT);
+			this.avatar = avatar.getScaledInstance(Frame.PLAYERWIDTH/2, Frame.PLAYERWIDTH/2, Image.SCALE_DEFAULT);
 
 		new JPanel(new FlowLayout());
 		if(avatar != null)

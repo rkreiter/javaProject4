@@ -5,10 +5,13 @@ import game.Board;
 import game.Player;
 import intro.*;
 import proj4board.*;
+
 import java.awt.Color;
 import java.io.IOException;
 import java.util.Scanner;
+
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 
 public class Blokus{
@@ -50,7 +53,7 @@ public class Blokus{
 	    
 	    //Create Client after Start button hit
 	    //*********MAY ALSO HAVE USER GIVE PORT NUM AT SOME POINT**************
-	    theClient = new ClientServerSocket(init.getIP(), 4000);
+	    theClient = new ClientServerSocket(init.getIP(), 4040);
 	    theClient.startClient();
 	    //Create login but don't use yet
 	    login = new LoginDialog(init, "Login", "   Enter username: ", theClient);
@@ -68,7 +71,7 @@ public class Blokus{
       		System.out.println("Server has given client some sort of problem");
       		System.out.println(e);
       		System.out.println("Request number: " + count);
-      		new ErrorWindow(frame, "Server has broken");
+      		new ErrorWindow(frame, "Server has broken .....");
       		System.exit(0);
       	}
 	}
@@ -128,7 +131,7 @@ public class Blokus{
 			    waiting = new WaitingWindow(init);
 		    	waiting.pack();
 		    	waiting.setSize(waiting.getWidth()+50, waiting.getHeight()-30);
-		        waiting.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		        waiting.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		    	waiting.setVisible(true);
 				break;
 	    	
@@ -142,12 +145,12 @@ public class Blokus{
 				players = new Player[numPlayers];
 				int winArray[] = new int[numPlayers];
 				int loseArray[] = new int[numPlayers];
-				double avgArray[] = new double[numPlayers];
+				int avgArray[] = new int[numPlayers];
 				for(int i = 0; i < numPlayers; ++i){
 					players[i] = new Player(scan1.next(), scan1.next().charAt(0));
 					winArray[i] = (int) scan1.nextDouble();
 					loseArray[i] = (int) scan1.nextDouble();
-					avgArray[i] = scan1.nextDouble();
+					avgArray[i] = (int) scan1.nextDouble();
 				}
 				scan1.close();
 				player = players[playerNum];
@@ -157,7 +160,6 @@ public class Blokus{
 		    	frame = new Frame("Blokus", board, players, player, playerNum, theClient);
 		    	frame.getContentPane().setBackground(Color.DARK_GRAY);
 		        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		        frame.pack();
 
 		        //Display all players stats

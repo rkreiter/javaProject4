@@ -1,9 +1,11 @@
 package server;
 
 import static java.lang.System.out;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.net.*;
+
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -12,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.ScrollPaneConstants;
+
 import database.BlokusDB;
 import game.*;
 
@@ -19,7 +23,7 @@ public class StartServer{
 	static JFrame terminal;
 	static JTextArea textArea;
 	static JScrollPane scroll;
-	static int portNum = 4000;
+	static int portNum = 4040;
   
 	public static InetAddress initServer(){
 		InetAddress IP = null;
@@ -44,8 +48,8 @@ public class StartServer{
 		terminal = new JFrame("Terminal Output");
 		textArea = new JTextArea (600, 800);
 		textArea.setEditable(false);
-		scroll = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll = new JScrollPane (textArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, 
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		terminal.setSize(600, 800);
 		terminal.add(scroll);
 		terminal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,7 +60,8 @@ public class StartServer{
         InputMap inputMap = scroll.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), "QUIT");
         actionMap.put("QUIT", new AbstractAction() {
-        	public void actionPerformed(ActionEvent arg0) {
+        	@Override
+			public void actionPerformed(ActionEvent arg0) {
         		System.exit(0);
         	}
         });

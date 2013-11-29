@@ -1,15 +1,22 @@
 package tutorial;
 
-import game.*;
-import java.io.*;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import game.Board;
+import game.Piece;
+import game.Player;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 
 public class ImageDrag extends JComponent implements MouseMotionListener, MouseListener {
 	final int GRIDSIZE = tutFrame.GRIDSIZE;
@@ -104,34 +111,43 @@ public class ImageDrag extends JComponent implements MouseMotionListener, MouseL
 		this.height = (piece.getHeight() * size) + 1;
 		this.size = size;
 		this.clicked = false;
+		ImageIcon temp;
 		try { 
 			switch(piece.getColor()){
 				case 'b':
-					darkImage = ImageIO.read(new File(getClass().getResource(
-							"/images/Blue/" + piece.getType() + ".png").toURI()));
-					lightImage = ImageIO.read(new File(getClass().getResource(
-							"/images/Blue/" + piece.getType() + "T.png").toURI()));
+					temp = new ImageIcon(getClass().getResource(
+							"/images/Blue/" + piece.getType() + ".png"));
+					darkImage = temp.getImage();
+					temp = new ImageIcon(getClass().getResource(
+							"/images/Blue/" + piece.getType() + "T.png"));
+					lightImage = temp.getImage();
 					color = Color.BLUE;
 					break;
 				case 'r':
-					darkImage = ImageIO.read(new File(getClass().getResource(
-							"/images/Red/" + piece.getType() + ".png").toURI()));
-					lightImage = ImageIO.read(new File(getClass().getResource(
-							"/images/Red/" + piece.getType() + "T.png").toURI()));
+					temp = new ImageIcon(getClass().getResource(
+							"/images/Red/" + piece.getType() + ".png"));
+					darkImage = temp.getImage();
+					temp = new ImageIcon(getClass().getResource(
+							"/images/Red/" + piece.getType() + "T.png"));
+					lightImage = temp.getImage();
 					color = Color.RED;
 					break;
 				case 'y':
-					darkImage = ImageIO.read(new File(getClass().getResource(
-							"/images/Yellow/" + piece.getType() + ".png").toURI()));
-					lightImage = ImageIO.read(new File(getClass().getResource(
-							"/images/Yellow/" + piece.getType() + "T.png").toURI()));
+					temp = new ImageIcon(getClass().getResource(
+							"/images/Yellow/" + piece.getType() + ".png"));
+					darkImage = temp.getImage();
+					temp = new ImageIcon(getClass().getResource(
+							"/images/Yellow/" + piece.getType() + "T.png"));
+					lightImage = temp.getImage();
 					color = Color.YELLOW;
 					break;
 				case 'g':
-					darkImage = ImageIO.read(new File(getClass().getResource(
-							"/images/Green/" + piece.getType() + ".png").toURI()));
-					lightImage = ImageIO.read(new File(getClass().getResource(
-							"/images/Green/" + piece.getType() + "T.png").toURI()));
+					temp = new ImageIcon(getClass().getResource(
+							"/images/Green/" + piece.getType() + ".png"));
+					darkImage = temp.getImage();
+					temp = new ImageIcon(getClass().getResource(
+							"/images/Green/" + piece.getType() + "T.png"));
+					lightImage = temp.getImage();
 					color = Color.GREEN;
 					break;
 			}

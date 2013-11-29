@@ -14,17 +14,17 @@ public class Tester2 {
 		asher.setVisible(true);
 		
 		Player players[] = new Player[4];
-		players[0] = new Player("Asher", 'b');
-		players[1] = new Player("Kyle", 'r');
-		players[2] = new Player("Troy", 'y');
-		players[3] = new Player("Stephen", 'g');
+		players[0] = new Player("asher", 'b');
+		players[1] = new Player("kyle", 'r');
+		players[2] = new Player("troy", 'y');
+		players[3] = new Player("stephen", 'g');
 		Board board = new Board();
 		Player player = players[0];
 		
 		Frame frame = new Frame("Blokus", board, players, player, 0, null);
 		frame.getContentPane().setBackground(Color.DARK_GRAY);
-		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
 		frame.setVisible(true); 
 	}
 }

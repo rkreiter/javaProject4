@@ -5,12 +5,19 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 
 public class ErrorWindow extends JDialog {
@@ -21,7 +28,7 @@ public class ErrorWindow extends JDialog {
 
 		JPanel textPanel;
 		JLabel head;
-		JButton close;
+		final JButton close;
 
 		//base layout fields
 		textPanel = new JPanel(new BorderLayout());
@@ -38,6 +45,21 @@ public class ErrorWindow extends JDialog {
 				setVisible(false);
 			}
 		});
+		
+		JPanel buttonPan = new JPanel(new FlowLayout());
+		
+		//Adding Key Stroke Listeners
+  		ActionMap actionMap = buttonPan.getActionMap();
+        InputMap inputMap = buttonPan.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        //Close
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "CLOSE");
+        actionMap.put("CLOSE", new AbstractAction() {
+      	  public void actionPerformed(ActionEvent arg0) {
+      		  close.doClick();
+      	  }
+        });
+        
+        buttonPan.add(close);
     
 		JPanel red = new JPanel(new FlowLayout());
 		red.add(textPanel);
@@ -50,7 +72,7 @@ public class ErrorWindow extends JDialog {
 		red2.setOpaque(false);
     
 		add(red2, BorderLayout.NORTH);
-		add(new JPanel(new FlowLayout()).add(close), BorderLayout.SOUTH);
+		add(buttonPan, BorderLayout.SOUTH);
 		getContentPane().setBackground(Color.BLACK);
     
 		pack();

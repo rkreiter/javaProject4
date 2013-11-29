@@ -99,16 +99,21 @@ public class tutFrame extends JFrame {
 		BufferedImage p[] = new BufferedImage[4];
 		Color[] colors = {Color.BLUE,Color.RED,Color.YELLOW, Color.GREEN};
 		users = new User[4];
+		ImageIcon icon;
+		Image img;
 		for(int i = 0; i < 4; ++i){
 			try {
-			p[i] = ImageIO.read(new File(getClass().getResource(
-					"/images/Board/Avatars/" + 
-					players[i].getName() + ".png").toURI()));
+			icon = new ImageIcon(getClass().getResource(
+						"/images/Board/Avatars/" + players[i].getName() + ".png"));
+			img = icon.getImage();
+			p[i] = (BufferedImage) img;
 			}
-			catch (Exception e) {
+			catch (Exception e) { 
 				try{
-					p[i] = ImageIO.read(new File(getClass().getResource(
-						"/images/Board/Avatars/blank.png").toURI()));
+					icon = new ImageIcon(getClass().getResource(
+							"/images/Board/Avatars/blank.png"));
+					img = icon.getImage();
+					p[i] = (BufferedImage) img;
 				}
 				catch (Exception ee) {
 					System.out.println("Problem finding avatar");
