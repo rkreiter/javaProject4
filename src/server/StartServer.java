@@ -23,7 +23,7 @@ public class StartServer{
 	static JFrame terminal;
 	static JTextArea textArea;
 	static JScrollPane scroll;
-	static int portNum = 4040;
+	static int portNum = 2300;
   
 	public static InetAddress initServer(){
 		InetAddress IP = null;

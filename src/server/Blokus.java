@@ -53,7 +53,7 @@ public class Blokus{
 	    
 	    //Create Client after Start button hit
 	    //*********MAY ALSO HAVE USER GIVE PORT NUM AT SOME POINT**************
-	    theClient = new ClientServerSocket(init.getIP(), 4040);
+	    theClient = new ClientServerSocket(init.getIP(), 2300);
 	    theClient.startClient();
 	    //Create login but don't use yet
 	    login = new LoginDialog(init, "Login", "   Enter username: ", theClient);
