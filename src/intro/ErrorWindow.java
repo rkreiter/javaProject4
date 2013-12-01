@@ -60,6 +60,7 @@ public class ErrorWindow extends JDialog {
         });
         
         buttonPan.add(close);
+        buttonPan.setOpaque(false);
     
 		JPanel red = new JPanel(new FlowLayout());
 		red.add(textPanel);
