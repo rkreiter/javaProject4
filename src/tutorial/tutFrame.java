@@ -238,6 +238,9 @@ public class tutFrame extends JFrame {
     			placePieceOnBoard("b 9 0 4 0 0");
     			setPlayerTurn(false, 0);
     			break;
+    		case 4:
+    			setVisible(false);
+    			break;
     		default:
     			System.out.println("OOPS");
     			break;
@@ -358,7 +361,7 @@ public class tutFrame extends JFrame {
 			System.out.println("case 0");
 			text.setText("The blue player always goes first, the first move " +
 						"for each player must start in that players corner " + 
-						"(marked by a translucent square of their color) " +
+						"(marked by a translucent square of their color) \n" +
 						"Press the 'Next' button to continue");
 			next.setEnabled(true);
 			break;
@@ -381,7 +384,7 @@ public class tutFrame extends JFrame {
 						"goes blue, red, blue, red... " +
 						"Each piece a player plays must touch one of their " +
 						"existing piece's corners but not an existing piece "+
-						"of the same color's edge " +
+						"of the same color's edge \n" +
 						"Press the 'Next' button to continue");
 			next.setEnabled(true);
 			break;
@@ -393,22 +396,10 @@ public class tutFrame extends JFrame {
 			next.setEnabled(false);
 			break;
 		case 4:
-			System.out.println("case 4");
-			frame.setPlayerTurn(false, 0);
-			frame.setPlayerTurn(true, 1);
-			text.setText("In this case you can see how your pieces can " + 
-						"interact with the opponents pieces, where your " +
-						"pieces can only touch by the corners to your " +
-						"other pieces, your pieces can touch opponent " +
-						"pieces on any side/edge\nTry to place " +
-						"another piece given this board");
-			next.setEnabled(false);
-			break;
-		case 5:
 			System.out.println("case 5");
 			text.setText("When a player is out of moves the game will " + 
-						"automatically skip you until all other players " +
-						"also run of of moves");
+						"automatically skip them until all other players " +
+						"also run of of moves (or pieces)");
 			next.setEnabled(true);
 			break;
 		default:

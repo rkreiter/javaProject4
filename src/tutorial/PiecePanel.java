@@ -202,25 +202,6 @@ public class PiecePanel extends JPanel {
 			tutFrame.gotoNext(frame);
 			
 			System.out.println(tutFrame.tutcount);
-			switch(tutFrame.tutcount){
-    		case 1:
-    			break;
-    		case 3:
-    			break;
-    		case 4:
-    			System.out.println("doing stuffs");
-    			frame.board = new Board();
-	    		Player p1 = new Player("Com", 'b');
-	    		Player p2 = new Player("YOU", 'r');
-	    		frame.players[0] = p1;
-	    		frame.players[1] = p2;
-	    		frame.placePieceOnBoard("b 10 0 0 0 0");
-	    		//frame.setPlayerTurn(false, 0);
-    			break;
-    		default:
-    			System.out.println("sOOPS");
-    			break;
-    		}
     		if(currentPiece != null){
     			submitButton.setEnabled(false);
 				int X = currentPiece.xVal;
