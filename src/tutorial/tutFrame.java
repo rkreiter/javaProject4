@@ -3,7 +3,6 @@ package tutorial;
 import game.Board;
 import game.Piece;
 import game.Player;
-import server.ClientServerSocket;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,7 +14,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Scanner;
 
@@ -36,6 +34,8 @@ import javax.swing.KeyStroke;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
+
+import server.ClientServerSocket;
 
 
 public class tutFrame extends JFrame { 
@@ -96,24 +96,25 @@ public class tutFrame extends JFrame {
 	    playersPanel.setBorder(finalborder);
 	    playersPanel.setBackground(Color.DARK_GRAY.darker());
     
-		BufferedImage p[] = new BufferedImage[4];
+		Image p[] = new Image[4];
 		Color[] colors = {Color.BLUE,Color.RED,Color.YELLOW, Color.GREEN};
 		users = new User[4];
 		ImageIcon icon;
-		Image img;
+		Image img = null;
 		for(int i = 0; i < 4; ++i){
 			try {
-			icon = new ImageIcon(getClass().getResource(
-						"/images/Board/Avatars/" + players[i].getName() + ".png"));
-			img = icon.getImage();
-			p[i] = (BufferedImage) img;
+				String file = "/images/Board/Avatars/" + players[i].getName() + ".png";
+				System.out.println(file);
+				icon = new ImageIcon(getClass().getResource(file));
+				img = icon.getImage();
+				p[i] = img;
 			}
 			catch (Exception e) { 
 				try{
 					icon = new ImageIcon(getClass().getResource(
 							"/images/Board/Avatars/blank.png"));
 					img = icon.getImage();
-					p[i] = (BufferedImage) img;
+					p[i] = img;
 				}
 				catch (Exception ee) {
 					System.out.println("Problem finding avatar");
@@ -355,39 +356,39 @@ public class tutFrame extends JFrame {
 		switch(tutcount){
 		case 0:
 			System.out.println("case 0");
-			text.setText("The blue player always goes first, the first move\n" +
-						"for each player must start in that players corner\n" + 
-						"(marked by a translucent square of their color)\n" +
+			text.setText("The blue player always goes first, the first move " +
+						"for each player must start in that players corner " + 
+						"(marked by a translucent square of their color) " +
 						"Press the 'Next' button to continue");
 			next.setEnabled(true);
 			break;
 		case 1:
 			System.out.println("case 1");
-			text.setText("Now it is your turn (notice the white border around\n"+
-						" your panel on the left), click any piece from the\n" +
-						"panel on the right and place it one the board, when\n" +
-						"your move is valid the piece will turn from \n" +
-						"translucent to opaque, Press the Enter button or the\n"+
-						" 'Enter' key to sumbit your move\n" +
-						"(Notice how blue's score was decremented by 5 since\n"+
+			text.setText("Now it is your turn (notice the white border around "+
+						"your panel on the left), click any piece from the " +
+						"panel on the right and place it one the board, when " +
+						"your move is valid the piece will turn from " +
+						"translucent to opaque, Press the Enter button or the "+
+						"'Enter' key to sumbit your move " +
+						"(Notice how blue's score was decremented by 5 since "+
 						"the piece played had 5 units)");
 			next.setEnabled(false);
 			break;
 		case 2:
 			System.out.println("case 2");
-			text.setText("Turns will always go blue, red, yellow, then green,\n"+
-						" since there is only two players right now the order\n"+
-						" goes blue, red, blue, red...\n" +
-						"Each piece a player plays must touch one of their\n" +
-						"existing piece's corners but not an existing piece\n"+
-						"of the same color's edge\n" +
+			text.setText("Turns will always go blue, red, yellow, then green, "+
+						"since there is only two players right now the order "+
+						"goes blue, red, blue, red... " +
+						"Each piece a player plays must touch one of their " +
+						"existing piece's corners but not an existing piece "+
+						"of the same color's edge " +
 						"Press the 'Next' button to continue");
 			next.setEnabled(true);
 			break;
 		case 3:
 			System.out.println("case 3");
-			text.setText("Now it's your turn again! Try to place another one\n"+
-						"of your pieces on the board, the piece will become\n" +
+			text.setText("Now it's your turn again! Try to place another one "+
+						"of your pieces on the board, the piece will become " +
 						"opaque when it is in a valid spot");
 			next.setEnabled(false);
 			break;
@@ -395,18 +396,18 @@ public class tutFrame extends JFrame {
 			System.out.println("case 4");
 			frame.setPlayerTurn(false, 0);
 			frame.setPlayerTurn(true, 1);
-			text.setText("In this case you can see how your pieces can\n" + 
-						"interact with the opponents pieces, where your\n" +
-						"pieces can only touch by the corners to your \n" +
-						"other pieces, your pieces can touch opponent \n" +
+			text.setText("In this case you can see how your pieces can " + 
+						"interact with the opponents pieces, where your " +
+						"pieces can only touch by the corners to your " +
+						"other pieces, your pieces can touch opponent " +
 						"pieces on any side/edge\nTry to place " +
 						"another piece given this board");
 			next.setEnabled(false);
 			break;
 		case 5:
 			System.out.println("case 5");
-			text.setText("When a player is out of moves the game will \n" + 
-						"automatically skip you until all other players\n" +
+			text.setText("When a player is out of moves the game will " + 
+						"automatically skip you until all other players " +
 						"also run of of moves");
 			next.setEnabled(true);
 			break;
