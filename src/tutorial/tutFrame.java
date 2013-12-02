@@ -127,8 +127,6 @@ public class tutFrame extends JFrame {
 	        users[i] = new User(players[i].getName(), p[i], colors[i]);
 	        playersPanel.add(users[i]);
 	    }
-		//********THIS LINE SHOULDN'T BE HERE
-		//users[turn].setBorder(new LineBorder(Color.WHITE, 3));
 		
 		
 		//Create Board Panel

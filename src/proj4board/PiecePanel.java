@@ -131,8 +131,11 @@ public class PiecePanel extends JPanel {
 		
 		//Rotate Buttons!
 		rcButton = new JButton("<html><center>Rotate<p>Right(&gt)</center></html>");
+		rcButton.setFocusable(false);
 		rccButton = new JButton("<html><center>Rotate<p>Left(&lt)</center></html>");
+		rccButton.setFocusable(false);
 		flipButton = new JButton("Flip(^)");
+		flipButton.setFocusable(false);
 		buttonPanel = new JPanel(new GridLayout(1,3));
 		buttonPanel.setBackground(Color.DARK_GRAY.darker());
 		buttonPanel.add(rccButton, BorderLayout.SOUTH);
@@ -167,6 +170,7 @@ public class PiecePanel extends JPanel {
 		submitButton = new JButton("Submit Move!(ENTER)");
 		submitButton.addActionListener(new SubmitListener());
 		submitButton.setEnabled(false);
+		submitButton.setFocusable(false);
 		
 		JPanel two = new JPanel(new GridLayout(2,1));
 		two.setBackground(Color.DARK_GRAY.darker());
