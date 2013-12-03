@@ -24,7 +24,7 @@ public class User extends JPanel {
 		this.score = new JLabel("89", JLabel.CENTER);
 		this.color = c;
 		this.wins = new JLabel("Wins: N/A", JLabel.CENTER);
-		this.loses= new JLabel("Loses: N/A", JLabel.CENTER);
+		this.loses= new JLabel("Losses: N/A", JLabel.CENTER);
 		this.avg = new JLabel("Avg Score: N/A", JLabel.CENTER);
 		stats = new JPanel(new GridLayout(5,1));
 		
